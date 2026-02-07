@@ -1,0 +1,44 @@
+name: Release Extension
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build and Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Create Original Version Zip
+        # Zips the current state (IS_STORE_VERSION = false)
+        # Excludes git files, github folder, repo assets, and markdown files
+        run: |
+          zip -r fluent-new-tab-original.zip . -x "*.git*" -x ".github/*" -x "repo-assets/*" -x "*.md"
+
+      - name: Modify for Store Version
+        # Uses sed to flip the boolean flag in script.js
+        run: |
+          sed -i 's/const IS_STORE_VERSION = false;/const IS_STORE_VERSION = true;/' script.js
+          # Optional: Verify the change in the logs
+          grep "const IS_STORE_VERSION = true;" script.js
+
+      - name: Create Store Version Zip
+        # Zips the modified state
+        # Also excludes the previously created zip file to avoid nesting
+        run: |
+          zip -r fluent-new-tab-store.zip . -x "*.git*" -x ".github/*" -x "repo-assets/*" -x "*.md" -x "fluent-new-tab-original.zip"
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            fluent-new-tab-original.zip
+            fluent-new-tab-store.zip

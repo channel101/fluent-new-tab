@@ -1,0 +1,60 @@
+name: Bug Report
+description: Create a report to help us improve.
+body:
+  - type: dropdown
+    id: version
+    attributes:
+      label: Which version are you using?
+      options:
+        - Store Version (Clean)
+        - Original Version (GitHub Release)
+        - Local Build
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Browser & Version
+      placeholder: e.g., Edge 120, Chrome 118
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: OS
+      placeholder: Windows 11, macOS, Linux
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Description of the Bug
+      description: A clear and concise description of what the bug is.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Reproduce
+      description: Steps to make the bug happen.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What you expected to happen.
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Screenshots/Logs
+      description: Drop images or paste console logs here.
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Checklist
+      options:
+        - label: I have checked existing issues to avoid duplicates.
+          required: true

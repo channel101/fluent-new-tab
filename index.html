@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Tab</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="left-controls">
+        <div class="app-launcher-wrapper" id="appLauncherWrapper" style="display: none;">
+            <button id="appLauncherBtn" class="launcher-btn" title="Apps">
+                <svg viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg"><g stroke-width="0"/><g stroke-linecap="round" stroke-linejoin="round"/><g class="icon-fill"><path d="M14 21a2 2 0 1 1 0 4 2 2 0 0 1 0-4m9 0a2 2 0 1 1 0 4 2 2 0 0 1 0-4M5 21a2 2 0 1 1 0 4 2 2 0 0 1 0-4m9-9a2 2 0 1 1 0 4 2 2 0 0 1 0-4m9 0a2 2 0 1 1 0 4 2 2 0 0 1 0-4M5 12a2 2 0 1 1 0 4 2 2 0 0 1 0-4m9-9a2 2 0 1 1 0 4 2 2 0 0 1 0-4m9 0a2 2 0 1 1 0 4 2 2 0 0 1 0-4M5 3a2 2 0 1 1 0 4 2 2 0 0 1 0-4"/></g></svg>
+            </button>
+
+            <div class="launcher-popup" id="launcherPopup">
+                <div class="launcher-header">
+                    <span class="launcher-title">Apps</span>
+                </div>
+                <div class="launcher-grid" id="launcherGrid">
+                    </div>
+                <a href="#" id="launcherAllAppsLink" class="launcher-footer" target="_blank">More Apps &rarr;</a>
+            </div>
+        </div>
+    </div>
+    <div class="header-controls">
+        <a href="#" id="weatherWidget" class="weather-widget" target="_blank" style="display: none;">
+                    <span class="weather-city" id="weatherCity">...</span>
+                    <div class="weather-icon" id="weatherIcon"></div>
+                    <span class="weather-temp" id="weatherTemp">--°</span>
+                </a>
+
+        <div class="settings-wrapper">
+            <span class="settings-label">Page Settings</span>
+            <button id="settingsBtn" class="settings-btn">
+                <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><g stroke-width="0"/><g stroke-linecap="round" stroke-linejoin="round"/><g class="icon-fill"><path d="M14 9.5a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9M11 14a3 3 0 1 1 6 0 3 3 0 0 1-6 0"/><path d="m21.71 22.395-1.728-.759a1.72 1.72 0 0 0-1.542.086c-.467.27-.765.747-.824 1.285l-.208 1.878a.92.92 0 0 1-.703.797 11.7 11.7 0 0 1-5.412 0 .92.92 0 0 1-.702-.796l-.208-1.877a1.7 1.7 0 0 0-.838-1.28 1.7 1.7 0 0 0-1.526-.087l-1.728.759a.92.92 0 0 1-1.043-.215 12.1 12.1 0 0 1-2.707-4.672.92.92 0 0 1 .334-1.016l1.527-1.128a1.7 1.7 0 0 0 0-2.74l-1.527-1.125a.92.92 0 0 1-.334-1.017A12.06 12.06 0 0 1 5.25 5.821a.92.92 0 0 1 1.043-.214l1.72.757a1.707 1.707 0 0 0 2.371-1.376l.21-1.878a.92.92 0 0 1 .715-.799q1.32-.294 2.704-.31c.902.01 1.8.114 2.68.31a.92.92 0 0 1 .715.8l.209 1.878a1.7 1.7 0 0 0 1.688 1.518c.233 0 .464-.049.68-.144l1.72-.757a.92.92 0 0 1 1.043.214 12.06 12.06 0 0 1 2.708 4.667.92.92 0 0 1-.333 1.017l-1.525 1.126c-.435.32-.698.829-.698 1.37 0 .54.263 1.049.699 1.37l1.526 1.127c.316.233.45.64.334 1.016a12.1 12.1 0 0 1-2.707 4.667.92.92 0 0 1-1.043.215m-5.447-.198a3.16 3.16 0 0 1 1.425-1.773 3.22 3.22 0 0 1 2.896-.161l1.344.59a10.6 10.6 0 0 0 1.97-3.398l-1.189-.877a3.2 3.2 0 0 1-1.309-2.579c0-1.027.497-1.98 1.307-2.576l.002-.001 1.187-.877a10.6 10.6 0 0 0-1.971-3.397l-1.333.586-.002.001c-.406.18-.843.272-1.286.272a3.2 3.2 0 0 1-3.178-2.852v-.002l-.163-1.46a11.5 11.5 0 0 0-1.95-.193q-1.01.014-1.975.193l-.163 1.462A3.207 3.207 0 0 1 7.41 7.737l-1.336-.588a10.6 10.6 0 0 0-1.971 3.397l1.19.877a3.2 3.2 0 0 1 0 5.155l-1.19.879a10.6 10.6 0 0 0 1.97 3.402l1.345-.59a3.2 3.2 0 0 1 2.878.16 3.2 3.2 0 0 1 1.579 2.411v.005l.162 1.464c1.297.255 2.63.255 3.927 0l.162-1.467q.036-.33.138-.645"/></g></svg>
+            </button>
+        </div>
+
+        <div class="settings-popup" id="settingsPopup">
+            <div class="setting-group">
+                <label>Appearance</label>
+                <div class="theme-selector">
+                    <button class="theme-btn" data-theme="light" title="Claro">
+                        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><g class="icon-fill"><path d="M23.992 38.465c.647 0 1.18.492 1.244 1.122l.006.128v3.038a1.25 1.25 0 0 1-2.493.127l-.007-.127v-3.038c0-.69.56-1.25 1.25-1.25m11.903-4.367.101.09 2.148 2.149a1.25 1.25 0 0 1-1.666 1.859l-.102-.091-2.148-2.148a1.25 1.25 0 0 1 1.667-1.86m-22.14.09a1.25 1.25 0 0 1 .091 1.667l-.091.102-2.148 2.148a1.25 1.25 0 0 1-1.859-1.667l.091-.101 2.148-2.148a1.25 1.25 0 0 1 1.768 0M24 13.082c6.03 0 10.92 4.888 10.92 10.919 0 6.03-4.89 10.92-10.92 10.92S13.08 30.03 13.08 24 17.97 13.08 24 13.08m0 2.5a8.42 8.42 0 1 0 0 16.838 8.42 8.42 0 0 0 0-16.838m18.73 7.206a1.25 1.25 0 0 1 .129 2.494l-.128.006h-3.038a1.25 1.25 0 0 1-.127-2.493l.127-.007zm-34.423-.058a1.25 1.25 0 0 1 .127 2.493l-.127.007H5.269a1.25 1.25 0 0 1-.128-2.494l.128-.006zm3.199-12.925.101.091 2.148 2.148a1.25 1.25 0 0 1-1.666 1.86l-.102-.092-2.148-2.148a1.25 1.25 0 0 1 1.667-1.859m26.638.091a1.25 1.25 0 0 1 .091 1.667l-.09.101-2.149 2.148a1.25 1.25 0 0 1-1.859-1.666l.091-.102 2.148-2.148a1.25 1.25 0 0 1 1.768 0M24 3.997c.648 0 1.18.492 1.244 1.123l.006.127v3.038a1.25 1.25 0 0 1-2.493.128l-.007-.128V5.247c0-.69.56-1.25 1.25-1.25"/></g></svg>
+                    </button>
+                    <button class="theme-btn" data-theme="dark" title="Escuro">
+                        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><g class="icon-fill"><path d="M9.669 33.009c4.97 8.61 15.979 11.559 24.588 6.588a17.9 17.9 0 0 0 5.822-5.367 1.35 1.35 0 0 0-.657-2.037c-6.78-2.427-10.412-5.239-12.52-9.261-2.218-4.235-2.791-8.874-1.24-15.232a1.35 1.35 0 0 0-1.383-1.668c-2.802.15-5.54.955-8.022 2.389C7.647 13.39 4.698 24.4 9.67 33.009m15.02-8.917c2.302 4.396 6.111 7.43 12.426 9.907a15.5 15.5 0 0 1-4.108 3.433c-7.413 4.28-16.893 1.74-21.173-5.673s-1.74-16.893 5.673-21.173a15.5 15.5 0 0 1 4.907-1.819l.469-.08c-1.194 5.968-.592 10.83 1.805 15.405"/></g></svg>
+                    </button>
+                    <button class="theme-btn" data-theme="auto" title="Automático">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g class="icon-fill"><path d="M11.996 19.01a.75.75 0 0 1 .743.649l.007.102v1.5a.75.75 0 0 1-1.493.101l-.007-.101v-1.5a.75.75 0 0 1 .75-.75m6.022-2.072 1.06 1.06a.75.75 0 1 1-1.06 1.061L16.958 18a.75.75 0 0 1 1.06-1.061m-10.983 0a.75.75 0 0 1 0 1.06L5.974 19.06A.75.75 0 1 1 4.914 18l1.06-1.061a.75.75 0 0 1 1.06 0M12 6.475a5.525 5.525 0 1 1 0 11.05 5.525 5.525 0 0 1 0-11.05m0 1.5a4.025 4.025 0 1 0 0 8.05 4.025 4.025 0 0 0 0-8.05M11.25 9a.75.75 0 0 1 .743.648L12 9.75v2.253h1.25a.75.75 0 0 1 .743.649l.007.102a.75.75 0 0 1-.649.743l-.101.007h-2a.75.75 0 0 1-.743-.649l-.007-.101V9.75a.75.75 0 0 1 .75-.75m10 2.268a.75.75 0 0 1 .102 1.493l-.102.007h-1.5a.75.75 0 0 1-.102-1.493l.102-.007zm-17-.029a.75.75 0 0 1 .102 1.494l-.102.006h-1.5a.75.75 0 0 1-.102-1.493l.102-.007zm1.64-6.37.084.072 1.06 1.06a.75.75 0 0 1-.976 1.134l-.084-.073-1.06-1.06a.75.75 0 0 1 .976-1.134m13.189.072a.75.75 0 0 1 .072.977l-.072.084-1.061 1.06a.75.75 0 0 1-1.133-.976l.072-.084 1.06-1.061a.75.75 0 0 1 1.062 0M12 1.989a.75.75 0 0 1 .743.649l.007.101v1.5a.75.75 0 0 1-1.493.102l-.007-.102v-1.5a.75.75 0 0 1 .75-.75"/></g></svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="setting-group">
+                <div class="switch-row">
+                    <label for="toggleWeather">Weather</label>
+                    <label class="switch">
+                        <input type="checkbox" id="toggleWeather">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div id="cityInputGroup" class="input-row">
+                    <input type="text" id="cityInput" placeholder="Cidade...">
+                    <button id="saveCityBtn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="setting-group">
+                <div class="switch-row">
+                    <label for="toggleShortcuts">More Shortcuts</label>
+                    <label class="switch">
+                        <input type="checkbox" id="toggleShortcuts" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div id="rowsInputGroup" style="margin-top: 8px;">
+                    <label for="rowsSelect" style="font-size: 11px; margin-bottom: 4px; display: block;">Shortcut Rows</label>
+                    <select id="rowsSelect" class="settings-select">
+                        <option value="1">1 Row</option>
+                        <option value="2">2 Rows</option>
+                        <option value="3">3 Rows</option>
+                        <option value="4">4 Rows</option>
+                    </select>
+                </div>
+            </div>
+            <div class="setting-group">
+                <div class="switch-row">
+                    <label for="toggleLauncher">App Launcher</label>
+                    <label class="switch">
+                        <input type="checkbox" id="toggleLauncher">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div id="launcherSelectGroup" style="margin-top: 8px;">
+                    <label style="font-size: 11px; margin-bottom: 4px; display: block;">Ecosystem</label>
+                    <select id="launcherProvider" class="settings-select">
+                        <option value="microsoft">Microsoft 365</option>
+                        <option value="google">Google Workspace</option>
+                        <option value="proton">Proton AG</option>
+                    </select>
+                </div>
+            </div>
+                            <div class="settings-footer">
+                <a href="https://github.com/snw-mint/fluent-new-tab/releases" target="_blank" id="versionDisplay" class="footer-link">v1.0</a>
+                
+                <span class="footer-text">by <a href="https://github.com/snw-mint" target="_blank" class="footer-link">Snow Mint</a></span>
+                
+                <a href="https://github.com/snw-mint/fluent-new-tab" target="_blank" class="footer-icon-link" title="Source Code">
+                    <svg viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8C0 11.54 2.29 14.53 5.47 15.59C5.87 15.66 6.02 15.42 6.02 15.21C6.02 15.02 6.01 14.39 6.01 13.72C4 14.09 3.48 13.23 3.32 12.78C3.23 12.55 2.84 11.84 2.5 11.65C2.22 11.5 1.82 11.13 2.49 11.12C3.12 11.11 3.57 11.7 3.72 11.94C4.44 13.15 5.59 12.81 6.05 12.6C6.12 12.08 6.33 11.73 6.56 11.53C4.78 11.33 2.92 10.64 2.92 7.58C2.92 6.71 3.23 5.99 3.74 5.43C3.66 5.23 3.38 4.41 3.82 3.31C3.82 3.31 4.49 3.1 6.02 4.13C6.66 3.95 7.34 3.86 8.02 3.86C8.7 3.86 9.38 3.95 10.02 4.13C11.55 3.09 12.22 3.31 12.22 3.31C12.66 4.41 12.38 5.23 12.3 5.43C12.81 5.99 13.12 6.7 13.12 7.58C13.12 10.65 11.25 11.33 9.47 11.53C9.76 11.78 10.01 12.26 10.01 13.01C10.01 14.08 10 14.94 10 15.21C10 15.42 10.15 15.67 10.55 15.59C13.71 14.53 16 11.53 16 8C16 3.58 12.42 0 8 0Z" transform="scale(64)" fill="currentColor"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <!-- Logo (Opcional) -->
+        <div class="logo-wrapper">
+            <img src="assets/edge.svg" alt="Logo" class="logo-icon">
+            <div class="logo-text">Microsoft Edge</div>
+        </div>
+
+        <!-- Barra de Pesquisa -->
+        <form id="searchForm" action="https://www.google.com/search" method="GET" class="search-bar">
+            <div class="search-selector">
+                <button type="button" id="engineBtn" class="current-engine-btn">
+                    <img id="currentEngineIcon" src="assets/google.svg" alt="G" onerror="this.style.display='none'">
+                </button>
+                <div id="engineDropdown" class="dropdown-menu">
+                    <div class="dropdown-item" data-engine="google">
+                        <img src="assets/google.svg" alt="Google">
+                        <span>Google</span>
+                    </div>
+                    <div class="dropdown-item" data-engine="bing">
+                        <img src="assets/bing.svg" alt="Bing">
+                        <span>Bing</span>
+                    </div>
+                </div>
+            </div>
+            <div class="divider"></div>
+            <input type="text" name="q" placeholder="Pesquisar na web..." autocomplete="off">
+            <button type="submit" class="search-btn">
+                <svg viewBox="0 0 24 24" width="24" height="24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path></svg>
+            </button>
+        </form>
+
+        <!-- GRID DE ATALHOS (Onde o JS vai injetar os itens) -->
+        <div id="shortcutsGrid" class="shortcuts-grid"></div>
+    </div>
+
+    <!-- MODAL DE ADICIONAR -->
+    <div id="addModal" class="modal-overlay">
+        <div class="modal-content">
+            <h3>Add Shortcut</h3>
+            <form id="shortcutForm">
+                <div class="input-group">
+                    <label>Name</label>
+                    <input type="text" id="inputName" required placeholder="Ex: YouTube">
+                </div>
+                <div class="input-group">
+                    <label>URL</label>
+                    <input type="text" id="inputUrl" required placeholder="youtube.com">
+                </div>
+                <a href="#" id="toggleCustomIcon" class="toggle-link">Add custom favicon</a>
+                <div id="customIconGroup" class="input-group hidden">
+                    <label>Icon URL</label>
+                    <input type="text" id="inputIcon" placeholder="https://...">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" id="closeModalBtn" class="btn-cancel">Cancel</button>
+                    <button type="submit" class="btn-save">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

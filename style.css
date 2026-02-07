@@ -1,0 +1,1053 @@
+:root {
+    --bg-color: #f9f9f9;
+    --text-color: #242424;
+    --search-bg: #ffffff;
+    --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --shadow-hover: 0 6px 16px rgba(0, 0, 0, 0.12);
+    --border-radius: 99px;
+    --accent-color: #0078d4;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Segoe UI", "Segoe UI Web (West European)", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.icon-fill path {
+    fill: var(--text-color);
+}
+
+.container {
+    width: 100%;
+    max-width: 740px; /* Aumentado de 720px para caber 10 colunas */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 48px;
+    margin-bottom: 12vh;
+}
+
+/* --- LOGO --- */
+.logo-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    user-select: none;
+    opacity: 0;
+    animation: fadeIn 0.8s ease-out forwards;
+}
+
+.logo-icon {
+    width: 70px;
+    height: 70px;
+}
+
+.logo-text {
+    font-size: 50px;
+    font-weight: 600;
+    color: var(--text-color);
+    letter-spacing: -1px;
+}
+
+/* --- BARRA DE PESQUISA --- */
+.search-bar {
+    width: 100%;
+    height: 47px;
+    margin-bottom: -30px;
+    background: var(--search-bg);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-soft);
+    display: flex;
+    align-items: center;
+    padding: 0 16px 0 8px;
+    transition: box-shadow 0.2s ease, transform 0.1s ease;
+    position: relative;
+    z-index: 100;
+}
+
+.search-bar:hover, 
+.search-bar:focus-within {
+    box-shadow: var(--shadow-hover);
+}
+
+/* --- SELETOR DE BUSCADOR --- */
+.search-selector {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.current-engine-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.current-engine-btn:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.current-engine-btn img {
+    width: 24px;
+    height: 24px;
+    display: block;
+    object-fit: contain;
+}
+
+/* Menu Dropdown */
+.dropdown-menu {
+    position: absolute;
+    top: 115%;
+    left: 0;
+    width: 160px;
+    background: #ffffff;
+    background: var(--search-bg);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    padding: 8px;
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    z-index: 200;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.2s, transform 0.2s;
+}
+
+.dropdown-menu.active {
+    display: flex;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.1s;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.dropdown-item:hover {
+    background-color: #f3f3f3;
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.dropdown-item img {
+    width: 20px;
+    height: 20px;
+}
+
+.divider {
+    width: 1px;
+    height: 24px;
+    background-color: #e0e0e0;
+    margin: 0 8px;
+}
+
+.search-bar input {
+    flex: 1;
+    height: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 17px;
+    font-family: inherit;
+    color: var(--text-color);
+    padding-left: 4px;
+}
+
+.search-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background 0.2s;
+}
+
+.search-btn:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.search-btn svg path {
+    fill: #5f6368;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Aumentamos a largura máxima para caber 10 itens com folga */
+.container {
+    width: 100%;
+    max-width: 880px; /* Aumentado de 720px para 880px */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 48px;
+    margin-bottom: 12vh;
+}
+
+/* --- GRID DE ATALHOS (10 Colunas Estilo Edge) --- */
+.shortcuts-grid {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr); /* 10 Frações iguais */
+    gap: 20px 8px; /* Gap Vertical maior (20px) para separar as linhas */
+    width: 100%;
+    max-width: 100%;
+    justify-items: center;
+    padding: 10px 0;
+    margin: 0 auto;
+}
+
+/* Container do item (ajustado para a nova largura da coluna) */
+.shortcut-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    position: relative;
+    cursor: pointer;
+    width: 100%; /* Ocupa a largura da coluna do grid */
+    min-width: 0; /* Previne overflow de flex items */
+}
+
+/* O Quadrado em si (Diminuído o padding visual) */
+.shortcut-card {
+    width: 44px; /* Tamanho fixo */
+    height: 44px;
+    /* ... mantenha o resto do seu estilo (background, border, etc) ... */
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(12px);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    border: 1px solid rgba(255,255,255,0.4);
+    transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
+    flex-shrink: 0; /* Impede o card de encolher */
+}
+
+/* Ícone levemente maior em relação à caixa (Menos padding visual) */
+.shortcut-icon {
+    width: 24px; 
+    height: 24px; 
+    object-fit: contain;
+    pointer-events: none;
+}
+
+.shortcut-title {
+    margin-top: 6px;
+    font-size: 12px; /* Aumentado */
+    color: var(--text-color);
+    font-weight: 500;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    opacity: 0.9;
+}
+
+.settings-select {
+    width: 100%;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(255,255,255,0.5);
+    font-size: 13px;
+    color: var(--text-color);
+    outline: none;
+    cursor: pointer;
+}
+
+[data-theme="dark"] .settings-select {
+    background: rgba(255,255,255,0.1);
+    border-color: rgba(255,255,255,0.1);
+    color: var(--text-color);
+}
+
+[data-theme="dark"] .settings-select option {
+    background: #333;
+    color: white;
+}
+/* Botão Remover (X) */
+.remove-btn {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    width: 18px;
+    height: 18px;
+    background: #ffffff;
+    border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+    opacity: 0;
+    transform: scale(0.5);
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 20;
+}
+
+.shortcut-item:hover .remove-btn {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.remove-btn svg {
+    width: 10px;
+    height: 10px;
+    fill: #444;
+}
+
+.remove-btn:hover {
+    background-color: #ff4d4f;
+}
+
+.remove-btn:hover svg {
+    fill: white;
+}
+
+/* Botão Adicionar (+) */
+.add-card-wrapper .shortcut-card {
+    background: rgba(255,255,255,0.3);
+    border: 1px dashed rgba(0,0,0,0.2);
+}
+
+.add-card-wrapper:hover .shortcut-card {
+    background: rgba(255,255,255,0.6);
+    border-color: rgba(0,0,0,0.5);
+}
+
+/* --- MODAL (POPUP) --- */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.modal-content {
+    background: #fff;
+    background: var(--search-bg);
+    color: var(--text-color);
+    padding: 24px;
+    border-radius: 12px;
+    width: 320px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    transform: translateY(20px);
+    transition: transform 0.2s;
+}
+
+.modal-overlay.active .modal-content {
+    transform: translateY(0);
+}
+
+.modal-content h3 {
+    margin-bottom: 20px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.input-group {
+    margin-bottom: 16px;
+}
+
+.input-group label {
+    display: block;
+    font-size: 12px;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #666;
+    color: var(--text-color);
+    opacity: 0.7;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border: 1px solid rgba(128, 128, 128, 0.3);
+    background: transparent;
+    color: var(--text-color);
+    border-radius: 6px;
+    font-family: inherit;
+    outline: none;
+}
+
+.input-group input:focus {
+    border-color: #0078d4;
+}
+
+.toggle-link {
+    display: block;
+    font-size: 12px;
+    color: #0078d4;
+    margin-bottom: 16px;
+    text-decoration: none;
+}
+
+.hidden {
+    display: none;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 24px;
+}
+
+.btn-cancel, .btn-save {
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    font-family: inherit;
+}
+
+.btn-cancel {
+    background: #f0f0f0;
+    color: #333;
+    background: rgba(128, 128, 128, 0.15);
+    color: var(--text-color);
+}
+
+.btn-save {
+    background: #0078d4; /* Azul Edge */
+    color: white;
+}
+
+/* --- CONFIGURAÇÕES DE PÁGINA (Botão e Popup) --- */
+.header-controls {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    z-index: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.settings-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    
+    /* Estilo Pílula */
+    background: transparent;
+    backdrop-filter: none;
+    border-radius: 99px;
+    padding: 4px;
+    box-shadow: none;
+    transition: all 0.3s ease;
+}
+
+.settings-wrapper:hover {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.settings-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.settings-btn:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.settings-btn svg {
+    width: 23px;
+    height: 23px;
+}
+
+.settings-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-color);
+    
+    /* Reset de estilos antigos */
+    background: transparent;
+    padding: 0;
+    box-shadow: none;
+    
+    /* Animação de Slide */
+    max-width: 0;
+    opacity: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+.settings-wrapper:hover .settings-label {
+    max-width: 160px;
+    opacity: 1;
+    margin-left: 12px;
+    margin-right: 8px;
+}
+
+/* Popup Moderno */
+.settings-popup {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    width: 240px;
+    background: var(--search-bg);
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+    display: none;
+    flex-direction: column;
+    gap: 20px;
+    transform-origin: top right;
+    animation: popupIn 0.2s ease-out;
+}
+
+.settings-popup.active {
+    display: flex;
+}
+
+@keyframes popupIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.setting-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.setting-group label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-color);
+    opacity: 0.8;
+}
+
+/* Seletor de Tema (3 Estados) */
+.theme-selector {
+    display: flex;
+    background: rgba(0,0,0,0.05);
+    border-radius: 12px;
+    padding: 4px;
+    gap: 4px;
+}
+
+.theme-btn {
+    flex: 1;
+    border: none;
+    background: transparent;
+    border-radius: 8px;
+    cursor: pointer;
+    padding: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.theme-btn:hover {
+    background: rgba(0,0,0,0.05);
+}
+
+.theme-btn.active {
+    background: #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.theme-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 22px;
+}
+
+.switch input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: var(--accent-color);
+}
+
+input:checked + .slider:before {
+    transform: translateX(18px);
+}
+
+/* --- VARIÁVEIS DO MODO ESCURO --- */
+[data-theme="dark"] {
+    --bg-color: #202020;
+    --text-color: #ffffff;
+    --search-bg: #333333;
+    --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.4);
+    --shadow-hover: 0 6px 16px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] .icon-fill path {
+    fill: #ffffff !important;
+}
+
+[data-theme="dark"] .settings-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .settings-wrapper {
+    background: transparent;
+    box-shadow: none;
+}
+
+[data-theme="dark"] .settings-wrapper:hover {
+    background: rgba(50, 50, 50, 0.9);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+[data-theme="dark"] .theme-selector {
+    background: rgba(255,255,255,0.1);
+}
+
+[data-theme="dark"] .theme-btn.active {
+    background: #444;
+}
+
+[data-theme="dark"] .shortcut-card {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .dropdown-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .input-group input {
+    border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .btn-cancel:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* --- WIDGET DE CLIMA --- */
+.weather-widget {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: var(--text-color);
+    font-size: 15px;
+    font-weight: 400;
+    padding: 6px 12px;
+    border-radius: 8px;
+    transition: background 0.2s;
+    user-select: none;
+    margin-right: 0;
+}
+
+.weather-widget:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Ordem Visual: Cidade > Ícone > Temperatura */
+.weather-city {
+    font-weight: 400;
+    max-width: 100px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: all 0.3s ease;
+    opacity: 1;
+    line-height: 1;
+}
+
+.header-controls:has(.settings-wrapper:hover) .weather-city {
+    max-width: 0;
+    opacity: 0;
+}
+
+.weather-icon svg {
+    width: 30px;
+    height: 30px;
+    display: block;
+}
+
+.weather-icon img {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+}
+
+.weather-temp {
+    font-weight: 500;
+    opacity: 0.9;
+    line-height: 1;
+}
+
+/* Ícones de clima precisam acompanhar o tema */
+.weather-icon path {
+    fill: var(--text-color);
+}
+
+/* --- ESTILO DO INPUT DE CIDADE --- */
+.switch-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.input-row {
+    display: flex;
+    gap: 6px;
+}
+
+.input-row input {
+    flex: 1;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(255,255,255,0.5);
+    font-size: 12px;
+    color: var(--text-color);
+    outline: none;
+}
+
+[data-theme="dark"] .input-row input {
+    background: rgba(255,255,255,0.1);
+    border-color: rgba(255,255,255,0.1);
+}
+
+.input-row button {
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    width: 32px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.input-row button:hover {
+    opacity: 0.9;
+}
+
+/* --- CONTROLES DA ESQUERDA (Launcher) --- */
+.left-controls {
+    position: fixed;
+    top: 24px;
+    left: 24px;
+    z-index: 500;
+}
+
+.launcher-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%; /* Redondo, mas o hover será quadrado arredondado estilo Windows se preferir */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.launcher-btn:hover, .launcher-btn.active {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.launcher-btn svg {
+    width: 24px;
+    height: 24px;
+}
+
+/* --- POPUP DO LAUNCHER --- */
+.launcher-popup {
+    position: absolute;
+    top: 50px;
+    left: 0;
+    width: 280px; /* Largura boa para 3 colunas */
+    background: var(--search-bg);
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+    display: none;
+    flex-direction: column;
+    gap: 16px;
+    transform-origin: top left;
+    animation: popupIn 0.2s ease-out;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.launcher-popup.active {
+    display: flex;
+}
+
+.launcher-header {
+    padding-left: 8px;
+    padding-bottom: 4px;
+}
+
+.launcher-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+/* --- POPUP DO LAUNCHER (Ajustado) --- */
+.launcher-popup {
+    position: absolute;
+    top: 50px;
+    left: 0;
+    width: 310px; /* Um pouco mais largo para acomodar ícones grandes */
+    background: var(--search-bg);
+    border-radius: 12px;
+    padding: 12px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    display: none;
+    flex-direction: column;
+    gap: 12px;
+    transform-origin: top left;
+    animation: popupIn 0.2s ease-out;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.launcher-popup.active {
+    display: flex;
+}
+
+.launcher-header {
+    padding: 0 4px 4px 4px;
+}
+
+.launcher-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+/* Grid 3x3 */
+.launcher-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px; /* Gap pequeno entre os blocos */
+}
+
+.launcher-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    /* Padding reduzido para o ícone preencher o espaço */
+    padding: 10px 6px; 
+    border-radius: 8px;
+    position: relative;
+    transition: background 0.1s, transform 0.1s;
+    aspect-ratio: 1 / 1; /* Garante que fiquem quadrados */
+}
+
+.launcher-item:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    transform: scale(1.02); /* Leve zoom tátil */
+}
+
+/* Ícone Grande */
+.launcher-icon {
+    width: 54px; /* Aumentado de 32px para 54px */
+    height: 54px;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); /* Sombra suave no ícone */
+}
+
+/* Label (Tooltip) */
+.launcher-label {
+    position: absolute;
+    bottom: 4px; /* Fica dentro do bloco agora, ou flutuando */
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(4px);
+    color: #fff;
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(4px);
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    z-index: 10;
+}
+
+.launcher-item:hover .launcher-label {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Footer */
+.launcher-footer {
+    text-align: center;
+    font-size: 12px;
+    color: var(--accent-color);
+    text-decoration: none;
+    padding-top: 8px;
+    border-top: 1px solid rgba(0,0,0,0.05);
+    font-weight: 500;
+}
+
+.launcher-footer:hover {
+    text-decoration: underline;
+}
+
+/* Ajustes Dark Mode */
+[data-theme="dark"] .launcher-popup {
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+[data-theme="dark"] .launcher-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .launcher-label {
+    background: rgba(255, 255, 255, 0.9);
+    color: #000;
+}
+.settings-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(0,0,0,0.1); /* Linha divisória sutil */
+    font-size: 11px;
+    color: var(--text-color);
+}
+
+[data-theme="dark"] .settings-footer {
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+/* Links de Texto (Versão e Autor) */
+.footer-link {
+    color: var(--text-color);
+    text-decoration: none;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+    font-weight: 600;
+}
+
+.footer-link:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.footer-text {
+    opacity: 0.7;
+}
+
+/* Ícone do GitHub */
+.footer-icon-link {
+    display: flex;
+    align-items: center;
+    color: var(--text-color);
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.footer-icon-link:hover {
+    opacity: 1;
+}
+
+.footer-icon-link svg {
+    width: 16px;
+    height: 16px;
+    fill: var(--text-color); /* Garante que siga o tema (dark/light) */
+}
