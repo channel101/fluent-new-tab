@@ -590,21 +590,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 try {
                     const data = JSON.parse(event.target.result);
                     if (!data._appName && !data.shortcuts && !data.theme) {
-                        alert('Erro: Este arquivo não parece ser um backup válido da Fluent New Tab.');
+                        alert('Error: This file does not appear to be a valid backup of Fluent New Tab.');
                         return;
                     }
-                    if (confirm('Isso irá substituir suas configurações atuais pelas do backup. Deseja continuar?')) {
+                   if (confirm('This will replace your current settings with those from the backup. Do you want to continue?')) {
                         APP_KEYS.forEach(key => {
                             if (data[key] !== undefined) {
                                 localStorage.setItem(key, data[key]);
                             }
                         });
-                        alert('Backup restaurado com sucesso!');
+                        alert('Backup restored successfully!');
                         location.reload();
                     }   
                 } catch (error) {
-                    console.error('Erro no backup:', error);
-                    alert('Erro ao ler o arquivo. Verifique se é um .json válido.');
+                    console.error('Backup error:', error);
+                  alert('Error reading the file. Please check if it is a valid .json file.');
                 }
                 importInput.value = '';
             };
