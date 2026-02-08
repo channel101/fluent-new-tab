@@ -109,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- Search Engine Logic ---
+// --- Search Engine Logic ---
     const engineBtn = document.getElementById('engineBtn');
     const dropdown = document.getElementById('engineDropdown');
     const currentIcon = document.getElementById('currentEngineIcon');
@@ -119,23 +119,36 @@ document.addEventListener('DOMContentLoaded', () => {
         google: { url: 'https://www.google.com/search', icon: 'assets/google.svg' },
         bing: { url: 'https://www.bing.com/search', icon: 'assets/bing.svg' }
     };
+
+    const savedEngine = localStorage.getItem('searchEngine') || 'bing';
+    setSearchEngine(savedEngine);
+
+    function setSearchEngine(engineKey) {
+        const config = engines[engineKey];
+        if (config) {
+            if (currentIcon) currentIcon.src = config.icon;
+            if (searchForm) searchForm.action = config.url;
+        }
+    }
+
     if (engineBtn) {
         engineBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             dropdown.classList.toggle('active');
         });
     }
+
     document.addEventListener('click', (e) => {
         if (engineBtn && dropdown && !engineBtn.contains(e.target) && !dropdown.contains(e.target)) {
             dropdown.classList.remove('active');
         }
     });
+
     items.forEach(item => {
         item.addEventListener('click', () => {
             const selectedEngine = item.getAttribute('data-engine');
-            const config = engines[selectedEngine];
-            if (currentIcon) currentIcon.src = config.icon;
-            if (searchForm) searchForm.action = config.url;
+            setSearchEngine(selectedEngine);
+            localStorage.setItem('searchEngine', selectedEngine);
             dropdown.classList.remove('active');
         });
     });
