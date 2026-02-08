@@ -1,6 +1,6 @@
 # Privacy Policy for Fluent New Tab
 
-**Last Updated:** [Insert Date Here]
+**Last Updated:** 08/02/2026
 
 ## Introduction
 
