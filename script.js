@@ -1,32 +1,36 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const themeBtns = document.querySelectorAll('.theme-btn');
-    const savedTheme = localStorage.getItem('theme') || 'auto';
-    
+document.addEventListener("DOMContentLoaded", () => {
+    // --- Theme Logic ---
+    const themeBtns = document.querySelectorAll(".theme-btn");
+    const savedTheme = localStorage.getItem("theme") || "auto";
     function applyTheme(theme) {
-        if (themeBtns) themeBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.theme === theme));
-        document.body.removeAttribute('data-theme');
-        if (theme === 'auto') {
-            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                document.body.setAttribute('data-theme', 'dark');
+        if (themeBtns) {
+            themeBtns.forEach((btn) => btn.classList.toggle("active", btn.dataset.theme === theme));
+        }
+        document.documentElement.removeAttribute("data-theme");
+        if (theme === "auto") {
+            if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+                document.documentElement.setAttribute("data-theme", "dark");
             }
         } else {
-            document.body.setAttribute('data-theme', theme);
+            document.documentElement.setAttribute("data-theme", theme);
         }
     }
     applyTheme(savedTheme);
-    
     if (themeBtns) {
-        themeBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
+        themeBtns.forEach((btn) => {
+            btn.addEventListener("click", () => {
                 const theme = btn.dataset.theme;
                 applyTheme(theme);
-                localStorage.setItem('theme', theme);
+                localStorage.setItem("theme", theme);
             });
         });
     }
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-        if (localStorage.getItem('theme') === 'auto') {
-            document.body.setAttribute('data-theme', e.matches ? 'dark' : 'light');
+    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (e) => {
+        if (localStorage.getItem("theme") === "auto") {
+            document.documentElement.removeAttribute("data-theme");
+            if (e.matches) {
+                document.documentElement.setAttribute("data-theme", "dark");
+            }
         }
     });
 
