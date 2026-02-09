@@ -299,13 +299,31 @@ body {
     display: none; 
 }
 
-/* --- Remove Button --- */
-.remove-btn {
+/* --- Shortcut Actions (Edit & Remove) --- */
+.card-actions {
     position: absolute;
-    top: -6px;
-    right: -6px;
-    width: 18px;
-    height: 18px;
+    top: -10px;  /* Posiciona para fora do card */
+    right: -10px; /* Posiciona para fora do card */
+    display: flex;
+    gap: 4px; /* Espaço entre o Edit e o Remove */
+    opacity: 0;
+    transform: scale(0.9);
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 20;
+    pointer-events: none; /* Impede passar mouse quando invisível */
+}
+
+/* Mostra ao passar o mouse no atalho */
+.shortcut-item:hover .card-actions {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: all;
+}
+
+/* Estilo Comum dos Botões (Dot) */
+.action-btn {
+    width: 20px;  
+    height: 20px; 
     background: #ffffff;
     border-radius: 50%;
     box-shadow: 0 2px 5px rgba(0,0,0,0.15);
@@ -314,25 +332,30 @@ body {
     justify-content: center;
     border: none;
     cursor: pointer;
-    opacity: 0;
-    transform: scale(0.5);
-    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    z-index: 20;
+    transition: background 0.2s, transform 0.1s;
+    color: #444;
 }
-.shortcut-item:hover .remove-btn {
-    opacity: 1;
-    transform: scale(1);
+.action-btn:hover {
+    transform: scale(1.1);
+    z-index: 21; 
 }
-.remove-btn svg {
-    width: 10px;
-    height: 10px;
-    fill: #444;
+.action-btn svg {
+    width: 14px; 
+    height: 14px;
+    fill: currentColor;
+}
+.edit-btn:hover {
+    background-color: var(--accent-color); 
+    color: white;
 }
 .remove-btn:hover {
-    background-color: #ff4d4f;
+    background-color: #ff4d4f; 
+    color: white;
 }
-.remove-btn:hover svg {
-    fill: white;
+[data-theme="dark"] .action-btn {
+    background: #333;
+    color: #eee;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.4);
 }
 
 /* --- Add Card --- */
