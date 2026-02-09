@@ -161,6 +161,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    if (searchForm) {
+        searchForm.addEventListener('submit', (e) => {
+            if (searchBar.classList.contains('copilot-active')) {
+                const query = searchInput.value.trim();
+                if (query) {
+                    window.location.href = `https://www.bing.com/copilotsearch?q=${encodeURIComponent(query)}&FORM=CSSCOP`;
+                }
+            }
+        });
+    }
+
 // --- Copilot Visibility Logic ---
     const toggleCopilot = document.getElementById('toggleCopilot');
     let copilotVisible = localStorage.getItem('copilotEnabled') === 'true';
