@@ -8,6 +8,7 @@
     --border-radius: 99px;
     --accent-color: #0078d4;
 }
+
 /* --- Global Resets & Body --- */
 * {
     margin: 0;
@@ -24,10 +25,12 @@ body {
     justify-content: center;
     align-items: center;
 }
+
 /* --- Utilities --- */
 .icon-fill path {
     fill: var(--text-color);
 }
+
 /* --- Layout Container --- */
 .container {
     width: 100%;
@@ -38,6 +41,7 @@ body {
     gap: 48px;
     margin-bottom: 12vh;
 }
+
 /* --- Brand / Logo --- */
 .logo-wrapper {
     display: flex;
@@ -57,6 +61,7 @@ body {
     color: var(--text-color);
     letter-spacing: -1px;
 }
+
 /* --- Search Bar --- */
 .search-bar {
     width: 100%;
@@ -181,11 +186,13 @@ body {
 .search-btn svg path {
     fill: #5f6368;
 }
+
 /* --- Animations --- */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(-10px); }
     to { opacity: 1; transform: translateY(0); }
 }
+
 /* --- Layout Container (Override) --- */
 .container {
     width: 100%;
@@ -196,6 +203,7 @@ body {
     gap: 48px;
     margin-bottom: 12vh;
 }
+
 /* --- Shortcuts Grid --- */
 .shortcuts-grid {
     display: grid;
@@ -249,6 +257,7 @@ body {
     width: 100%;
     opacity: 0.9;
 }
+
 /* --- Settings Select --- */
 .settings-select {
     width: 100%;
@@ -270,6 +279,7 @@ body {
     background: #333;
     color: white;
 }
+
 /* --- Remove Button --- */
 .remove-btn {
     position: absolute;
@@ -305,6 +315,7 @@ body {
 .remove-btn:hover svg {
     fill: white;
 }
+
 /* --- Add Card --- */
 .add-card-wrapper .shortcut-card {
     background: rgba(255,255,255,0.3);
@@ -314,6 +325,7 @@ body {
     background: rgba(255,255,255,0.6);
     border-color: rgba(0,0,0,0.5);
 }
+
 /* --- Modal --- */
 .modal-overlay {
     position: fixed;
@@ -411,6 +423,7 @@ body {
     background: #0078d4; 
     color: white;
 }
+
 /* --- Header Controls --- */
 .header-controls {
     position: fixed;
@@ -476,6 +489,7 @@ body {
     margin-left: 12px;
     margin-right: 8px;
 }
+
 /* --- Settings Popup --- */
 .settings-popup {
     position: absolute;
@@ -495,32 +509,27 @@ body {
     transform-origin: top right;
     animation: popupIn 0.2s ease-out;
 }
-/* --- SCROLLBAR FLUENT (Fina e Arredondada) --- */
+
+/* --- Popup Scrollbar --- */
 .settings-popup::-webkit-scrollbar {
-    width: 6px; /* Largura fina */
+    width: 6px;
 }
-
 .settings-popup::-webkit-scrollbar-track {
-    background: transparent; /* Fundo invisível */
-    margin: 4px 0; /* Margem nas pontas */
+    background: transparent; 
+    margin: 4px 0; 
 }
-
 .settings-popup::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 0, 0, 0.2); /* Cinza suave */
-    border-radius: 20px; /* Pílula redonda */
-    border: 2px solid transparent; /* Truque para dar respiro */
+    background-color: rgba(0, 0, 0, 0.2); 
+    border-radius: 20px; 
+    border: 2px solid transparent; 
     background-clip: content-box;
 }
-
 .settings-popup::-webkit-scrollbar-thumb:hover {
-    background-color: rgba(0, 0, 0, 0.4); /* Escurece ao passar o mouse */
+    background-color: rgba(0, 0, 0, 0.4);
 }
-
-/* Scrollbar no Dark Mode */
 [data-theme="dark"] .settings-popup::-webkit-scrollbar-thumb {
     background-color: rgba(255, 255, 255, 0.2);
 }
-
 [data-theme="dark"] .settings-popup::-webkit-scrollbar-thumb:hover {
     background-color: rgba(255, 255, 255, 0.4);
 }
@@ -531,17 +540,69 @@ body {
     from { opacity: 0; transform: scale(0.95); }
     to { opacity: 1; transform: scale(1); }
 }
+
+/* --- Settings Groups Cards --- */
 .setting-group {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 8px; 
+    background-color: rgba(0, 0, 0, 0.04);
+    border-radius: 12px;
+    padding: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
 }
-.setting-group label {
+.setting-group > label:first-child {
     font-size: 13px;
-    font-weight: 600;
+    font-weight: 700;
     color: var(--text-color);
-    opacity: 0.8;
+    margin-bottom: 2px; 
+    opacity: 0.9;
+    display: block;
 }
+[data-theme="dark"] .setting-group {
+    background-color: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+.input-row {
+    display: flex;
+    flex-direction: row; 
+    gap: 6px;
+    width: 100%;
+    align-items: center; 
+}
+.input-row input {
+    flex: 1; 
+    min-width: 0; 
+    padding: 6px 10px; 
+    height: 32px; 
+    border-radius: 6px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(255,255,255,0.5);
+    color: var(--text-color);
+    font-size: 13px;
+    outline: none;
+}
+.input-row button {
+    flex-shrink: 0; 
+    width: 32px; 
+    height: 32px;
+    padding: 0;
+    background: rgba(0,0,0,0.05);
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-color);
+}
+[data-theme="dark"] .input-row input,
+[data-theme="dark"] .input-row button {
+    background: rgba(255,255,255,0.1);
+    border-color: rgba(255,255,255,0.1);
+    color: white;
+}
+
 /* --- Theme Selector --- */
 .theme-selector {
     display: flex;
@@ -573,6 +634,7 @@ body {
     width: 20px;
     height: 20px;
 }
+
 /* --- Switch / Toggle --- */
 .switch {
     position: relative;
@@ -610,6 +672,7 @@ input:checked + .slider {
 input:checked + .slider:before {
     transform: translateX(18px);
 }
+
 /* --- Dark Mode Overrides --- */
 [data-theme="dark"] {
     --bg-color: #202020;
@@ -652,6 +715,7 @@ input:checked + .slider:before {
 [data-theme="dark"] .btn-cancel:hover {
     background: rgba(255, 255, 255, 0.15);
 }
+
 /* --- Weather Widget --- */
 .weather-widget {
     display: flex;
@@ -702,6 +766,7 @@ input:checked + .slider:before {
 .weather-icon path {
     fill: var(--text-color);
 }
+
 /* --- Settings Inputs --- */
 .switch-row {
     display: flex;
@@ -741,6 +806,7 @@ input:checked + .slider:before {
 .input-row button:hover {
     opacity: 0.9;
 }
+
 /* --- App Launcher --- */
 .left-controls {
     position: fixed;
@@ -839,6 +905,7 @@ input:checked + .slider:before {
     opacity: 1;
     transform: translateY(0);
 }
+
 /* --- Launcher Footer --- */
 .launcher-footer {
     text-align: center;
@@ -862,6 +929,7 @@ input:checked + .slider:before {
     background: rgba(255, 255, 255, 0.9);
     color: #000;
 }
+
 /* --- Footer --- */
 .settings-footer {
     display: flex;
@@ -943,10 +1011,10 @@ input:checked + .slider:before {
     background: rgba(255,255,255,0.1);
     border-color: rgba(255,255,255,0.1);
 }
-
 [data-theme="dark"] .backup-btn:hover {
     background: rgba(255,255,255,0.2);
 }
+
 /* --- Search Suggestions --- */
 .suggestions-container {
     position: absolute;
@@ -985,7 +1053,7 @@ input:checked + .slider:before {
 .suggestion-item:hover, 
 .suggestion-item.selected {
     background-color: rgba(0, 0, 0, 0.05);
-    transform: scale(0.99); /* Leve toque tátil */
+    transform: scale(0.99); 
 }
 .suggestion-icon {
     width: 16px;
