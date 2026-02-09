@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>New Tab</title>
     <link rel="stylesheet" href="style.css">
+    <script>
+        const savedTheme = localStorage.getItem('theme') || 'auto';
+        if (savedTheme === 'dark' || (savedTheme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+        }
+    </script>
 </head>
 <body>
 
@@ -53,33 +59,37 @@
             </div>
 
             <div class="setting-group">
-                <div class="switch-row">
-                    <label for="toggleWeather">Weather</label>
+                <div class="setting-header-row">
+                    <div class="group-title">
+                        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M25.995 15.998c6.337 0 9.932 4.195 10.454 9.26h.16c4.079 0 7.385 3.298 7.385 7.365s-3.306 7.365-7.385 7.365H15.38c-4.077 0-7.383-3.297-7.383-7.365s3.306-7.365 7.384-7.365h.16c.526-5.099 4.118-9.26 10.455-9.26m0 2.495c-4.261 0-7.975 3.448-7.975 8.21 0 .755-.656 1.347-1.408 1.347h-1.42c-2.594 0-4.697 2.114-4.697 4.722 0 2.607 2.103 4.721 4.697 4.721h21.606c2.594 0 4.697-2.114 4.697-4.721s-2.103-4.722-4.697-4.722h-1.42c-.752 0-1.408-.592-1.408-1.346 0-4.824-3.714-8.21-7.975-8.21m-17.29 5.799a1.244 1.244 0 0 1-.559 1.57l-.115.054-2.311.962a1.244 1.244 0 0 1-1.067-2.243l.115-.055 2.311-.961a1.244 1.244 0 0 1 1.625.673m13-9.642-.062.02a11.8 11.8 0 0 0-2.57 1.19 5.5 5.5 0 0 0-6.826 7.95 9.3 9.3 0 0 0-2.127 1.086A7.883 7.883 0 0 1 21.704 14.65m-16.129.18.127.046 2.319.989c.63.266.932.995.675 1.629-.24.591-.883.89-1.48.71l-.126-.045-2.32-.989a1.26 1.26 0 0 1-.674-1.629c.24-.591.882-.89 1.479-.71m7.368-6.173.055.115.96 2.306a1.25 1.25 0 0 1-2.254 1.072l-.055-.115-.96-2.306a1.25 1.25 0 0 1 2.254-1.072m9.049-.56c.601.249.908.91.73 1.52l-.046.13-.992 2.276a1.264 1.264 0 0 1-2.38-.837l.046-.13.99-2.276a1.264 1.264 0 0 1 1.652-.683" fill="currentColor"/></svg>
+                        <span>Weather</span>
+                    </div>
                     <label class="switch">
                         <input type="checkbox" id="toggleWeather">
                         <span class="slider"></span>
                     </label>
                 </div>
 
-                <div id="cityInputGroup" class="input-row">
+                <div id="cityInputGroup" class="input-row" style="margin-top: 4px;">
                     <input type="text" id="cityInput" placeholder="Cidade...">
-                    <button id="saveCityBtn">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                    </button>
+                    <button id="saveCityBtn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
                 </div>
             </div>
 
             <div class="setting-group">
-                <div class="switch-row">
-                    <label for="toggleShortcuts">Shortcuts</label>
+                <div class="setting-header-row">
+                    <div class="group-title">
+                        <svg viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg"><path d="M10.75 15A2.25 2.25 0 0 1 13 17.25v5.5A2.25 2.25 0 0 1 10.75 25h-5.5A2.25 2.25 0 0 1 3 22.75v-5.5A2.25 2.25 0 0 1 5.25 15zm12 0A2.25 2.25 0 0 1 25 17.25v5.5A2.25 2.25 0 0 1 22.75 25h-5.5A2.25 2.25 0 0 1 15 22.75v-5.5A2.25 2.25 0 0 1 17.25 15zm-12 1.5h-5.5a.75.75 0 0 0-.75.75v5.5c0 .414.336.75.75.75h5.5a.75.75 0 0 0 .75-.75v-5.5a.75.75 0 0 0-.75-.75m12 0h-5.5a.75.75 0 0 0-.75.75v5.5c0 .414.336.75.75.75h5.5a.75.75 0 0 0 .75-.75v-5.5a.75.75 0 0 0-.75-.75M10.75 3A2.25 2.25 0 0 1 13 5.25v5.5A2.25 2.25 0 0 1 10.75 13h-5.5A2.25 2.25 0 0 1 3 10.75v-5.5A2.25 2.25 0 0 1 5.25 3zm12 0A2.25 2.25 0 0 1 25 5.25v5.5A2.25 2.25 0 0 1 22.75 13h-5.5A2.25 2.25 0 0 1 15 10.75v-5.5A2.25 2.25 0 0 1 17.25 3zm-12 1.5h-5.5a.75.75 0 0 0-.75.75v5.5c0 .414.336.75.75.75h5.5a.75.75 0 0 0 .75-.75v-5.5a.75.75 0 0 0-.75-.75m12 0h-5.5a.75.75 0 0 0-.75.75v5.5c0 .414.336.75.75.75h5.5a.75.75 0 0 0 .75-.75v-5.5a.75.75 0 0 0-.75-.75" fill="currentColor"/></svg>
+                        <span>Shortcuts</span>
+                    </div>
                     <label class="switch">
-                        <input type="checkbox" id="toggleShortcuts" checked>
+                        <input type="checkbox" id="toggleShortcuts">
                         <span class="slider"></span>
                     </label>
                 </div>
 
-                <div id="rowsInputGroup" style="margin-top: 8px;">
-                    <label for="rowsSelect" style="font-size: 11px; margin-bottom: 4px; display: block;">Shortcut Rows</label>
+                <div id="rowsInputGroup" style="margin-top: 4px;">
+                    <label for="rowsSelect" style="font-size: 11px; margin-bottom: 2px; display: block; opacity: 0.7;">Rows</label>
                     <select id="rowsSelect" class="settings-select">
                         <option value="1">1 Row</option>
                         <option value="2">2 Rows</option>
@@ -90,16 +100,21 @@
             </div>
 
             <div class="setting-group">
-                <div class="switch-row">
-                    <label for="toggleLauncher">App Launcher</label>
+                <div class="setting-header-row">
+                    <div class="group-title">
+                        <svg viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M14 21a2 2 0 1 1 0 4 2 2 0 0 1 0-4m9 0a2 2 0 1 1 0 4 2 2 0 0 1 0-4M5 21a2 2 0 1 1 0 4 2 2 0 0 1 0-4m9-9a2 2 0 1 1 0 4 2 2 0 0 1 0-4m9 0a2 2 0 1 1 0 4 2 2 0 0 1 0-4M5 12a2 2 0 1 1 0 4 2 2 0 0 1 0-4m9-9a2 2 0 1 1 0 4 2 2 0 0 1 0-4m9 0a2 2 0 1 1 0 4 2 2 0 0 1 0-4M5 3a2 2 0 1 1 0 4 2 2 0 0 1 0-4" fill="currentColor"/>
+                        </svg>
+                        <span>App Launcher</span>
+                    </div>
                     <label class="switch">
                         <input type="checkbox" id="toggleLauncher">
                         <span class="slider"></span>
                     </label>
                 </div>
                 
-                <div id="launcherSelectGroup" style="margin-top: 8px;">
-                    <label style="font-size: 11px; margin-bottom: 4px; display: block;">Ecosystem</label>
+                <div id="launcherSelectGroup" style="margin-top: 4px;">
+                    <label style="font-size: 11px; margin-bottom: 2px; display: block; opacity: 0.7;">Ecosystem</label>
                     <select id="launcherProvider" class="settings-select">
                         <option value="microsoft">Microsoft 365</option>
                         <option value="google">Google Workspace</option>
@@ -109,8 +124,12 @@
             </div>
 
             <div class="setting-group">
-                <div class="switch-row">
-                    <label for="toggleSearchBar">Search Bar</label>
+                <div class="setting-header-row">
+                    <div class="group-title">
+                        <svg viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg"><path d="M11.5 2.75a8.75 8.75 0 0 1 6.695 14.384l6.835 6.836a.75.75 0 0 1-.976 1.133l-.084-.073-6.836-6.835A8.75 8.75 0 1 1 11.5 2.75m0 1.5a7.25 7.25 0 1 0 0 14.5 7.25 7.25 0 0 0 0-14.5" fill="currentColor"/></svg>
+                        <span>Search</span>
+                    </div>
+                    
                     <label class="switch">
                         <input type="checkbox" id="toggleSearchBar" checked>
                         <span class="slider"></span>
@@ -124,22 +143,22 @@
                         <span class="slider"></span>
                     </label>
                 </div>
-
-                <div class="switch-row child-setting" id="voiceSearchRow">
-                    <label for="toggleVoiceSearch">Voice Search</label>
-                    <label class="switch">
-                        <input type="checkbox" id="toggleVoiceSearch">
-                        <span class="slider"></span>
-                    </label>
-                </div>
             </div>
             
             <div class="setting-group">
-                <label>Data & Backup</label>
+                <div class="setting-header-row" style="margin-bottom: 8px;">
+                    <div class="group-title">
+                        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M24.001 12c6.337 0 9.932 4.195 10.455 9.26h.16c4.078 0 7.384 3.298 7.384 7.365s-3.306 7.365-7.384 7.365h-21.23c-4.078 0-7.384-3.297-7.384-7.365s3.306-7.365 7.384-7.365h.16c.526-5.099 4.118-9.26 10.455-9.26m0 2.495c-4.26 0-7.975 3.448-7.975 8.21 0 .755-.656 1.348-1.407 1.348h-1.42c-2.595 0-4.698 2.113-4.698 4.72 0 2.608 2.103 4.722 4.697 4.722h21.606c2.594 0 4.697-2.114 4.697-4.721s-2.103-4.722-4.697-4.722h-1.42c-.752 0-1.408-.592-1.408-1.346 0-4.824-3.714-8.21-7.975-8.21" fill="currentColor"/>
+                        </svg>
+                        <span>Data & Backup</span>
+                    </div>
+                </div>
+
                 <div class="backup-row">
-                    <button id="exportBtn" class="backup-btn" title="Salvar configurações em arquivo">
-                        <svg width="20" height="20" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12.25 39.5h23.5a1.25 1.25 0 0 1 .128 2.494L35.75 42h-23.5a1.25 1.25 0 0 1-.128-2.494zh23.5zM23.622 6.006 23.75 6c.647 0 1.18.492 1.244 1.122L25 7.25v24.29l5.647-5.646a1.25 1.25 0 0 1 1.767 1.768l-7.778 7.778a1.25 1.25 0 0 1-1.767 0l-7.779-7.778a1.25 1.25 0 1 1 1.768-1.768l5.642 5.642V7.25c0-.647.492-1.18 1.122-1.244L23.75 6z" fill="currentColor"/>
+                    <button id="exportBtn" class="backup-btn" title="Salvar configurações">
+                        <svg width="20" height="20" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                            <path d="M12.25 39.5h23.5a1.25 1.25 0 0 1 .128 2.494L35.75 42h-23.5a1.25 1.25 0 0 1-.128-2.494zh23.5zM23.622 6.006 23.75 6c.647 0 1.18.492 1.244 1.122L25 7.25v24.29l5.647-5.646a1.25 1.25 0 0 1 1.767 1.768l-7.778 7.778a1.25 1.25 0 0 1-1.767 0l-7.779-7.778a1.25 1.25 0 1 1 1.768-1.768l5.642 5.642V7.25c0-.647.492-1.18 1.122-1.244L23.75 6z"/>
                         </svg>
                         <span>Export</span>
                     </button>
@@ -147,8 +166,8 @@
                     <input type="file" id="importInput" accept=".json" style="display: none;">
                     
                     <button id="importBtn" class="backup-btn" title="Restaurar backup">
-                        <svg width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="m5.25 20.5 13 .004a.75.75 0 0 1 .102 1.493l-.102.007-13-.004a.75.75 0 0 1-.102-1.493zm.97-13.282 4.997-4.996a.75.75 0 0 1 .976-.073l.085.073 5.003 4.996a.75.75 0 0 1-.976 1.134l-.084-.072L12.5 4.564V18.25a.75.75 0 0 1-.648.743L11.75 19a.75.75 0 0 1-.743-.648L11 18.249V4.559L7.28 8.28a.75.75 0 0 1-.976.073L6.22 8.28a.75.75 0 0 1-.073-.976zl4.997-4.996z" fill="currentColor"/>
+                        <svg width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                            <path d="m5.25 20.5 13 .004a.75.75 0 0 1 .102 1.493l-.102.007-13-.004a.75.75 0 0 1-.102-1.493zm.97-13.282 4.997-4.996a.75.75 0 0 1 .976-.073l.085.073 5.003 4.996a.75.75 0 0 1-.976 1.134l-.084-.072L12.5 4.564V18.25a.75.75 0 0 1-.648.743L11.75 19a.75.75 0 0 1-.743-.648L11 18.249V4.559L7.28 8.28a.75.75 0 0 1-.976.073L6.22 8.28a.75.75 0 0 1-.073-.976zl4.997-4.996z"/>
                         </svg>
                         <span>Import</span>
                     </button>

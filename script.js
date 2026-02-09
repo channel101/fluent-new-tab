@@ -444,7 +444,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 { name: 'Proton Pass', url: 'https://pass.proton.me', icon: 'assets/apps/proton/pass.svg' },
                 { name: 'Proton VPN', url: 'https://account.protonvpn.com', icon: 'assets/apps/proton/vpn.svg' },
                 { name: 'Proton Wallet', url: 'https://wallet.proton.me', icon: 'assets/apps/proton/wallet.svg' },
-                { name: 'LumoAI', url: 'https://app.simplelogin.io', icon: 'assets/apps/proton/lumo.svg' },
+                { name: 'LumoAI', url: 'https://lumo.proton.me', icon: 'assets/apps/proton/lumo.svg' },
                 { name: 'Proton Docs', url: 'https://docs.proton.me', icon: 'assets/apps/proton/docs.svg' },
                 { name: 'Proton Sheets', url: 'https://sheets.proton.me', icon: 'assets/apps/proton/sheets.svg' }
             ],

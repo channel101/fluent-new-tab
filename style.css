@@ -280,6 +280,25 @@ body {
     color: white;
 }
 
+/* --- Group Settings --- */
+.group-title {
+    display: flex;
+    align-items: center;
+    gap: 10px; 
+    margin-bottom: 12px; 
+    color: var(--text-color);
+    font-weight: 600;
+    font-size: 14px;
+}
+.group-title svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor; 
+}
+.setting-group > label:first-child {
+    display: none; 
+}
+
 /* --- Remove Button --- */
 .remove-btn {
     position: absolute;
@@ -505,7 +524,7 @@ body {
     box-shadow: 0 10px 40px rgba(0,0,0,0.15);
     display: none;
     flex-direction: column;
-    gap: 20px;
+    gap: 5px;
     transform-origin: top right;
     animation: popupIn 0.2s ease-out;
 }
@@ -545,19 +564,28 @@ body {
 .setting-group {
     display: flex;
     flex-direction: column;
-    gap: 8px; 
     background-color: rgba(0, 0, 0, 0.04);
     border-radius: 12px;
-    padding: 12px;
+    padding: 10px; 
     border: 1px solid rgba(0, 0, 0, 0.05);
+    gap: 0; 
+    margin-bottom: 12px;
 }
-.setting-group > label:first-child {
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--text-color);
-    margin-bottom: 2px; 
-    opacity: 0.9;
-    display: block;
+
+/* --- List --- */
+.setting-header-row {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    width: 100%;
+    min-height: 32px; 
+    margin-bottom: 4px; 
+}
+.setting-header-row .group-title {
+    margin-bottom: 0; 
+}
+.setting-content-only {
+    padding-top: 4px;
 }
 [data-theme="dark"] .setting-group {
     background-color: rgba(255, 255, 255, 0.06);
