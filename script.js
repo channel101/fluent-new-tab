@@ -217,8 +217,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const searchForm = document.getElementById('searchForm');
     const items = document.querySelectorAll('.dropdown-item');
     const engines = {
-        google: { url: 'https://www.google.com/search', icon: 'assets/google.svg' },
-        bing: { url: 'https://www.bing.com/search', icon: 'assets/bing.svg' }
+        google: { url: 'https://www.google.com/search', icon: 'assets/search-engines/google.svg' },
+        bing: { url: 'https://www.bing.com/search', icon: 'assets/search-engines/bing.svg' }
     };
     const savedEngine = localStorage.getItem('searchEngine') || 'bing';
     

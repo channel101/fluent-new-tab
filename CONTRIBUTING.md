@@ -29,9 +29,7 @@ Here is an overview of the project's file organization:
 fluent-new-tab/
 ├── assets/                  # Core assets (Favicons, UI icons)
 │   └── apps/                # Ecosystem icons organized by provider
-│       ├── google/
-│       ├── microsoft/
-│       └── proton/
+│   └── apps/                # Search engine icons
 ├── index.html               # Main entry point (Structure)
 ├── style.css                # Visuals (Fluent Design, Dark/Light mode variables)
 ├── script.js                # Core logic (Settings, Shortcuts, Weather)
