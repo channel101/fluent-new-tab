@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![Dynamic JSON Badge](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fsnw-mint%2Ffluent-new-tab%2Frefs%2Fheads%2Fmain%2Fmanifest.json&query=version&style=plastic&logo=github&label=latest%20version&color=red) ![GitHub last commit](https://img.shields.io/github/last-commit/snw-mint/fluent-new-tab?display_timestamp=author&style=plastic&logoColor=FFF&color=orange) ![GitHub License](https://img.shields.io/github/license/snw-mint/fluent-new-tab?style=plastic&color=yellow) ![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/snw-mint/fluent-new-tab?style=plastic&color=green) ![Static Badge](https://img.shields.io/badge/addon-message?style=plastic&label=download&color=blue&link=https%3A%2F%2Fmicrosoftedge.microsoft.com%2Faddons%2Fdetail%2Fhcohjkajcimobdddlnfnfhdfnbapondc)
+![Dynamic JSON Badge](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fsnw-mint%2Ffluent-new-tab%2Frefs%2Fheads%2Fmain%2Fmanifest.json&query=version&style=plastic&logo=github&label=latest%20version&color=red) ![GitHub last commit](https://img.shields.io/github/last-commit/snw-mint/fluent-new-tab?display_timestamp=author&style=plastic&logoColor=FFF&color=orange) ![GitHub License](https://img.shields.io/github/license/snw-mint/fluent-new-tab?style=plastic&color=yellow) ![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/snw-mint/fluent-new-tab?style=plastic&color=green) 
 
 </div>
 
