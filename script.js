@@ -378,119 +378,201 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-// --- Weather Logic ---
-    const API_KEY = 'f4dfa0b32bd44ce7af2175310260702'; 
-    const weatherWidget = document.getElementById('weatherWidget');
-    const toggleWeather = document.getElementById('toggleWeather');
-    const cityInputGroup = document.getElementById('cityInputGroup');
-    const weatherUnitGroup = document.getElementById('weatherUnitGroup'); 
-    const cityInput = document.getElementById('cityInput');
-    const saveCityBtn = document.getElementById('saveCityBtn');
-    const weatherCity = document.getElementById('weatherCity');
-    const weatherIcon = document.getElementById('weatherIcon');
-    const weatherTemp = document.getElementById('weatherTemp');
-    const unitBtns = document.querySelectorAll('.unit-btn'); 
-    let weatherEnabled = localStorage.getItem('weatherEnabled') === 'true'; 
-    let weatherUnit = localStorage.getItem('weatherUnit') || 'c'; 
-    let storedCity = localStorage.getItem('weatherCity');
-    let currentCity = 'New York';
-    if (storedCity) {
-        if (storedCity.startsWith('{')) {
-            try {
-                const parsed = JSON.parse(storedCity);
-                currentCity = parsed.name || 'New York';
-                localStorage.setItem('weatherCity', currentCity); 
-            } catch (e) { currentCity = 'New York'; }
-        } else { currentCity = storedCity; }
-    }
-    if (toggleWeather) {
-        toggleWeather.checked = weatherEnabled;
-        toggleWeather.addEventListener('change', (e) => {
-            weatherEnabled = e.target.checked;
-            localStorage.setItem('weatherEnabled', weatherEnabled);
-            updateWeatherVisibility();
-            if(weatherEnabled) fetchWeather();
-        });
-    }
-    function updateUnitButtons() {
-        if(!unitBtns) return;
-        unitBtns.forEach(btn => {
-            if(btn.dataset.unit === weatherUnit) {
-                btn.classList.add('active');
-            } else {
-                btn.classList.remove('active');
-            }
-        });
-    }
-    updateUnitButtons(); 
+    // --- Weather Logic ---
+    // --- Fluent Weather Logic (Open-Meteo Edition) ---
 
-    unitBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            weatherUnit = btn.dataset.unit; 
-            localStorage.setItem('weatherUnit', weatherUnit);
-            updateUnitButtons();
-            fetchWeather(); 
-        });
+// 1. SELECTORS (Mantendo seus IDs originais)
+const weatherWidget = document.getElementById('weatherWidget');
+const toggleWeather = document.getElementById('toggleWeather');
+const cityInputGroup = document.getElementById('cityInputGroup');
+const weatherUnitGroup = document.getElementById('weatherUnitGroup'); 
+const cityInput = document.getElementById('cityInput');
+const saveCityBtn = document.getElementById('saveCityBtn');
+const weatherCity = document.getElementById('weatherCity');
+const weatherIcon = document.getElementById('weatherIcon');
+const weatherTemp = document.getElementById('weatherTemp');
+const unitBtns = document.querySelectorAll('.unit-btn'); 
+
+// 2. CONFIGURATION & STATE
+const CACHE_KEY = 'fluent_weather_cache';
+const CITY_KEY = 'fluent_city_data'; // Novo formato de salvamento (JSON)
+const CACHE_DURATION = 3600000; // 1 Hora em milissegundos
+
+let weatherEnabled = localStorage.getItem('weatherEnabled') === 'true'; 
+let weatherUnit = localStorage.getItem('weatherUnit') || 'c'; 
+
+// Tenta carregar a cidade salva (agora é um Objeto com Lat/Lon, não só string)
+let currentCityData = { name: 'New York', lat: 40.71, lon: -74.01 }; // Default
+try {
+    const saved = localStorage.getItem(CITY_KEY);
+    if (saved) currentCityData = JSON.parse(saved);
+} catch (e) {
+    console.error("Erro ao ler cidade salva, resetando para default.");
+}
+
+// 3. INITIALIZATION
+if (cityInput) cityInput.value = currentCityData.name;
+updateWeatherVisibility();
+updateUnitButtons();
+
+if (weatherEnabled) {
+    initWeather();
+}
+
+// 4. EVENT LISTENERS
+if (toggleWeather) {
+    toggleWeather.checked = weatherEnabled;
+    toggleWeather.addEventListener('change', (e) => {
+        weatherEnabled = e.target.checked;
+        localStorage.setItem('weatherEnabled', weatherEnabled);
+        updateWeatherVisibility();
+        if(weatherEnabled) initWeather();
     });
+}
 
-    if (cityInput) cityInput.value = currentCity;
-    updateWeatherVisibility();
-    if(weatherEnabled) fetchWeather();
+// Botões de Unidade (C / F)
+unitBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        weatherUnit = btn.dataset.unit; 
+        localStorage.setItem('weatherUnit', weatherUnit);
+        updateUnitButtons();
+        // Re-renderiza usando o cache (não gasta API só pra mudar unidade)
+        initWeather(); 
+    });
+});
 
-    function updateWeatherVisibility() {
-        if(!weatherWidget || !cityInputGroup) return;
-        const displayStyle = weatherEnabled ? 'flex' : 'none';
-        
-        weatherWidget.style.display = displayStyle;
-        cityInputGroup.style.display = displayStyle;
-        if(weatherUnitGroup) weatherUnitGroup.style.display = displayStyle;
+if(saveCityBtn) saveCityBtn.addEventListener('click', searchCity);
+if(cityInput) cityInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') searchCity(); });
+
+// 5. HELPER FUNCTIONS
+
+function updateUnitButtons() {
+    if(!unitBtns) return;
+    unitBtns.forEach(btn => {
+        if(btn.dataset.unit === weatherUnit) {
+            btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
+        }
+    });
+}
+
+function updateWeatherVisibility() {
+    if(!weatherWidget || !cityInputGroup) return;
+    const displayStyle = weatherEnabled ? 'flex' : 'none';
+    weatherWidget.style.display = displayStyle;
+    cityInputGroup.style.display = displayStyle;
+    if(weatherUnitGroup) weatherUnitGroup.style.display = displayStyle;
+}
+
+function getFluentIconFilename(code, isDay) {
+    switch (code) {
+        case 0: return isDay ? "sunny.svg" : "clear_night.svg";
+        case 1: return isDay ? "sunny.svg" : "clear_night.svg";
+        case 2: return isDay ? "partly_cloudy_day.svg" : "partly_cloudy_night.svg";
+        case 3: return "cloudy.svg";
+        case 45: case 48: return "fog.svg";
+        case 51: case 53: case 55: return "drizzle.svg";
+        case 56: case 57: case 66: case 67: return "rain_snow.svg";
+        case 61: case 63: case 65: return "rain.svg";
+        case 71: case 73: case 75: case 77: return "snow.svg";
+        case 80: case 81: case 82: 
+            return isDay ? "rain_showers_day.svg" : "rain_showers_night.svg";
+        case 85: case 86: 
+            return isDay ? "snow_showers_day.svg" : "snow_showers_night.svg";
+        case 95: return "thunderstorm.svg";
+        case 96: case 99: 
+            return isDay ? "hail_day.svg" : "hail_night.svg";
+        default: return "cloudy.svg";
     }
+}
 
-    if(saveCityBtn) saveCityBtn.addEventListener('click', searchCity);
-    if(cityInput) cityInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') searchCity(); });
+async function searchCity() {
+    const query = cityInput.value.trim();
+    if(!query) return;
+    saveCityBtn.innerHTML = '...'; 
     
-    async function searchCity() {
-        if (!API_KEY) { alert('API Key missing'); return; }
-        const query = cityInput.value.trim();
-        if(!query) return;
-        saveCityBtn.innerHTML = '...'; 
-        try {
-            const res = await fetch(`https://api.weatherapi.com/v1/search.json?key=${API_KEY}&q=${query}`);
-            const data = await res.json();
-            if(data && data.length > 0) {
-                const bestMatch = data[0];
-                currentCity = `${bestMatch.name}`; 
-                localStorage.setItem('weatherCity', currentCity);
-                cityInput.value = currentCity; 
-                fetchWeather(); 
-            } else { alert('City not found.'); }
-        } catch (error) {
-            console.error('Error searching for city:', error);
-        } finally {
-            saveCityBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
+    try {
+        const url = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}&count=1&language=pt&format=json`;
+        const res = await fetch(url);
+        const data = await res.json();
+
+        if (data.results && data.results.length > 0) {
+            const result = data.results[0];
+            currentCityData = {
+                name: result.name,
+                lat: result.latitude,
+                lon: result.longitude,
+                country: result.country
+            };
+            
+            localStorage.setItem(CITY_KEY, JSON.stringify(currentCityData));
+            cityInput.value = result.name; 
+            fetchWeatherFromAPI(true); 
+
+        } else {
+            alert('City not found / Cidade não encontrada.');
+        }
+    } catch (error) {
+        console.error('Geo Error:', error);
+        alert('Error searching city.');
+    } finally {
+        saveCityBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
+    }
+}
+
+async function initWeather() {
+    const cachedString = localStorage.getItem(CACHE_KEY);
+    if (cachedString) {
+        const cached = JSON.parse(cachedString);
+        const now = Date.now();
+        if ((now - cached.timestamp < CACHE_DURATION) && (cached.city === currentCityData.name)) {
+            console.log("Loading weather from Cache...");
+            renderWeather(cached.data);
+            return;
         }
     }
+    fetchWeatherFromAPI();
+}
 
-    async function fetchWeather() {
-        if(!weatherEnabled || !API_KEY) return;
-        try {
-            const res = await fetch(`https://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=${currentCity}&lang=pt`);
-            const data = await res.json();
-            if (data.error) return;
-            const isCelsius = weatherUnit === 'c';
-            const tempValue = isCelsius ? data.current.temp_c : data.current.temp_f;
-            const unitSymbol = isCelsius ? '°C' : '°F';
-            const temp = Math.round(tempValue);
+async function fetchWeatherFromAPI(forceUpdate = false) {
+    if(!weatherEnabled) return;
 
-            let iconUrl = data.current.condition.icon;
-            if (iconUrl.startsWith('//')) iconUrl = 'https:' + iconUrl;
-            
-            weatherCity.textContent = data.location.name;
-            weatherTemp.textContent = `${temp}${unitSymbol}`; 
-            weatherIcon.innerHTML = `<img src="${iconUrl}" alt="${data.current.condition.text}">`;
-            weatherWidget.href = `https://www.bing.com/weather/forecast?q=${data.location.name}`;
-        } catch (error) { weatherTemp.textContent = '--'; }
+    try {
+        const { lat, lon } = currentCityData;
+        const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`;
+        
+        const res = await fetch(url);
+        const data = await res.json();
+        localStorage.setItem(CACHE_KEY, JSON.stringify({
+            timestamp: Date.now(),
+            city: currentCityData.name,
+            data: data
+        }));
+
+        renderWeather(data);
+
+    } catch (error) {
+        console.error("Weather Fetch Error:", error);
+        weatherTemp.textContent = '--';
     }
+}
+
+function renderWeather(data) {
+    if (!data || !data.current_weather) return;
+
+    const { temperature, weathercode, is_day } = data.current_weather;
+    const isCelsius = weatherUnit === 'c';
+    const tempValue = isCelsius ? temperature : (temperature * 9/5) + 32;
+    const unitSymbol = isCelsius ? '°C' : '°F';
+    const filename = getFluentIconFilename(weathercode, is_day);
+    const iconPath = `assets/weather/${filename}`;
+    weatherCity.textContent = currentCityData.name;
+    weatherTemp.textContent = `${Math.round(tempValue)}${unitSymbol}`;
+    weatherIcon.innerHTML = `<img src="${iconPath}" alt="Weather Icon" class="fluent-icon">`;
+    weatherWidget.href = `https://www.bing.com/weather/forecast?q=${currentCityData.name}`;
+}
+
 
     // --- App Launcher ---
     const launcherData = {

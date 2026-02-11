@@ -824,55 +824,79 @@ input:checked + .slider:before {
     background: rgba(255, 255, 255, 0.15);
 }
 
-/* --- Weather Widget --- */
+/* --- Fluent Weather Widget CSS --- */
 .weather-widget {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px; 
     text-decoration: none;
     color: var(--text-color);
-    font-size: 15px;
-    font-weight: 400;
+    font-size: 14px; 
+    font-weight: 500;
     padding: 6px 12px;
-    border-radius: 8px;
-    transition: background 0.2s;
+    border-radius: 6px; 
+    transition: background 0.2s ease, transform 0.2s ease;
     user-select: none;
-    margin-right: 0;
+    cursor: pointer;
+    background-color: transparent; 
 }
 .weather-widget:hover {
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: rgba(128, 128, 128, 0.1); 
+}
+.weather-icon {
+    width: 24px; 
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.fluent-icon {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    animation: iconPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    transition: transform 0.3s ease;
+}
+.weather-widget:hover .fluent-icon {
+    transform: translateY(-2px) scale(1.1);
+}
+@media (prefers-color-scheme: dark) {
+    .fluent-icon {
+        filter: invert(1) brightness(2); 
+    }
+}
+body.dark-mode .fluent-icon,
+[data-theme="dark"] .fluent-icon {
+    filter: invert(1) brightness(2);
 }
 .weather-city {
-    font-weight: 400;
+    font-weight: 500;
     max-width: 100px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     transition: all 0.3s ease;
+    opacity: 0.9;
+}
+
+.weather-temp {
+    font-weight: 600; 
     opacity: 1;
-    line-height: 1;
 }
 .header-controls:has(.settings-wrapper:hover) .weather-city {
     max-width: 0;
     opacity: 0;
+    margin-left: -4px; 
 }
-.weather-icon svg {
-    width: 30px;
-    height: 30px;
-    display: block;
-}
-.weather-icon img {
-    width: 30px;
-    height: 30px;
-    object-fit: contain;
-}
-.weather-temp {
-    font-weight: 500;
-    opacity: 0.9;
-    line-height: 1;
-}
-.weather-icon path {
-    fill: var(--text-color);
+@keyframes iconPop {
+    0% {
+        opacity: 0;
+        transform: scale(0.5) rotate(-10deg);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+    }
 }
 
 /* --- Weather Unit Toggles --- */
