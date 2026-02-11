@@ -217,8 +217,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const searchForm = document.getElementById('searchForm');
     const items = document.querySelectorAll('.dropdown-item');
     const engines = {
+        bing: { url: 'https://www.bing.com/search', icon: 'assets/search-engines/bing.svg' },
         google: { url: 'https://www.google.com/search', icon: 'assets/search-engines/google.svg' },
-        bing: { url: 'https://www.bing.com/search', icon: 'assets/search-engines/bing.svg' }
+        brave: { url: 'https://search.brave.com/search', icon: 'assets/search-engines/brave.svg' },
+        duck: { url: 'https://duckduckgo.com/', icon: 'assets/search-engines/ddg.svg' },
+        ecosia: { url: 'https://www.ecosia.org/search', icon: 'assets/search-engines/ecosia.svg' },
+        startpage: { url: 'https://www.startpage.com/sp/search', icon: 'assets/search-engines/startpg.svg' }
     };
     const savedEngine = localStorage.getItem('searchEngine') || 'bing';
     
@@ -622,20 +626,18 @@ document.addEventListener("DOMContentLoaded", () => {
             searchInput.value = items[index].dataset.value; 
         }
     }
-    async function fetchSuggestions(query) {
-        const currentEngine = localStorage.getItem('searchEngine') || 'bing';
-        let url = '';
-        if (currentEngine === 'google') {
-            url = `https://suggestqueries.google.com/complete/search?client=chrome&q=${encodeURIComponent(query)}`;
-        } else {
-            url = `https://api.bing.com/osjson.aspx?query=${encodeURIComponent(query)}`;
-        }
+async function fetchSuggestions(query) {
+        const url = `https://suggestqueries.google.com/complete/search?client=chrome&q=${encodeURIComponent(query)}`;
         try {
             const response = await fetch(url);
             const data = await response.json();
-            const suggestions = data[1].slice(0, 5); 
-            renderSuggestions(suggestions);
-        } catch (error) { console.error('CORS/Network error for suggestions'); }
+            if (data && data[1]) {
+                const suggestions = data[1].slice(0, 5); 
+                renderSuggestions(suggestions);
+            }
+        } catch (error) { 
+            console.error('Error retrieving suggestions:', error); 
+        }
     }
     function renderSuggestions(suggestions) {
         if (!suggestionsContainer) return;
