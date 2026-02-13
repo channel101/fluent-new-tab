@@ -53,9 +53,7 @@ input, textarea {
     user-select: text;
     cursor: text;
 }
-.icon-fill path, 
-.settings-btn svg path, 
-.theme-btn svg path {
+.settings-btn svg path {
     fill: var(--text-color);
     transition: fill 0.3s ease;
 }
@@ -725,7 +723,7 @@ input, textarea {
     background: rgba(255, 255, 255, 0.3);
     backdrop-filter: blur(30px) saturate(200%);
     -webkit-backdrop-filter: blur(30px) saturate(200%);
-    border: 1px solid rgba(97, 97, 97, 0.5);
+    border: 1px solid rgba(224, 224, 224, 0.5);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     border-radius: 12px; 
     padding: 12px; 
@@ -819,6 +817,7 @@ input, textarea {
     gap: 4px;
 }
 .theme-btn {
+    color: var(--text-color);
     flex: 1;
     border: none;
     background: transparent;
@@ -840,6 +839,8 @@ input, textarea {
 .theme-btn svg {
     width: 20px;
     height: 20px;
+    fill: currentColor;
+    transition: fill 0.3s;
 }
 .switch {
     position: relative;
@@ -1094,6 +1095,10 @@ input:checked + .slider:before {
     width: 20px;
     height: 20px;
 }
+.launcher-btn svg path {
+    fill: var(--text-color);
+    transition: fill 0.3s ease;
+}
 .launcher-popup {
     position: absolute;
     top: 48px; 
@@ -1236,15 +1241,12 @@ input:checked + .slider:before {
 [data-theme="dark"] .greeting-icon.outline {
     filter: invert(1); 
 }
-[data-theme="dark"] {
+html[data-theme="dark"] {
     --bg-color: #202020;
     --text-color: #ffffff;
     --search-bg: #333333;
     --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.4);
     --shadow-hover: 0 6px 16px rgba(0, 0, 0, 0.5);
-}
-[data-theme="dark"] .icon-fill path {
-    fill: #ffffff !important;
 }
 [data-theme="dark"] .settings-btn:hover {
     background-color: rgba(255, 255, 255, 0.1);
@@ -1348,7 +1350,7 @@ input:checked + .slider:before {
     background-color: rgba(255, 255, 255, 0.15);
 }
 [data-theme="dark"] .unit-btn.active {
-    background-color: #0078d4; /
+    background-color: #0078d4;
     color: white;
 }
 [data-theme="dark"] .fluent-icon {
