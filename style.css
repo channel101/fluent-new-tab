@@ -21,6 +21,7 @@
     --search-bg: #ffffff;
     --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.08);
     --shadow-hover: 0 6px 16px rgba(0, 0, 0, 0.12);
+    --border-color: rgba(0,0,0,0.05);
     --border-radius: 99px;
     --accent-color: #0078d4;
 }
@@ -81,7 +82,7 @@ input, textarea {
     display: flex;
     align-items: center; 
     justify-content: center;
-    margin-bottom: 10px
+    margin-bottom: 10px;
     gap: 12px; 
     animation: fadeIn 0.5s ease-out;
 }
@@ -103,7 +104,7 @@ input, textarea {
 .divider {
     width: 1px;
     height: 20px;
-    background-color: var(--border-color, rgba(0,0,0,0.1));
+    background-color: rgba(0,0,0,0.1);
     margin: 0 8px;
 }
 
@@ -298,7 +299,7 @@ input, textarea {
     -webkit-backdrop-filter: blur(20px) saturate(125%);
     border-radius: 8px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.14);
-    border: 1px solid var(--border-color, rgba(0,0,0,0.05));
+    border: 1px solid var(--border-color);
     padding: 6px;
     display: none;
     flex-direction: column;
@@ -629,14 +630,12 @@ input, textarea {
     font-size: 12px;
     margin-bottom: 6px;
     font-weight: 600;
-    color: #666;
     color: var(--text-color);
     opacity: 0.7;
 }
 .input-group input {
     width: 100%;
     padding: 10px;
-    border: 1px solid #ddd;
     border: 1px solid rgba(128, 128, 128, 0.3);
     background: transparent;
     color: var(--text-color);
@@ -673,7 +672,6 @@ input, textarea {
 }
 .btn-cancel {
     background: #f0f0f0;
-    color: #333;
     background: rgba(128, 128, 128, 0.15);
     color: var(--text-color);
 }
@@ -833,7 +831,8 @@ input, textarea {
     background: rgba(0,0,0,0.05);
 }
 .theme-btn.active {
-    background: #fff;
+    background: var(--accent-color);
+    color: #FFFFFF;
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 .theme-btn svg {
@@ -1109,7 +1108,7 @@ input:checked + .slider:before {
     border-radius: 8px; 
     padding: 12px;
     box-shadow: 0 8px 16px rgba(0,0,0,0.14);
-    border: 1px solid var(--border-color, rgba(0,0,0,0.05));
+    border: 1px solid var(--border-color);
     display: none;
     flex-direction: column;
     gap: 8px;
@@ -1291,9 +1290,6 @@ html[data-theme="dark"] {
 }
 [data-theme="dark"] .theme-selector {
     background: rgba(255,255,255,0.1);
-}
-[data-theme="dark"] .theme-btn.active {
-    background: #444;
 }
 [data-theme="dark"] .shortcut-card {
     background: rgba(255, 255, 255, 0.1);
