@@ -500,6 +500,31 @@ async function searchCity() {
     } catch (error) { alert('Error searching city.'); }
     finally { saveCityBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>'; }
 }
+function initSortable() {
+    if (!shortcutsGrid) return;
+    
+    Sortable.create(shortcutsGrid, {
+        animation: 200,
+        forceFallback: true,
+        dragClass: "sortable-dragging",
+        ghostClass: "sortable-placeholder",
+        filter: ".add-card-wrapper", // Prevents the 'Add' button from being dragged
+        
+        onEnd: function (evt) {
+            if (evt.oldIndex === evt.newIndex) return;
+
+            // Remove the item from its old position
+            const movedItem = shortcuts.splice(evt.oldIndex, 1)[0];
+            
+            // Insert the item into its new position
+            shortcuts.splice(evt.newIndex, 0, movedItem);
+            
+            // Save the new array to localStorage and re-render the grid
+            // Re-rendering is crucial here so the 'Edit'/'Remove' data-indexes update
+            saveAndRender();
+        }
+    });
+}
 async function initWeather() {
     const cachedString = localStorage.getItem(CACHE_KEY);
     if (cachedString) {
@@ -863,3 +888,4 @@ applyInitialSearchBarVisibility();
 applyInitialSuggestionsActive();
 applyInitialWeatherState();
 applyInitialLauncherState();
+initSortable();

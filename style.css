@@ -1184,7 +1184,37 @@ input:checked + .slider:before {
     text-decoration: none; 
 }
 
-/* --- 11. Animations --- */
+.sortable-dragging {
+    opacity: 0.9;
+    transform: scale(1.05);
+    z-index: 9999;
+    cursor: grabbing;
+}
+
+/* --- 10. Sortable --- */
+.sortable-dragging .shortcut-card {
+    background: var(--search-bg);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    border-color: transparent;
+}
+
+.sortable-placeholder {
+    opacity: 0.5;
+}
+
+.sortable-placeholder .shortcut-card {
+    background: rgba(128, 128, 128, 0.1);
+    border: 2px dashed var(--text-color);
+    box-shadow: none;
+}
+
+.sortable-placeholder .shortcut-title,
+.sortable-placeholder img {
+    visibility: hidden;
+    opacity: 0;
+}
+
+/* --- 12. Animations --- */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(-10px); }
     to { opacity: 1; transform: translateY(0); }
@@ -1237,7 +1267,7 @@ input:checked + .slider:before {
     100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 77, 79, 0); }
 }
 
-/* --- 12. Dark Mode --- */
+/* --- 13. Dark Mode --- */
 [data-theme="dark"] .greeting-icon.outline {
     filter: invert(1); 
 }
