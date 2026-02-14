@@ -48,6 +48,12 @@ body {
     -webkit-user-select: none; 
     user-select: none;
     cursor: default; 
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+body.loaded {
+    opacity: 1;
 }
 input, textarea {
     -webkit-user-select: text;
@@ -107,6 +113,24 @@ input, textarea {
     background-color: rgba(0,0,0,0.1);
     margin: 0 8px;
 }
+.translate-link {
+  font-size: 11px;
+  margin-bottom: 2px;
+  display: block;
+  color: var(--text-color);
+  opacity: 0.7;
+  margin-top: 5px;
+  text-decoration: none; /* remove underline */
+  transition: color 0.2s ease, opacity 0.2s ease; /* suaviza efeito */
+}
+
+.translate-link:hover {
+  text-decoration: underline; /* aparece underline no hover */
+  opacity: 1; /* aumenta contraste no hover */
+  color: var(--link-color, var(--text-color)); /* opcional: cor diferente no hover */
+}
+
+
 
 /* --- 4. Header & Controls --- */
 .header-controls {

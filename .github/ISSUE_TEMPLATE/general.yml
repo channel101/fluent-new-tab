@@ -1,24 +1,49 @@
-name: 💬 General / Other
-description: General questions, documentation issues, or discussions.
-title: "[General]: "
-labels: ["question"]
+name: 🌍 Translation
+description: Submit a new translation for the extension.
+title: "[Translation]: "
+labels: ["translations"]
 body:
-  - type: dropdown
-    id: category
+  - type: markdown
     attributes:
-      label: What is this regarding?
-      options:
-        - Question / Support
-        - Documentation
-        - Design / UI
-        - Other
+      value: |
+        ### Translation Submission
+        Thanks for helping us localize the extension! 
+        
+        Please follow the instructions in `TRANSLATING.md` to generate the correct keys.
+
+  - type: input
+    id: language_name
+    attributes:
+      label: Language Name
+      description: e.g. Portuguese (Brazil), French, German
+      placeholder: English
+    validations:
+      required: true
+
+  - type: input
+    id: language_code
+    attributes:
+      label: ISO Code
+      description: The folder name for the language (e.g. pt_BR, fr, de, es)
+      placeholder: pt_BR
     validations:
       required: true
 
   - type: textarea
-    id: content
+    id: translation_data
     attributes:
-      label: Description
-      description: Please describe your question or issue in detail.
+      label: Translated Content (JSON)
+      description: Paste the translated JSON content here, or drag and drop your `.txt` / `.json` file.
+      placeholder: |
+        {
+          "appsTitle": {
+            "message": "Apps"
+          },
+          "moreApps": {
+            "message": "More Apps"
+          }
+          ...
+        }
+      render: json
     validations:
       required: true

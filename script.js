@@ -58,11 +58,12 @@ const launcherData = {
         { name: 'Docs', url: 'https://docs.google.com', icon: 'assets/apps/google/docs.svg' },
         { name: 'Calendar', url: 'https://calendar.google.com', icon: 'assets/apps/google/calendar.svg' },
         { name: 'Meet', url: 'https://meet.google.com', icon: 'assets/apps/google/meet.svg' },
-        { name: 'Music', url: 'https://music.google.com', icon: 'assets/apps/google/music.svg' },
+        { name: 'Music', url: 'https://music.youtube.com', icon: 'assets/apps/google/music.svg' },
         { name: 'Web Store', url: 'https://chromewebstore.google.com', icon: 'assets/apps/google/store.svg' }
     ], allAppsLink: 'https://about.google/products/' }
 };
-const APP_KEYS = ['shortcuts','theme','weatherEnabled','weatherCity','shortcutsVisible','shortcutsRows','launcherEnabled','launcherProvider','showGreeting','greetingName','greetingStyle'];
+
+const APP_KEYS = ['shortcuts','theme','weatherEnabled','weatherCity','shortcutsVisible','shortcutsRows','launcherEnabled','launcherProvider','showGreeting','greetingName','greetingStyle', 'userLanguage'];
 
 /* --- 2. State --- */
 let shortcuts = [];
@@ -115,13 +116,13 @@ function openModal(index = null) {
             document.getElementById('inputName').value = item.name;
             document.getElementById('inputUrl').value = item.url;
             document.getElementById('inputIcon').value = item.customIcon || '';
-            if (modalTitle) modalTitle.textContent = 'Edit Shortcut';
+            if (modalTitle) modalTitle.textContent = window.getTranslation('editShortcutTitle');
             if (item.customIcon && customIconGroup) customIconGroup.classList.remove('hidden');
         } else {
             document.getElementById('inputName').value = '';
             document.getElementById('inputUrl').value = '';
             document.getElementById('inputIcon').value = '';
-            if (modalTitle) modalTitle.textContent = 'Add Shortcut';
+            if (modalTitle) modalTitle.textContent = window.getTranslation('addShortcutTitle');
             if (customIconGroup) customIconGroup.classList.add('hidden');
         }
         setTimeout(() => document.getElementById('inputName').focus(), 100);
@@ -180,13 +181,13 @@ function renderShortcuts() {
         link.innerHTML = `
             <div class="shortcut-card">
                 <div class="menu-wrapper">
-                    <button class="menu-btn" title="More options">${ICON_MENU_DOTS}</button>
+                    <button class="menu-btn" title="${window.getTranslation('moreOptionsLabel')}">${ICON_MENU_DOTS}</button>
                     <div class="shortcut-dropdown">
                         <div class="menu-option edit-option" data-index="${index}">
-                            ${ICON_EDIT} <span>Edit</span>
+                            ${ICON_EDIT} <span>${window.getTranslation('editLabel')}</span>
                         </div>
                         <div class="menu-option remove-option" data-index="${index}">
-                            ${ICON_REMOVE} <span>Remove</span>
+                            ${ICON_REMOVE} <span>${window.getTranslation('removeLabel')}</span>
                         </div>
                     </div>
                 </div>
@@ -201,8 +202,8 @@ function renderShortcuts() {
         addBtn.className = 'shortcut-item add-card-wrapper';
         addBtn.onclick = () => openModal(null);
         addBtn.innerHTML = `
-            <div class="shortcut-card">${ICON_ADD}</div>
-            <span class="shortcut-title">Add</span>
+            <div class="shortcut-card">${ICON_ADD}</div> 
+            <span class="shortcut-title">${window.getTranslation('addShortcutLabel')}</span>
         `;
         shortcutsGrid.appendChild(addBtn);
     }
@@ -371,6 +372,7 @@ const versionDisplay = document.getElementById('versionDisplay');
 const exportBtn = document.getElementById('exportBtn');
 const importBtn = document.getElementById('importBtn');
 const importInput = document.getElementById('importInput');
+const languageSelect = document.getElementById('languageProvider');
 
 /* --- 5. Event Handlers --- */
 function applyTheme(theme) {
@@ -396,9 +398,13 @@ window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (e)
 });
 function initBrand() {
     if (!greetingWrapper) return;
+    
+    // Recupera configurações
     const showGreeting = localStorage.getItem('showGreeting') !== 'false';
     const userName = localStorage.getItem('greetingName') || '';
     const greetingStyle = localStorage.getItem('greetingStyle') || '3d';
+    
+    // Controle de exibição
     if (!showGreeting) {
         greetingWrapper.style.display = 'none';
         if(greetingOptionsDiv) greetingOptionsDiv.style.display = 'none';
@@ -407,36 +413,69 @@ function initBrand() {
         greetingWrapper.style.display = 'flex';
         if(greetingOptionsDiv) greetingOptionsDiv.style.display = 'block';
     }
+    
     const hour = new Date().getHours();
     let timeOfDay = 'morning';
     let iconName = 'sun';
     let greetingPool = [];
+    
+    // Helper para garantir que o código não quebre se a função de tradução não existir ainda
+    const t = window.getTranslation || ((k) => k); 
+
+    // Lógica de horários com tradução
     if (hour >= 5 && hour < 12) {
         timeOfDay = 'morning';
         iconName = 'sun';
-        greetingPool = ["Good morning", "Rise and shine", "Have a great day", "Hello there", "Start the day right"];
+        greetingPool = [
+            t("greetMorning1"), 
+            t("greetMorning2"), 
+            t("greetMorning3"), 
+            t("greetMorning4"), 
+            t("greetMorning5")
+        ];
     } else if (hour >= 12 && hour < 18) {
         timeOfDay = 'afternoon';
         iconName = 'cloud-sun';
-        greetingPool = ["Good afternoon", "Good to see you", "Hope you're doing well", "Keep it up", "Stay productive"];
+        greetingPool = [
+            t("greetAfternoon1"), 
+            t("greetAfternoon2"), 
+            t("greetAfternoon3"), 
+            t("greetAfternoon4"), 
+            t("greetAfternoon5")
+        ];
     } else if (hour >= 18 && hour < 24) {
         timeOfDay = 'evening';
         iconName = 'moon';
-        greetingPool = ["Good evening", "Time to relax", "Good night", "Unwind time", "Enjoy your evening"];
+        greetingPool = [
+            t("greetEvening1"), 
+            t("greetEvening2"), 
+            t("greetEvening3"), 
+            t("greetEvening4"), 
+            t("greetEvening5")
+        ];
     } else {
         timeOfDay = 'night';
         iconName = 'stars';
-        greetingPool = ["Good late night", "Hey night owl", "Late hours", "Quiet hours", "You're up late"];
+        greetingPool = [
+            t("greetNight1"), 
+            t("greetNight2"), 
+            t("greetNight3"), 
+            t("greetNight4"), 
+            t("greetNight5")
+        ];
     }
     const seed = new Date().getMinutes();
-    const randomGreeting = greetingPool[seed % greetingPool.length];
+    const randomGreeting = greetingPool.length > 0 ? greetingPool[seed % greetingPool.length] : "Hello";
+    
     const finalGreetingText = userName.trim() ? `${randomGreeting}, ${userName}!` : `${randomGreeting}!`;
+    
     let iconHTML = '';
     if (greetingStyle === '3d') {
         iconHTML = `<img src="assets/emojis/${iconName}.png" alt="${timeOfDay}" class="greeting-icon" onerror="this.style.display='none'">`;
     } else {
         iconHTML = `<img src="assets/greetings/${iconName}.svg" alt="${timeOfDay}" class="greeting-icon outline" onerror="this.style.display='none'">`;
     }
+    
     greetingWrapper.innerHTML = `
         ${iconHTML}
         <h1 class="greeting-text">${finalGreetingText}</h1>
@@ -704,7 +743,6 @@ document.addEventListener("DOMContentLoaded", () => {
             renderShortcuts();
         });
     }
-    /* SEMPRE chame renderShortcuts APÓS rowsSelect.value estar correta */
     renderShortcuts();
 
     /* Shortcuts Visibility */
@@ -805,6 +843,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     if(saveCityBtn) saveCityBtn.addEventListener('click', searchCity);
     if(cityInput) cityInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') searchCity(); });
+
     /* App Launcher */
     applyInitialLauncherState();
     if(toggleLauncher) {
@@ -827,6 +866,31 @@ document.addEventListener("DOMContentLoaded", () => {
             e.stopPropagation();
             launcherPopup.classList.toggle('active');
             appLauncherBtn.classList.toggle('active');
+        });
+    }
+
+    /* --- Language Settings --- */
+    if (languageSelect) {
+        const savedLang = localStorage.getItem('userLanguage');
+        if (savedLang) {
+            languageSelect.value = savedLang;
+        } else {
+            try {
+                const browserLang = navigator.language.replace('-', '_');
+                const optionExists = [...languageSelect.options].some(o => o.value === browserLang);
+                if (optionExists) {
+                    languageSelect.value = browserLang;
+                    localStorage.setItem('userLanguage', browserLang); 
+                } else {
+                    languageSelect.value = 'en';
+                }
+            } catch (e) {
+                console.log("Idioma auto-detect falhou, usando padrão.");
+            }
+        }
+        languageSelect.addEventListener('change', (e) => {
+            localStorage.setItem('userLanguage', e.target.value);
+            location.reload(); 
         });
     }
     /* Export & Import */
@@ -875,7 +939,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 /* --- 9. Initialization --- */
 applyInitialTheme();
-applyBrandInterval();
 applyInitialShortcutsVisibility();
 applyInitialSearchEngine();
 applyInitialSearchBarVisibility();
@@ -883,3 +946,8 @@ applyInitialSuggestionsActive();
 applyInitialWeatherState();
 applyInitialLauncherState();
 initSortable();
+document.addEventListener('i18nReady', () => {
+    console.log("Traduções carregadas. Iniciando interface...");
+    applyBrandInterval();
+    renderShortcuts();
+});

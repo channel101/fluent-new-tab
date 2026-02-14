@@ -1,10 +1,5 @@
-# Fluent New Tab
+# Fluent New Tab &nbsp; ![Dynamic JSON Badge](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fsnw-mint%2Ffluent-new-tab%2Frefs%2Fheads%2Fmain%2Fmanifest.json&query=version&style=plastic&logo=github&label=latest%20version&color=red) ![GitHub last commit](https://img.shields.io/github/last-commit/snw-mint/fluent-new-tab?display_timestamp=author&style=plastic&logoColor=FFF&color=orange) ![GitHub License](https://img.shields.io/github/license/snw-mint/fluent-new-tab?style=plastic&color=yellow) ![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/snw-mint/fluent-new-tab?style=plastic&color=green) 
 
-<div align="center">
-
-![Dynamic JSON Badge](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fsnw-mint%2Ffluent-new-tab%2Frefs%2Fheads%2Fmain%2Fmanifest.json&query=version&style=plastic&logo=github&label=latest%20version&color=red) ![GitHub last commit](https://img.shields.io/github/last-commit/snw-mint/fluent-new-tab?display_timestamp=author&style=plastic&logoColor=FFF&color=orange) ![GitHub License](https://img.shields.io/github/license/snw-mint/fluent-new-tab?style=plastic&color=yellow) ![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/snw-mint/fluent-new-tab?style=plastic&color=green) 
-
-</div>
 
 ![Fluent New Tab Mockup](repo-assets/mockup.png)
 
@@ -17,6 +12,7 @@
   <a href="#-installation">Installation</a> •
   <a href="#-privacy-policy">Privacy</a> •
   <a href="#-contributing">Contributing</a> •
+  <a href="#-contributing">Help translate</a> •
   <a href="#-license--legal-notice">License</a>
 </p>
 
@@ -65,17 +61,17 @@ Your privacy is paramount. **Fluent New Tab** operates with a "Local First" phil
 
 See the full Privacy Policy for details.
 
----
-
 ## 🤝 Contributing
 
-Contributions are welcome! Please read our Contributing Guide for development setup instructions.
+Contributions are always welcome! Whether you are a developer or a translator, there are ways for you to contribute.
 
-1.  **Fork** the repository.
-2.  Create a new **Branch** (`git checkout -b feature/AmazingFeature`).
-3.  **Commit** your changes.
-4.  **Push** to the branch.
-5.  Open a **Pull Request**.
+### 🌍 Translations (No Code Required)
+Want to use this extension in your native language? You can help us translate it!
+👉 **Read the [Translation Guide](TRANSLATING.md)** to learn how to add a new language (JSON format).
+
+### 💻 Code & Features
+Found a bug or have an idea for a new widget?
+👉 **Read the [Developer Guide](CONTRIBUTING.md)** for setup instructions and code standards.
 
 ---
 

@@ -3,6 +3,7 @@
   "name": "Fluent New Tab",
   "version": "2.2",
   "description": "A minimalist, customizable New Tab page inspired by Fluent Design.",
+  "default_locale": "en",
   "icons": {
     "48": "assets/icon-48.png",
     "128": "assets/icon-128.png"
