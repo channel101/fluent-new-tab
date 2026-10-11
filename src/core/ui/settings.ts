@@ -492,7 +492,8 @@ export function bindDisplayFeature(options: any): void {
   }
 
   if (refs.dateFormatSelect) {
-    refs.dateFormatSelect.value = localStorage.getItem('dateFormat') || 'text';
+    refs.dateFormatSelect.value =
+      localStorage.getItem('dateFormat') || 'weekday';
   }
 
   if (refs.displayTypeSelect) {
@@ -550,7 +551,7 @@ export function bindDisplayFeature(options: any): void {
           localStorage.getItem('use12Hour') === 'true';
       if (refs.dateFormatSelect)
         refs.dateFormatSelect.value =
-          localStorage.getItem('dateFormat') || 'text';
+          localStorage.getItem('dateFormat') || 'weekday';
 
       updateAdvancedUI(preset);
 
