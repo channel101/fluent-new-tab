@@ -33,7 +33,7 @@ const DEFAULT_INSTALL_PREFERENCES = {
   displayType: 'greeting',
   showSeconds: 'false',
   use12Hour: 'false',
-  dateFormat: 'numeric',
+  dateFormat: 'weekday',
   askAiEnabled: 'false',
 };
 

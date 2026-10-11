@@ -91,7 +91,7 @@ function renderTimeDate(wrapper: HTMLElement, type: string): void {
   const use12Hour = localStorage.getItem('use12Hour') === 'true';
   let dateFormat = localStorage.getItem('dateFormat');
   if (!dateFormat) {
-    dateFormat = type === 'timedate' ? 'weekday' : 'text';
+    dateFormat = 'weekday';
   }
 
   const now = new Date();
