@@ -646,29 +646,11 @@
   "wizardFinalSupportDesc": {
     "message": "Help keep the project updated."
   },
-  "wizardRestoreBtn": {
-    "message": "Restore"
-  },
-  "wizardStartBtn": {
-    "message": "Start"
-  },
-  "wizardSkipBtn": {
-    "message": "Skip"
-  },
   "wizardFinalDocsTitle": {
     "message": "Documentation"
   },
   "wizardFinalDocsDesc": {
     "message": "Learn how to use Fluent New Tab."
-  },
-  "wizardFinalDocsBtn": {
-    "message": "Read"
-  },
-  "wizardFinalStartBtn": {
-    "message": "Open"
-  },
-  "wizardFinalSupportBtn": {
-    "message": "Donate"
   },
   "gridFullTitle": {
     "message": "Grid is Full"

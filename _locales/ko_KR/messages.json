@@ -646,29 +646,11 @@
   "wizardFinalSupportDesc": {
     "message": "이 프로젝트가 최신 상태를 유지할 수 있도록 도와주세요."
   },
-  "wizardRestoreBtn": {
-    "message": "복원하기"
-  },
-  "wizardStartBtn": {
-    "message": "시작"
-  },
-  "wizardSkipBtn": {
-    "message": "건너뛰기"
-  },
   "wizardFinalDocsTitle": {
     "message": "문서"
   },
   "wizardFinalDocsDesc": {
     "message": "Fluent New Tab 사용법 배우기"
-  },
-  "wizardFinalDocsBtn": {
-    "message": "읽기"
-  },
-  "wizardFinalStartBtn": {
-    "message": "열기"
-  },
-  "wizardFinalSupportBtn": {
-    "message": "후원하기"
   },
   "gridFullTitle": {
     "message": "그리드가 가득 찼습니다"

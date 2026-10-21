@@ -142,7 +142,7 @@ body.slide-prev .step.active {
 }
 
 html[data-theme='dark'] .step-welcome {
-  background: linear-gradient(180deg, #202020 0%, #161b1e 100%);
+  background: linear-gradient(180deg, #202020 0%, #0F1724 100%);
 }
 
 .splash-screen {
@@ -157,7 +157,7 @@ html[data-theme='dark'] .step-welcome {
 }
 
 html[data-theme='dark'] .splash-screen {
-  background: linear-gradient(180deg, #202020 0%, #161b1e 100%);
+  background: linear-gradient(180deg, #202020 0%, #0F1724 100%);
 }
 
 .splash-content {

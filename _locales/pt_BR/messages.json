@@ -646,29 +646,11 @@
   "wizardFinalSupportDesc": {
     "message": "Ajude a manter o projeto atualizado."
   },
-  "wizardRestoreBtn": {
-    "message": "Restaurar"
-  },
-  "wizardStartBtn": {
-    "message": "Iniciar"
-  },
-  "wizardSkipBtn": {
-    "message": "Pular"
-  },
   "wizardFinalDocsTitle": {
     "message": "Documentação"
   },
   "wizardFinalDocsDesc": {
     "message": "Saiba como usar o Fluent New Tab."
-  },
-  "wizardFinalDocsBtn": {
-    "message": "Ler"
-  },
-  "wizardFinalStartBtn": {
-    "message": "Abrir"
-  },
-  "wizardFinalSupportBtn": {
-    "message": "Doar"
   },
   "gridFullTitle": {
     "message": "A grade está cheia"

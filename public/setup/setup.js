@@ -162,7 +162,7 @@ async function loadTranslations() {
   if (cached) {
     try {
       const msg = JSON.parse(cached);
-      if (lang === 'en_US' || msg.wizardRestoreBtn) {
+      if (lang === 'en_US' || msg.wizardRestoreTitle) {
         translations = msg;
         applyTranslations();
         return;
