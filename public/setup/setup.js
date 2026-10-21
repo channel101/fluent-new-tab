@@ -60,6 +60,93 @@ const APP_KEYS = [
 const SHORTCUTS_TREE_KEY = 'shortcutsTree';
 let translations = {};
 
+const SUPPORTED_LOCALES = [
+  'cs_CZ',
+  'da_DK',
+  'de_DE',
+  'el_GR',
+  'en_US',
+  'es_ES',
+  'fil_PH',
+  'fi_FI',
+  'fr_FR',
+  'hu_HU',
+  'id_ID',
+  'it_IT',
+  'ja_JP',
+  'ko_KR',
+  'nl_NL',
+  'pl_PL',
+  'pt_BR',
+  'ro_RO',
+  'ru_RU',
+  'sv_SE',
+  'tr_TR',
+  'uk_UA',
+  'vi_VN',
+  'zh_CN',
+  'zh_TW',
+];
+
+function detectUserLanguage() {
+  const saved = localStorage.getItem('userLanguage');
+  if (saved && SUPPORTED_LOCALES.includes(saved)) {
+    return saved;
+  }
+
+  let browserLang = '';
+  try {
+    if (
+      typeof chrome !== 'undefined' &&
+      chrome.i18n &&
+      typeof chrome.i18n.getUILanguage === 'function'
+    ) {
+      browserLang = chrome.i18n.getUILanguage();
+    }
+  } catch {}
+
+  if (!browserLang && typeof navigator !== 'undefined') {
+    browserLang =
+      navigator.language || (navigator.languages && navigator.languages[0]) || '';
+  }
+
+  if (!browserLang) return DEFAULT_LOCALE;
+
+  const normalized = browserLang.replace('-', '_');
+  const exact = SUPPORTED_LOCALES.find(
+    (loc) => loc.toLowerCase() === normalized.toLowerCase(),
+  );
+  if (exact) {
+    localStorage.setItem('userLanguage', exact);
+    return exact;
+  }
+
+  const prefix = browserLang.split(/[-_]/)[0].toLowerCase();
+
+  if (prefix === 'zh') {
+    const isTraditional = /tw|hk|mo|hant/i.test(browserLang);
+    const chosen = isTraditional ? 'zh_TW' : 'zh_CN';
+    localStorage.setItem('userLanguage', chosen);
+    return chosen;
+  }
+
+  if (prefix === 'tl' || prefix === 'fil') {
+    localStorage.setItem('userLanguage', 'fil_PH');
+    return 'fil_PH';
+  }
+
+  const prefixMatch = SUPPORTED_LOCALES.find((loc) =>
+    loc.toLowerCase().startsWith(prefix + '_'),
+  );
+  if (prefixMatch) {
+    localStorage.setItem('userLanguage', prefixMatch);
+    return prefixMatch;
+  }
+
+  localStorage.setItem('userLanguage', DEFAULT_LOCALE);
+  return DEFAULT_LOCALE;
+}
+
 async function fetchLocale(loc) {
   const u = chrome.runtime.getURL(`_locales/${loc}/messages.json`);
   const res = await fetch(u);
@@ -68,7 +155,7 @@ async function fetchLocale(loc) {
 }
 
 async function loadTranslations() {
-  const lang = localStorage.getItem('userLanguage') || 'en_US';
+  const lang = detectUserLanguage();
   const cacheKey = `i18n_cache_${lang}`;
   const cached = localStorage.getItem(cacheKey);
 
@@ -117,6 +204,16 @@ function applyTranslations() {
       el.placeholder = value;
     } else if (el.tagName === 'OPTION') {
       el.textContent = value;
+    } else if (key === 'wizardWelcomeTitle' || key === 'wizardFinalTitle') {
+      const parts = value.split(' ');
+      if (parts.length > 1) {
+        const last = parts.pop();
+        const capitalizedLast = last.charAt(0).toUpperCase() + last.slice(1);
+        const rest = parts.map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+        el.innerHTML = `${rest} <span class="welcome-title-home">${capitalizedLast}</span>`;
+      } else {
+        el.innerHTML = `<span class="welcome-title-home">${value}</span>`;
+      }
     } else {
       el.textContent = value;
     }
@@ -289,7 +386,7 @@ function initNameInput() {
 function initLanguageSelect() {
   const select = document.getElementById('select-language');
   if (!select) return;
-  const saved = localStorage.getItem('userLanguage') || 'en_US';
+  const saved = detectUserLanguage();
   select.value = saved;
 
   const container = select.closest('.fluent-select-container');
@@ -586,6 +683,24 @@ function init() {
   applyTheme(savedTheme);
 
   const savedStep = localStorage.getItem('setup_current_step') || 'welcome';
+  const splashScreen = document.getElementById('splash-screen');
+  const stepWelcome = document.getElementById('step-welcome');
+  if (splashScreen) {
+    if (savedStep !== 'welcome') {
+      splashScreen.style.display = 'none';
+      if (stepWelcome) stepWelcome.classList.add('ready');
+    } else {
+      setTimeout(() => {
+        if (stepWelcome) stepWelcome.classList.add('ready');
+      }, 3200);
+      setTimeout(() => {
+        splashScreen.style.display = 'none';
+      }, 3700);
+    }
+  } else if (stepWelcome) {
+    stepWelcome.classList.add('ready');
+  }
+
   if (savedStep !== 'final') {
     showStep(savedStep);
   } else {
