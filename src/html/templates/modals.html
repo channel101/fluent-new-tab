@@ -1,0 +1,291 @@
+<template id="tpl-add-modal">
+<div id="addModal" class="modal-overlay">
+      <div class="modal-content">
+        <h3 data-i18n="addShortcutTitle">Add Shortcut</h3>
+        <form id="shortcutForm">
+          <div class="input-group">
+            <label data-i18n="shortcutNameLabel">Name</label>
+            <input type="text" id="inputName" required />
+          </div>
+
+          <div class="input-group">
+            <label data-i18n="shortcutUrlLabel">URL</label>
+            <input
+              type="text"
+              id="inputUrl"
+              required
+              placeholder="youtube.com"
+            />
+          </div>
+
+          <div class="expandable-section">
+            <button
+              type="button"
+              id="toggleCustomIcon"
+              class="btn-expander"
+              aria-expanded="false"
+            >
+              <svg
+                class="chevron-icon custom-icon-chevron"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+              >
+                <use href="#icon-chevron-down" />
+              </svg>
+              <span data-i18n="addFaviconLabel">Custom Icon</span>
+            </button>
+
+            <div id="customIconGroup" class="input-group hidden">
+              <label data-i18n="faviconUrlLabel">Icon URL</label>
+              <input type="url" id="inputIcon" placeholder="https://..." />
+            </div>
+          </div>
+
+          <div class="modal-actions">
+            <button
+              type="button"
+              id="closeModalBtn"
+              class="btn-cancel"
+              data-i18n="btnCancel"
+            >
+              Cancel
+            </button>
+            <button type="submit" class="btn-save" data-i18n="btnSave">
+              Save
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+</template>
+
+<template id="tpl-choose-type-modal">
+<div id="chooseTypeModal" class="modal-overlay">
+      <div class="modal-content">
+        <form id="chooseTypeForm">
+          <h3 class="choose-type-title" data-i18n="chooseTypeTitle">
+            Create New
+          </h3>
+          <div class="choose-type-grid">
+            <button type="button" class="type-card" id="btnChooseLink">
+              <svg width="30" height="30" viewBox="0 0 24 24"><use href="#icon-link" /></svg>
+              <span data-i18n="addShortcutTitle">Add Shortcut</span>
+            </button>
+            <button type="button" class="type-card" id="btnChooseFolder">
+              <svg width="30" height="30" viewBox="0 0 24 24"><use href="#icon-folder" /></svg>
+              <span data-i18n="addFolderTitle">Add Folder</span>
+            </button>
+          </div>
+          <div class="modal-actions">
+            <button
+              type="button"
+              id="closeChooseTypeBtn"
+              class="btn-cancel"
+              data-i18n="btnCancel"
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+</template>
+
+<template id="tpl-folder-modal">
+<div id="addFolderModal" class="modal-overlay">
+      <div class="modal-content">
+        <h3 id="folderModalTitle" data-i18n="addFolderTitle">Add Folder</h3>
+        <form id="folderForm">
+          <div class="input-group">
+            <label data-i18n="folderNameLabel">Name</label>
+            <input type="text" id="inputFolderName" />
+          </div>
+
+          <div class="expandable-section">
+            <button
+              type="button"
+              id="toggleFolderCustomIcon"
+              class="btn-expander"
+              aria-expanded="false"
+            >
+              <svg class="chevron-icon custom-icon-chevron" viewBox="0 0 16 16"><use href="#icon-chevron-down-small" /></svg>
+              <span data-i18n="addFaviconLabel">Custom Icon</span>
+            </button>
+
+            <div id="folderCustomIconGroup" class="hidden">
+              <div class="input-group">
+                <label data-i18n="faviconUrlLabel">Icon URL</label>
+                <input
+                  type="url"
+                  id="inputFolderIcon"
+                  placeholder="https://..."
+                />
+              </div>
+              <div class="folder-icon-help">
+                <span data-i18n="folderIconHelp"></span>
+                <a
+                  href="https://icon11-community.github.io/icons/"
+                  target="_blank"
+                  >Icon11 Community</a
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-actions">
+            <button
+              type="button"
+              id="closeFolderModalBtn"
+              class="btn-cancel"
+              data-i18n="btnCancel"
+            >
+              Cancel
+            </button>
+            <button type="submit" class="btn-save" data-i18n="btnSave">
+              Save
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+</template>
+
+<template id="tpl-feed-modal">
+<div id="feedModal" class="modal-overlay">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 data-i18n="feedTitle">Feed</h3>
+          <a
+            href="https://github.com/snw-mint/fluent-new-tab/blob/main/.github/HELP.md#rss-feed-reader"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="modal-help-link"
+            title="Help"
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24"><use href="#icon-info" /></svg>
+            <span>Help</span>
+          </a>
+        </div>
+        <form id="feedForm">
+          <div id="feedInputsContainer">
+            <div class="feed-input-row">
+              <div class="input-group">
+                <label data-i18n="feedRssUrlLabel">RSS or ATOM URL</label>
+                <div class="feed-input-wrapper">
+                  <input
+                    type="url"
+                    class="feed-url-input"
+                    placeholder="https://example.com/feed.xml"
+                  />
+                  <button
+                    type="button"
+                    class="feed-add-btn"
+                    disabled
+                    title="Add Feed"
+                  >
+                    <svg width="24" height="24" viewBox="0 0 24 24">
+                      <use href="#icon-add" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="feed-add-field-wrapper">
+            <button
+              type="button"
+              id="feedAddFieldBtn"
+              class="feed-add-field-btn"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24">
+                <use href="#icon-add" />
+              </svg>
+              <span data-i18n="feedAddField">Add field</span>
+            </button>
+          </div>
+
+          <div class="modal-actions">
+            <button
+              type="button"
+              id="closeFeedModalBtn"
+              class="btn-cancel"
+              data-i18n="btnCancel"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              id="saveFeedModalBtn"
+              class="btn-save"
+              disabled
+              data-i18n="btnSave"
+            >
+              Save
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+</template>
+
+<template id="tpl-warning-modal">
+<div id="warningModal" class="modal-overlay">
+      <div class="modal-content">
+        <h3 id="warning-modal-title"></h3>
+        <p id="warning-modal-message" class="warning-modal-text"></p>
+
+        <div id="customColorPickerContainer" class="custom-color-picker hidden">
+          <div class="picker-canvas-wrapper" id="matrixWrapper">
+            <canvas id="colorMatrixCanvas" class="matrix-canvas"></canvas>
+            <div id="matrixCursor" class="matrix-cursor"></div>
+          </div>
+
+          <div class="picker-hue-wrapper">
+            <input
+              type="range"
+              id="colorHueSlider"
+              class="fluent-slider fluent-hue-slider"
+              min="0"
+              max="360"
+              step="1"
+              value="0"
+            />
+          </div>
+
+          <div class="picker-inputs-grid">
+            <div class="input-group hex-col">
+              <label>HEX</label>
+              <div class="hex-wrapper">
+                <span>#</span>
+                <input
+                  type="text"
+                  id="customColorHex"
+                  maxlength="6"
+                  placeholder="0078D4"
+                />
+              </div>
+            </div>
+            <div class="input-group rgb-col">
+              <label>R</label>
+              <input type="number" id="customColorR" min="0" max="255" />
+            </div>
+            <div class="input-group rgb-col">
+              <label>G</label>
+              <input type="number" id="customColorG" min="0" max="255" />
+            </div>
+            <div class="input-group rgb-col">
+              <label>B</label>
+              <input type="number" id="customColorB" min="0" max="255" />
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button id="warning-btn-confirm" class="btn-danger"></button>
+          <button id="warning-btn-cancel" class="btn-cancel"></button>
+        </div>
+      </div>
+    </div>
+</template>

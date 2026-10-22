@@ -1,12 +1,12 @@
 /*
  * Fluent New Tab
- * Copyright (c) 2025-2026 SnowMint
+ * Copyright (c) 2026 SnowMint
  * Licensed under the GNU General Public License v3.0 (GPL-3.0)
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { getById } from '@/core/shared/dom-utils';
+import { getById, mountTemplate } from '@/core/shared/dom-utils';
 import { FeedData, FeedItem } from '@/core/shared/types';
 
 const PLUS_ICON = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 3.25a.75.75 0 0 1 .75.75v7.25H20a.75.75 0 0 1 0 1.5h-7.25V20a.75.75 0 0 1-1.5 0v-7.25H4a.75.75 0 0 1 0-1.5h7.25V4a.75.75 0 0 1 .75-.75" fill="currentColor"/></svg>`;
@@ -60,7 +60,7 @@ function sanitizeHttpsUrl(urlStr: string): string | undefined {
   try {
     const u = new URL(urlStr.trim());
     if (u.protocol === 'https:') return u.href;
-  } catch {}
+  } catch { }
   return undefined;
 }
 
@@ -318,7 +318,7 @@ function createFeedRow(initialVal = '', isValidated = false): HTMLElement {
       const feedData = await fetchAndValidateFeed(rawVal);
       try {
         localStorage.setItem(`feedCache_${rawVal}`, JSON.stringify(feedData));
-      } catch {}
+      } catch { }
 
       inp.setAttribute('data-validated', 'true');
       inp.classList.remove('is-invalid');
@@ -342,7 +342,7 @@ function createFeedRow(initialVal = '', isValidated = false): HTMLElement {
         message: err?.message || t('feedErrorDesc', 'Failed to fetch or parse the RSS feed. Please check the URL.'),
         confirmText: 'OK',
         confirmVariant: 'accent',
-        onConfirm: () => {},
+        onConfirm: () => { },
       });
     } finally {
       if (!inp.hasAttribute('data-validated')) {
@@ -366,6 +366,7 @@ export function closeFeedModal(): void {
 }
 
 export function openFeedModal(): void {
+  mountTemplate('tpl-feed-modal');
   const modal = getById<HTMLDivElement>('feedModal');
   const container = getById<HTMLDivElement>('feedInputsContainer');
   if (!modal || !container) return;

@@ -1,6 +1,6 @@
 /*
  * Fluent New Tab
- * Copyright (c) 2025-2026 SnowMint
+ * Copyright (c) 2026 SnowMint
  * Licensed under the GNU General Public License v3.0 (GPL-3.0)
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <https://www.gnu.org/licenses/>.
@@ -115,8 +115,10 @@ textarea {
 }
 
 .settings-btn {
-  svg path {
-    fill: var(--text-color);
+  color: var(--text-color);
+
+  svg {
+    fill: currentColor;
     transition: fill 0.3s ease;
   }
 }
@@ -165,11 +167,6 @@ html[data-wallpaper-blur='true'] .wallpaper-crossfade-layer {
   font-size: var(--font-size-base) !important;
 }
 
-.ask-ai-btn svg {
-  width: 1.8rem !important;
-  height: 1.8rem !important;
-}
-
 .modal-content .input-group label {
   font-size: var(--font-size-sm) !important;
 }
@@ -178,7 +175,6 @@ html[data-wallpaper-blur='true'] .wallpaper-crossfade-layer {
   font-size: var(--font-size-sm) !important;
 }
 
-.search-btn svg,
 .shortcut-item[data-type='folder'] .shortcut-card>svg {
   width: 1.35rem !important;
   height: 1.35rem !important;

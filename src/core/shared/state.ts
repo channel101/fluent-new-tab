@@ -1,6 +1,6 @@
 /*
  * Fluent New Tab
- * Copyright (c) 2025-2026 SnowMint
+ * Copyright (c) 2026 SnowMint
  * Licensed under the GNU General Public License v3.0 (GPL-3.0)
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <https://www.gnu.org/licenses/>.
@@ -173,12 +173,12 @@ if (mainUiScale !== 1) {
 const currentDisplayType = localStorage.getItem('displayType') || 'greeting';
 const savedTypeScale = localStorage.getItem(`displayScale_${currentDisplayType}`);
 const savedDisplayScale = savedTypeScale || localStorage.getItem('displayScale');
-export let displayScale = parseInt(savedDisplayScale || '100', 10);
+export let displayScale = parseInt(savedDisplayScale || '85', 10);
 
 if (!savedDisplayScale) {
   document.documentElement.style.setProperty(
     '--display-scale',
-    `${mainUiScale}`,
+    `${(displayScale / 100) * mainUiScale}`,
   );
 } else {
   document.documentElement.style.setProperty(

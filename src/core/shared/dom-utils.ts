@@ -1,6 +1,6 @@
 /*
  * Fluent New Tab
- * Copyright (c) 2025-2026 SnowMint
+ * Copyright (c) 2026 SnowMint
  * Licensed under the GNU General Public License v3.0 (GPL-3.0)
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <https://www.gnu.org/licenses/>.
@@ -74,4 +74,18 @@ export function deriveShortcutNameFromUrl(rawUrl: string): string {
   } catch {
     return 'New Shortcut';
   }
+}
+
+export function mountTemplate(templateId: string): HTMLElement | null {
+  const tpl = document.getElementById(templateId) as HTMLTemplateElement | null;
+  if (!tpl) return null;
+  const clone = tpl.content.cloneNode(true) as DocumentFragment;
+  const firstChild = clone.firstElementChild as HTMLElement | null;
+  document.body.appendChild(clone);
+  tpl.remove();
+  const win = window as any;
+  if (typeof win.applyToDOM === 'function' && win.translationsCache) {
+    win.applyToDOM(win.translationsCache);
+  }
+  return firstChild;
 }

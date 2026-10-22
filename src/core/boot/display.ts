@@ -1,6 +1,6 @@
 /*
  * Fluent New Tab
- * Copyright (c) 2025-2026 SnowMint
+ * Copyright (c) 2026 SnowMint
  * Licensed under the GNU General Public License v3.0 (GPL-3.0)
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <https://www.gnu.org/licenses/>.
@@ -50,7 +50,7 @@ export function getDisplayScaleForType(displayType: string): number {
   const saved =
     localStorage.getItem(`displayScale_${displayType}`) ||
     localStorage.getItem('displayScale');
-  const parsed = saved ? parseInt(saved, 10) : 100;
+  const parsed = saved ? parseInt(saved, 10) : 85;
   return Math.min(bounds.max, Math.max(bounds.min, parsed));
 }
 
