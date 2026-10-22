@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="public/assets/icon-128.png" width="64" alt="Fluent New Tab Logo" />
+  <img src="repo-assets\logo.svg" width="100" alt="Fluent New Tab Logo" />
 </p>
 
 <h1 align="center">Fluent New Tab</h1>
