@@ -19,7 +19,7 @@
     width: 2.7rem;
     height: 2.7rem;
     border: 1px solid transparent;
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-pill);
     @include flex-center;
     transition: background 0.1s ease;
     color: var(--text-color);
