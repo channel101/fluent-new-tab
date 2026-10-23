@@ -45,16 +45,12 @@ async function translateText(text, targetLang) {
 }
 
 async function processLocaleKey(key, sourceObj, targetLocale, msgPath) {
-  const msgs = fs.existsSync(msgPath)
-    ? JSON.parse(fs.readFileSync(msgPath, 'utf8'))
-    : {};
+  const msgs = fs.existsSync(msgPath) ? JSON.parse(fs.readFileSync(msgPath, 'utf8')) : {};
 
   if (!msgs[key] || !msgs[key].message) {
     console.log(`[${targetLocale}] Translating missing key '${key}'...`);
     const translated =
-      targetLocale === 'en_US'
-        ? sourceObj.message
-        : await translateText(sourceObj.message, targetLocale);
+      targetLocale === 'en_US' ? sourceObj.message : await translateText(sourceObj.message, targetLocale);
 
     msgs[key] = {
       ...sourceObj,
@@ -72,9 +68,7 @@ async function run() {
   const localesDir = path.join(process.cwd(), '_locales');
 
   if (!fs.existsSync(localesDir)) {
-    console.error(
-      'Could not find _locales directory. Run this script from the project root.',
-    );
+    console.error('Could not find _locales directory. Run this script from the project root.');
     process.exit(1);
   }
 
@@ -85,9 +79,7 @@ async function run() {
   }
 
   const enMsgs = JSON.parse(fs.readFileSync(enPath, 'utf8'));
-  const locales = fs
-    .readdirSync(localesDir)
-    .filter((f) => fs.statSync(path.join(localesDir, f)).isDirectory());
+  const locales = fs.readdirSync(localesDir).filter((f) => fs.statSync(path.join(localesDir, f)).isDirectory());
 
   if (args.length >= 2) {
     const key = args[0];
@@ -113,12 +105,7 @@ async function run() {
       let localeTranslatedCount = 0;
 
       for (const [key, sourceObj] of Object.entries(enMsgs)) {
-        const translated = await processLocaleKey(
-          key,
-          sourceObj,
-          locale,
-          msgPath,
-        );
+        const translated = await processLocaleKey(key, sourceObj, locale, msgPath);
         if (translated) {
           localeTranslatedCount++;
           totalTranslated++;
@@ -130,15 +117,11 @@ async function run() {
       if (localeTranslatedCount === 0) {
         console.log(`Locale ${locale} is up to date.`);
       } else {
-        console.log(
-          `Locale ${locale} updated with ${localeTranslatedCount} translated keys.`,
-        );
+        console.log(`Locale ${locale} updated with ${localeTranslatedCount} translated keys.`);
       }
     }
 
-    console.log(
-      `Finished checking all locales! Total translated keys added: ${totalTranslated}`,
-    );
+    console.log(`Finished checking all locales! Total translated keys added: ${totalTranslated}`);
   }
 }
 

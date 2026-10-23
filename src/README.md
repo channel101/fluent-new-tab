@@ -144,12 +144,10 @@ With our new ESM structure, everything is strictly scoped.
 - **Dynamic Imports (Lazy Loading):** When calling heavy logic (e.g., opening the settings modal or processing an image), use dynamic imports to keep the initial load time as low as possible. This is crucial for a New Tab extension.
 
   ```typescript
-  document
-    .getElementById('settings-btn')
-    .addEventListener('click', async () => {
-      const { initSettings } = await import('../lazy/settings.js');
-      initSettings();
-    });
+  document.getElementById('settings-btn').addEventListener('click', async () => {
+    const { initSettings } = await import('../lazy/settings.js');
+    initSettings();
+  });
   ```
 
 ---

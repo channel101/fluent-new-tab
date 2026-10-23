@@ -111,52 +111,52 @@ The central display widget supports multiple modes and layout arrangements.
 
 You can copy any identifier below and paste it into the **Timezone** input in the settings panel:
 
-| Region / City | Timezone Identifier (Click to copy) | UTC Offset |
-| --- | --- | --- |
-| Coordinated Universal Time | `UTC` | UTC+00:00 |
-| London, Dublin, Lisbon | `Europe/London` | UTC+00:00 / +01:00 |
-| Paris, Berlin, Rome, Madrid | `Europe/Paris` | UTC+01:00 / +02:00 |
-| Athens, Cairo, Helsinki | `Europe/Athens` | UTC+02:00 / +03:00 |
-| Moscow, Istanbul, Riyadh | `Europe/Moscow` | UTC+03:00 |
-| Dubai, Baku | `Asia/Dubai` | UTC+04:00 |
-| Karachi, Tashkent | `Asia/Karachi` | UTC+05:00 |
-| India (New Delhi, Mumbai) | `Asia/Kolkata` | UTC+05:30 |
-| Dhaka, Almaty | `Asia/Dhaka` | UTC+06:00 |
-| Bangkok, Jakarta, Hanoi | `Asia/Bangkok` | UTC+07:00 |
-| Beijing, Shanghai, Singapore | `Asia/Shanghai` | UTC+08:00 |
-| Tokyo, Seoul | `Asia/Tokyo` | UTC+09:00 |
-| Sydney, Melbourne | `Australia/Sydney` | UTC+10:00 / +11:00 |
-| Auckland, Wellington, Fiji | `Pacific/Auckland` | UTC+12:00 / +13:00 |
-| Honolulu, Hawaii | `Pacific/Honolulu` | UTC-10:00 |
-| Anchorage, Alaska | `America/Anchorage` | UTC-09:00 |
-| Los Angeles, Vancouver, PT | `America/Los_Angeles` | UTC-08:00 |
-| Denver, Phoenix, MT | `America/Denver` | UTC-07:00 |
-| Chicago, Mexico City, CT | `America/Chicago` | UTC-06:00 |
-| New York, Toronto, ET | `America/New_York` | UTC-05:00 |
-| Halifax, Atlantic Time | `America/Halifax` | UTC-04:00 |
-| São Paulo, Brasília | `America/Sao_Paulo` | UTC-03:00 |
-| Buenos Aires | `America/Buenos_Aires` | UTC-03:00 |
+| Region / City                | Timezone Identifier (Click to copy) | UTC Offset         |
+| ---------------------------- | ----------------------------------- | ------------------ |
+| Coordinated Universal Time   | `UTC`                               | UTC+00:00          |
+| London, Dublin, Lisbon       | `Europe/London`                     | UTC+00:00 / +01:00 |
+| Paris, Berlin, Rome, Madrid  | `Europe/Paris`                      | UTC+01:00 / +02:00 |
+| Athens, Cairo, Helsinki      | `Europe/Athens`                     | UTC+02:00 / +03:00 |
+| Moscow, Istanbul, Riyadh     | `Europe/Moscow`                     | UTC+03:00          |
+| Dubai, Baku                  | `Asia/Dubai`                        | UTC+04:00          |
+| Karachi, Tashkent            | `Asia/Karachi`                      | UTC+05:00          |
+| India (New Delhi, Mumbai)    | `Asia/Kolkata`                      | UTC+05:30          |
+| Dhaka, Almaty                | `Asia/Dhaka`                        | UTC+06:00          |
+| Bangkok, Jakarta, Hanoi      | `Asia/Bangkok`                      | UTC+07:00          |
+| Beijing, Shanghai, Singapore | `Asia/Shanghai`                     | UTC+08:00          |
+| Tokyo, Seoul                 | `Asia/Tokyo`                        | UTC+09:00          |
+| Sydney, Melbourne            | `Australia/Sydney`                  | UTC+10:00 / +11:00 |
+| Auckland, Wellington, Fiji   | `Pacific/Auckland`                  | UTC+12:00 / +13:00 |
+| Honolulu, Hawaii             | `Pacific/Honolulu`                  | UTC-10:00          |
+| Anchorage, Alaska            | `America/Anchorage`                 | UTC-09:00          |
+| Los Angeles, Vancouver, PT   | `America/Los_Angeles`               | UTC-08:00          |
+| Denver, Phoenix, MT          | `America/Denver`                    | UTC-07:00          |
+| Chicago, Mexico City, CT     | `America/Chicago`                   | UTC-06:00          |
+| New York, Toronto, ET        | `America/New_York`                  | UTC-05:00          |
+| Halifax, Atlantic Time       | `America/Halifax`                   | UTC-04:00          |
+| São Paulo, Brasília          | `America/Sao_Paulo`                 | UTC-03:00          |
+| Buenos Aires                 | `America/Buenos_Aires`              | UTC-03:00          |
 
 #### List of Supported Tokens
 
-| Category | Token | Description | Example / Range |
-| --- | --- | --- | --- |
-| **Year** | `%YYYY` | 4-digit year | `2026` |
-|  | `%YY` | 2-digit year | `26` |
-| **Month** | `%MM` | Month, 2-digit with leading zero | `01` to `12` |
-|  | `%M` | Month, 1/2-digit without leading zero | `1` to `12` |
-| **Day** | `%DD` | Day of month, 2-digit | `01` to `31` |
-|  | `%D` | Day of month | `1` to `31` |
-| **Hour** | `%HH` | 24-hour format, 2-digit | `00` to `23` |
-|  | `%H` | 24-hour format, without leading zero | `0` to `23` |
-|  | `%hh` | 12-hour format, 2-digit | `01` to `12` |
-|  | `%h` | 12-hour format, without leading zero | `1` to `12` |
-| **Minutes** | `%mm` | Minutes, 2-digit | `00` to `59` |
-|  | `%m` | Minutes, without leading zero | `0` to `59` |
-| **Seconds** | `%ss` | Seconds, 2-digit | `00` to `59` |
-|  | `%s` | Seconds, without leading zero | `0` to `59` |
-| **AM/PM** | `%A` | AM/PM, upper-case | `AM` / `PM` |
-|  | `%a` | am/pm, lower-case | `am` / `pm` |
+| Category    | Token   | Description                           | Example / Range |
+| ----------- | ------- | ------------------------------------- | --------------- |
+| **Year**    | `%YYYY` | 4-digit year                          | `2026`          |
+|             | `%YY`   | 2-digit year                          | `26`            |
+| **Month**   | `%MM`   | Month, 2-digit with leading zero      | `01` to `12`    |
+|             | `%M`    | Month, 1/2-digit without leading zero | `1` to `12`     |
+| **Day**     | `%DD`   | Day of month, 2-digit                 | `01` to `31`    |
+|             | `%D`    | Day of month                          | `1` to `31`     |
+| **Hour**    | `%HH`   | 24-hour format, 2-digit               | `00` to `23`    |
+|             | `%H`    | 24-hour format, without leading zero  | `0` to `23`     |
+|             | `%hh`   | 12-hour format, 2-digit               | `01` to `12`    |
+|             | `%h`    | 12-hour format, without leading zero  | `1` to `12`     |
+| **Minutes** | `%mm`   | Minutes, 2-digit                      | `00` to `59`    |
+|             | `%m`    | Minutes, without leading zero         | `0` to `59`     |
+| **Seconds** | `%ss`   | Seconds, 2-digit                      | `00` to `59`    |
+|             | `%s`    | Seconds, without leading zero         | `0` to `59`     |
+| **AM/PM**   | `%A`    | AM/PM, upper-case                     | `AM` / `PM`     |
+|             | `%a`    | am/pm, lower-case                     | `am` / `pm`     |
 
 ### Display Scale
 

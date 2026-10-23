@@ -15,10 +15,7 @@ import {
   applyAccentColor,
   updateTabFavicon,
 } from '@/core/boot/theme';
-import {
-  bootWallpaper,
-  isWallpaperCacheValid,
-} from '@/core/boot/wallpaper-render';
+import { bootWallpaper, isWallpaperCacheValid } from '@/core/boot/wallpaper-render';
 import { initDisplayWidget } from '@/core/boot/display';
 import { renderShortcutsGrid } from '@/core/boot/shortcuts-render';
 import { engines } from '@/core/boot/search-engines';
@@ -44,9 +41,7 @@ function applyBrandInterval(): void {
 
 function getActiveShortcutsList(): Shortcut[] {
   if (state.currentFolderId) {
-    const folder = state.shortcuts.find(
-      (s) => s.id === state.currentFolderId && s.type === 'folder',
-    );
+    const folder = state.shortcuts.find((s) => s.id === state.currentFolderId && s.type === 'folder');
     if (folder && folder.children) return folder.children;
   }
   return state.shortcuts;
@@ -57,17 +52,9 @@ function initShortcutsFormSystemLazy(): Promise<void> {
   if (shortcutsFormSystemInitialized) return Promise.resolve();
   shortcutsFormSystemInitialized = true;
   return import('@/core/ui/shortcuts-manager').then((m) => {
-    m.initShortcutsFormSystem(
-      getActiveShortcutsList,
-      saveAndRenderShortcuts,
-      () => {
-        if (refs.launcherPopup)
-          refs.launcherPopup.classList.toggle(
-            'folders-enabled',
-            state.foldersEnabled,
-          );
-      },
-    );
+    m.initShortcutsFormSystem(getActiveShortcutsList, saveAndRenderShortcuts, () => {
+      if (refs.launcherPopup) refs.launcherPopup.classList.toggle('folders-enabled', state.foldersEnabled);
+    });
   });
 }
 
@@ -97,9 +84,7 @@ function triggerShortcutsRender(): void {
     currentFolderId: state.currentFolderId,
     onOpenModal: (index) => {
       initShortcutsFormSystemLazy().then(() => {
-        import('@/core/ui/shortcuts-manager').then(({ openModal }) =>
-          openModal(index, getActiveShortcutsList),
-        );
+        import('@/core/ui/shortcuts-manager').then(({ openModal }) => openModal(index, getActiveShortcutsList));
       });
     },
     onDeleteShortcut: (index) => {
@@ -108,9 +93,7 @@ function triggerShortcutsRender(): void {
       saveAndRenderShortcuts();
     },
     onClosePopups: (except) => {
-      import('@/core/ui/settings').then(({ closePopups }) =>
-        closePopups(except),
-      );
+      import('@/core/ui/settings').then(({ closePopups }) => closePopups(except));
     },
     onOpenFolder: (id) => {
       state.setCurrentFolderId(id);
@@ -123,22 +106,16 @@ function triggerShortcutsRender(): void {
       triggerShortcutsRender();
     },
     syncShortcutDropdownState: () => {
-      import('@/core/ui/ui-components').then(({ syncShortcutDropdownState }) =>
-        syncShortcutDropdownState(),
-      );
+      import('@/core/ui/ui-components').then(({ syncShortcutDropdownState }) => syncShortcutDropdownState());
     },
     onAddShortcut: () => {
       initShortcutsFormSystemLazy().then(() => {
-        import('@/core/ui/shortcuts-manager').then(({ openShortcutModal }) =>
-          openShortcutModal(null),
-        );
+        import('@/core/ui/shortcuts-manager').then(({ openShortcutModal }) => openShortcutModal(null));
       });
     },
     onAddFolder: () => {
       initShortcutsFormSystemLazy().then(() => {
-        import('@/core/ui/shortcuts-manager').then(({ openFolderModal }) =>
-          openFolderModal('', false),
-        );
+        import('@/core/ui/shortcuts-manager').then(({ openFolderModal }) => openFolderModal('', false));
       });
     },
   });
@@ -165,10 +142,7 @@ async function fetchWeatherLogic(forceUpdate = false): Promise<void> {
   const data = await fetchWeatherData(city);
   if (data) {
     if (forceUpdate) {
-      localStorage.setItem(
-        state.CACHE_KEY,
-        JSON.stringify({ timestamp: Date.now(), city: city.name, data }),
-      );
+      localStorage.setItem(state.CACHE_KEY, JSON.stringify({ timestamp: Date.now(), city: city.name, data }));
     }
     renderWeatherWidget(data, state.weatherUnit, city, {
       weatherCity: refs.weatherCity,
@@ -185,27 +159,17 @@ async function initWeatherLogic(): Promise<void> {
   if (cachedString) {
     try {
       const cached = JSON.parse(cachedString);
-      if (
-        Date.now() - cached.timestamp < state.CACHE_DURATION &&
-        cached.city === state.currentCityData.name
-      ) {
-        renderWeatherWidget(
-          cached.data,
-          state.weatherUnit,
-          state.currentCityData,
-          {
-            weatherCity: refs.weatherCity,
-            weatherTemp: refs.weatherTemp,
-            weatherIcon: refs.weatherIcon,
-            weatherWidget: refs.weatherWidget,
-          },
-        );
-        import('@/core/lazy/providers/weather-api').then((m) =>
-          m.renderWeatherAlertWidget(),
-        );
+      if (Date.now() - cached.timestamp < state.CACHE_DURATION && cached.city === state.currentCityData.name) {
+        renderWeatherWidget(cached.data, state.weatherUnit, state.currentCityData, {
+          weatherCity: refs.weatherCity,
+          weatherTemp: refs.weatherTemp,
+          weatherIcon: refs.weatherIcon,
+          weatherWidget: refs.weatherWidget,
+        });
+        import('@/core/lazy/providers/weather-api').then((m) => m.renderWeatherAlertWidget());
         return;
       }
-    } catch { }
+    } catch {}
   }
   await fetchWeatherLogic();
 }
@@ -214,10 +178,7 @@ async function bootCritical(): Promise<void> {
   applyInitialTheme();
   applyInitialAccentColorState();
 
-  if (
-    localStorage.getItem('displayEnabled') !== 'false' &&
-    refs.displayWrapper
-  ) {
+  if (localStorage.getItem('displayEnabled') !== 'false' && refs.displayWrapper) {
     refs.displayWrapper.style.display = 'flex';
     initDisplayWidget(refs.displayWrapper);
   } else if (refs.displayWrapper) {
@@ -228,11 +189,7 @@ async function bootCritical(): Promise<void> {
   if (engine && refs.currentIcon && refs.searchForm) {
     refs.currentIcon.src = engine.icon;
     refs.searchForm.action = engine.url;
-    applyGoogleSearchParams(
-      refs.searchForm,
-      state.savedEngine,
-      state.clearSearchEnabled,
-    );
+    applyGoogleSearchParams(refs.searchForm, state.savedEngine, state.clearSearchEnabled);
   }
 
   document.body.dataset.shortcutsActive = String(state.shortcutsVisible);
@@ -276,35 +233,26 @@ async function bootInteractive(): Promise<void> {
   try {
     const chromeApi = (window as any).chrome;
     if (chromeApi && chromeApi.storage && chromeApi.storage.local) {
-      chromeApi.storage.local.get(
-        ['update_notice_pending', 'update_notice_version'],
-        (data: any) => {
-          if (data.update_notice_pending) {
-            import('@/core/ui/ui-components').then(({ showToast }) => {
-              const version = data.update_notice_version || '';
-              const prefix = getLocalizedWarningText(
-                'updateNoticePrefix',
-                `Fluent New Tab has been updated to version $VERSION$, `,
-                { VERSION: version },
-              );
-              const suffix = getLocalizedWarningText(
-                'updateNoticeChangelog',
-                'see changelog',
-              );
-              const link = document.createElement('a');
-              link.href = 'https://github.com/snw-mint/fluent-new-tab/releases';
-              link.target = '_blank';
-              link.className = 'update-release-notice-link';
-              link.textContent = suffix;
-              showToast([prefix, link], 'assets/icons/update.svg', 6000);
-            });
-            chromeApi.storage.local.remove([
-              'update_notice_pending',
-              'update_notice_version',
-            ]);
-          }
-        },
-      );
+      chromeApi.storage.local.get(['update_notice_pending', 'update_notice_version'], (data: any) => {
+        if (data.update_notice_pending) {
+          import('@/core/ui/ui-components').then(({ showToast }) => {
+            const version = data.update_notice_version || '';
+            const prefix = getLocalizedWarningText(
+              'updateNoticePrefix',
+              `Fluent New Tab has been updated to version $VERSION$, `,
+              { VERSION: version },
+            );
+            const suffix = getLocalizedWarningText('updateNoticeChangelog', 'see changelog');
+            const link = document.createElement('a');
+            link.href = 'https://github.com/snw-mint/fluent-new-tab/releases';
+            link.target = '_blank';
+            link.className = 'update-release-notice-link';
+            link.textContent = suffix;
+            showToast([prefix, link], 'assets/icons/update.svg', 6000);
+          });
+          chromeApi.storage.local.remove(['update_notice_pending', 'update_notice_version']);
+        }
+      });
     }
   } catch (e) {
     console.error('Error checking for notices:', e);
@@ -341,9 +289,7 @@ async function bootInteractive(): Promise<void> {
           },
           onMoveToFolder: (itemIndex, folderId) => {
             const arr = getActiveShortcutsList();
-            const folder = state.shortcuts.find(
-              (s) => s.id === folderId && s.type === 'folder',
-            );
+            const folder = state.shortcuts.find((s) => s.id === folderId && s.type === 'folder');
             const item = arr[itemIndex];
             if (folder && item && item.type !== 'folder') {
               folder.children = folder.children || [];
@@ -356,11 +302,9 @@ async function bootInteractive(): Promise<void> {
             if (!state.currentFolderId) return;
             const limit = Math.min(state.allowedRows * 10, 40);
             if (state.shortcuts.length >= limit) {
-              import('@/core/ui/shortcuts-manager').then(
-                ({ showGridLimitWarning }) => {
-                  showGridLimitWarning(limit, false);
-                },
-              );
+              import('@/core/ui/shortcuts-manager').then(({ showGridLimitWarning }) => {
+                showGridLimitWarning(limit, false);
+              });
               return false;
             }
             const arr = getActiveShortcutsList();
@@ -392,13 +336,9 @@ async function bootInteractive(): Promise<void> {
                 !el.classList.contains('sortable-placeholder') &&
                 !el.classList.contains('fluent-drag-ghost'),
             ) as HTMLElement[];
-            const newOrder = newItems
-              .map((item) => item.getAttribute('data-id'))
-              .filter(Boolean) as string[];
+            const newOrder = newItems.map((item) => item.getAttribute('data-id')).filter(Boolean) as string[];
             localStorage.setItem('launcherOrder', JSON.stringify(newOrder));
-            newItems.forEach((item, idx) =>
-              item.setAttribute('data-index', idx.toString()),
-            );
+            newItems.forEach((item, idx) => item.setAttribute('data-index', idx.toString()));
           },
         });
       });
@@ -417,7 +357,6 @@ async function bootInteractive(): Promise<void> {
     }
   }
 
-
   import('@/core/ui/ui-components').then(({ applyMagneticSnap }) => {
     applyMagneticSnap('displayScaleSlider', 100, 5);
     applyMagneticSnap('shortcutRadiusSlider', 0, 5);
@@ -426,11 +365,9 @@ async function bootInteractive(): Promise<void> {
   });
 
   const updateWeatherVisibility = (visible: boolean, animate = true) => {
-    if (refs.weatherWidget)
-      refs.weatherWidget.style.display = visible ? 'flex' : 'none';
+    if (refs.weatherWidget) refs.weatherWidget.style.display = visible ? 'flex' : 'none';
     import('@/core/ui/ui-components').then(({ setCollapsible }) => {
-      if (refs.cityInputGroup)
-        setCollapsible(refs.cityInputGroup, visible, animate);
+      if (refs.cityInputGroup) setCollapsible(refs.cityInputGroup, visible, animate);
       const wms = document.getElementById('weatherMoreSetting');
       if (wms) setCollapsible(wms, visible, animate);
     });
@@ -440,11 +377,9 @@ async function bootInteractive(): Promise<void> {
     import('@/core/ui/ui-components').then(({ setCollapsible }) => {
       const lms = document.getElementById('launcherMoreSetting');
       if (lms) setCollapsible(lms, visible, animate);
-      if (refs.launcherSelectGroup)
-        setCollapsible(refs.launcherSelectGroup, visible, animate);
+      if (refs.launcherSelectGroup) setCollapsible(refs.launcherSelectGroup, visible, animate);
     });
-    if (refs.appLauncherWrapper)
-      refs.appLauncherWrapper.style.display = visible ? 'flex' : 'none';
+    if (refs.appLauncherWrapper) refs.appLauncherWrapper.style.display = visible ? 'flex' : 'none';
   };
 
   bindWeatherFeature({
@@ -458,8 +393,7 @@ async function bootInteractive(): Promise<void> {
     initWeather: initWeatherLogic,
     setWeatherUnit: state.setWeatherUnit,
     fetchCityOptions: async (query: string) => {
-      const { fetchCityOptions } =
-        await import('@/core/lazy/providers/weather-api');
+      const { fetchCityOptions } = await import('@/core/lazy/providers/weather-api');
       return fetchCityOptions(query);
     },
     selectCity: (cityData: any) => {
@@ -473,16 +407,12 @@ async function bootInteractive(): Promise<void> {
   });
 
   bindLauncherFeature({
-    applyInitialLauncherState: () =>
-      updateLauncherVisibility(state.launcherEnabled, false),
+    applyInitialLauncherState: () => updateLauncherVisibility(state.launcherEnabled, false),
     getLauncherEnabled: () => state.launcherEnabled,
     setLauncherEnabled: state.setLauncherEnabled,
     updateLauncherVisibility,
     renderLauncher: (provider: string) => {
-      Promise.all([
-        import('@/core/ui/launcher-data'),
-        import('@/core/ui/launcher'),
-      ]).then(([mData, mLauncher]) => {
+      Promise.all([import('@/core/ui/launcher-data'), import('@/core/ui/launcher')]).then(([mData, mLauncher]) => {
         const data = mData.launcherData[provider];
         mLauncher.renderLauncherApps(data, {
           launcherGrid: refs.launcherGrid,
@@ -519,17 +449,14 @@ async function bootInteractive(): Promise<void> {
         initFeedScroll();
       });
     }
-    import('@/core/lazy/providers/weather-api').then(
-      ({ renderWeatherAlertWidget }) => {
-        renderWeatherAlertWidget();
-      },
-    );
+    import('@/core/lazy/providers/weather-api').then(({ renderWeatherAlertWidget }) => {
+      renderWeatherAlertWidget();
+    });
   };
 
   const updateFeedVisibility = (visible: boolean, animate = true) => {
     import('@/core/ui/ui-components').then(({ setCollapsible }) => {
-      if (refs.feedOptionsGroup)
-        setCollapsible(refs.feedOptionsGroup, visible, animate);
+      if (refs.feedOptionsGroup) setCollapsible(refs.feedOptionsGroup, visible, animate);
     });
     applyFeedState(visible);
   };
@@ -545,8 +472,7 @@ async function bootInteractive(): Promise<void> {
   };
 
   bindFeedFeature({
-    applyInitialFeedState: () =>
-      updateFeedVisibility(state.feedEnabled, false),
+    applyInitialFeedState: () => updateFeedVisibility(state.feedEnabled, false),
     getFeedEnabled: () => state.feedEnabled,
     setFeedEnabled: state.setFeedEnabled,
     getFeedMode: () => state.feedMode,
@@ -569,13 +495,10 @@ async function bootInteractive(): Promise<void> {
     },
     applyAccentColor: applyAccentColor,
     applyWallpaperLogic: async () => {
-      const { extractAndApplyAutoColor } =
-        await import('@/core/lazy/color-extractor');
+      const { extractAndApplyAutoColor } = await import('@/core/lazy/color-extractor');
       const rawBg =
         document.documentElement.style.getPropertyValue('--wallpaper-image') ||
-        getComputedStyle(document.documentElement).getPropertyValue(
-          '--wallpaper-image',
-        );
+        getComputedStyle(document.documentElement).getPropertyValue('--wallpaper-image');
       if (rawBg && rawBg !== 'none') {
         const urlMatch = rawBg.match(/url\(['"]?(.*?)['"]?\)/);
         if (urlMatch && urlMatch[1] && urlMatch[1] !== 'none') {
@@ -587,8 +510,7 @@ async function bootInteractive(): Promise<void> {
       localStorage.removeItem('tabName');
       localStorage.removeItem('tabFavicon');
       localStorage.removeItem('tabIcon');
-      document.title =
-        (window as any).getTranslation?.('newTabTitle') || 'New Tab';
+      document.title = (window as any).getTranslation?.('newTabTitle') || 'New Tab';
 
       updateTabFavicon();
       if (refs.tabNameInput) refs.tabNameInput.value = '';
@@ -614,17 +536,12 @@ async function bootInteractive(): Promise<void> {
           refs.currentIcon.style.display = 'block';
         }
         if (refs.searchForm) refs.searchForm.action = config.url;
-        applyGoogleSearchParams(
-          refs.searchForm,
-          engineKey,
-          state.clearSearchEnabled,
-        );
+        applyGoogleSearchParams(refs.searchForm, engineKey, state.clearSearchEnabled);
       }
     },
     setSearchBarVisible: state.setSearchBarVisible,
     updateSearchSettings: (animate = true) => {
-      if (refs.searchWrapper)
-        refs.searchWrapper.style.display = state.searchBarVisible ? '' : 'none';
+      if (refs.searchWrapper) refs.searchWrapper.style.display = state.searchBarVisible ? '' : 'none';
       document.body.dataset.searchActive = String(state.searchBarVisible);
       window.dispatchEvent(new CustomEvent('fluent-layout-change'));
       import('@/core/ui/ui-components').then(({ setCollapsible }) => {
@@ -640,28 +557,20 @@ async function bootInteractive(): Promise<void> {
       );
     },
     setClearSearchEnabled: state.setClearSearchEnabled,
-    updateGoogleParams: () =>
-      applyGoogleSearchParams(
-        refs.searchForm,
-        state.savedEngine,
-        state.clearSearchEnabled,
-      ),
+    updateGoogleParams: () => applyGoogleSearchParams(refs.searchForm, state.savedEngine, state.clearSearchEnabled),
     getCompactBarEnabled: () => state.compactBarEnabled,
     setCompactBarEnabled: state.setCompactBarEnabled,
     updateCompactBarStyle: () => {
       if (refs.searchWrapper) {
-        if (state.compactBarEnabled)
-          refs.searchWrapper.classList.add('compact');
+        if (state.compactBarEnabled) refs.searchWrapper.classList.add('compact');
         else refs.searchWrapper.classList.remove('compact');
       }
     },
     setVoiceSearchEnabled: state.setVoiceSearchEnabled,
     updateVoiceSearchAvailability: () => {
       if (refs.voiceSearchBtn) {
-        const hasSpeechSupport =
-          'webkitSpeechRecognition' in window || 'SpeechRecognition' in window;
-        refs.voiceSearchBtn.style.display =
-          state.voiceSearchEnabled && hasSpeechSupport ? 'flex' : 'none';
+        const hasSpeechSupport = 'webkitSpeechRecognition' in window || 'SpeechRecognition' in window;
+        refs.voiceSearchBtn.style.display = state.voiceSearchEnabled && hasSpeechSupport ? 'flex' : 'none';
       }
     },
     debounce: (fn: (...args: any[]) => void, wait: number) => {
@@ -674,11 +583,7 @@ async function bootInteractive(): Promise<void> {
     fetchSuggestions: (query: string) => {
       import('@/core/lazy/search-features').then((m) => {
         m.fetchSuggestionsFromService(query).then((suggestions) => {
-          if (
-            !refs.searchInput ||
-            refs.searchInput.value.trim().toLowerCase() !== query.toLowerCase()
-          )
-            return;
+          if (!refs.searchInput || refs.searchInput.value.trim().toLowerCase() !== query.toLowerCase()) return;
           m.renderSuggestionsUI(
             suggestions,
             {
@@ -687,11 +592,7 @@ async function bootInteractive(): Promise<void> {
               searchForm: refs.searchForm,
               searchWrapper: refs.searchWrapper,
             },
-            () =>
-              m.clearSuggestionsUI(
-                refs.suggestionsContainer,
-                refs.searchWrapper,
-              ),
+            () => m.clearSuggestionsUI(refs.suggestionsContainer, refs.searchWrapper),
           );
         });
       });
@@ -706,15 +607,12 @@ async function bootInteractive(): Promise<void> {
             searchForm: refs.searchForm,
             searchWrapper: refs.searchWrapper,
           },
-          () =>
-            m.clearSuggestionsUI(refs.suggestionsContainer, refs.searchWrapper),
+          () => m.clearSuggestionsUI(refs.suggestionsContainer, refs.searchWrapper),
         ),
       );
     },
     updateSelection: (items: any[], index: number) => {
-      import('@/core/lazy/search-features').then((m) =>
-        m.updateSuggestionSelectionUI(items, index, refs.searchInput),
-      );
+      import('@/core/lazy/search-features').then((m) => m.updateSuggestionSelectionUI(items, index, refs.searchInput));
     },
   };
 
@@ -808,19 +706,12 @@ async function bootInteractive(): Promise<void> {
         setWallpaperEnabled: state.setWallpaperEnabled,
         updateWallpaperUIState: (visible: boolean, animate = true) => {
           import('@/core/ui/ui-components').then(({ setCollapsible }) => {
-            if (refs.wallpaperSourceContainer)
-              setCollapsible(refs.wallpaperSourceContainer, visible, animate);
-            if (refs.wallpaperOverlaySetting)
-              setCollapsible(refs.wallpaperOverlaySetting, visible, animate);
+            if (refs.wallpaperSourceContainer) setCollapsible(refs.wallpaperSourceContainer, visible, animate);
+            if (refs.wallpaperOverlaySetting) setCollapsible(refs.wallpaperOverlaySetting, visible, animate);
           });
-          const uploadContainer = document.getElementById(
-            'uploadWallpaperContainer',
-          );
+          const uploadContainer = document.getElementById('uploadWallpaperContainer');
           if (uploadContainer) {
-            uploadContainer.style.display =
-              visible && state.currentWallpaperType === 'upload'
-                ? 'flex'
-                : 'none';
+            uploadContainer.style.display = visible && state.currentWallpaperType === 'upload' ? 'flex' : 'none';
           }
         },
         setWallpaperSource: state.setCurrentWallpaperSource,
@@ -834,8 +725,7 @@ async function bootInteractive(): Promise<void> {
         setWallpaperBlur: state.setWallpaperBlur,
       },
       async () => {
-        const { WallpaperEngine } =
-          await import('@/core/lazy/wallpaper-engine');
+        const { WallpaperEngine } = await import('@/core/lazy/wallpaper-engine');
         return WallpaperEngine;
       },
     );
@@ -896,11 +786,9 @@ async function bootInteractive(): Promise<void> {
         menu.classList.remove('active');
         state.activeShortcutDropdowns.delete(menu);
       }
-      import('@/core/ui/ui-components').then(
-        ({ syncShortcutDropdownState }) => {
-          syncShortcutDropdownState();
-        },
-      );
+      import('@/core/ui/ui-components').then(({ syncShortcutDropdownState }) => {
+        syncShortcutDropdownState();
+      });
     }
   });
 }
@@ -910,10 +798,7 @@ async function bootstrap(): Promise<void> {
     await bootCritical();
     setTimeout(bootInteractive, 0);
   } catch (error) {
-    console.error(
-      '[Fluent New Tab] Critical error during initialization:',
-      error,
-    );
+    console.error('[Fluent New Tab] Critical error during initialization:', error);
   }
 }
 
@@ -926,9 +811,7 @@ if (document.readyState === 'loading') {
 document.addEventListener('i18nReady', () => {
   applyBrandInterval();
   triggerShortcutsRender();
-  import('@/core/lazy/providers/weather-api').then((m) =>
-    m.renderWeatherAlertWidget(),
-  );
+  import('@/core/lazy/providers/weather-api').then((m) => m.renderWeatherAlertWidget());
 });
 
 document.body.addEventListener('dragover', (e) => {

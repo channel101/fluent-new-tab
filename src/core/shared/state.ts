@@ -18,16 +18,12 @@ import {
 
 const wallpaperMemoryCache = new Map<string, WallpaperCacheEntry | null>();
 
-export function getWallpaperCache(
-  cacheKey: string,
-): WallpaperCacheEntry | null {
+export function getWallpaperCache(cacheKey: string): WallpaperCacheEntry | null {
   if (wallpaperMemoryCache.has(cacheKey)) {
     return wallpaperMemoryCache.get(cacheKey) || null;
   }
   try {
-    const cached = JSON.parse(
-      localStorage.getItem(cacheKey) || 'null',
-    ) as WallpaperCacheEntry | null;
+    const cached = JSON.parse(localStorage.getItem(cacheKey) || 'null') as WallpaperCacheEntry | null;
     wallpaperMemoryCache.set(cacheKey, cached);
     return cached;
   } catch (e) {
@@ -36,10 +32,7 @@ export function getWallpaperCache(
   }
 }
 
-export function setWallpaperCache(
-  cacheKey: string,
-  entry: WallpaperCacheEntry,
-): void {
+export function setWallpaperCache(cacheKey: string, entry: WallpaperCacheEntry): void {
   wallpaperMemoryCache.set(cacheKey, entry);
   try {
     localStorage.setItem(cacheKey, JSON.stringify(entry));
@@ -51,22 +44,16 @@ export let shortcuts: Shortcut[] = [];
 export let editingIndex: number | null = null;
 
 try {
-  shortcuts =
-    (JSON.parse(localStorage.getItem('shortcuts') || '[]') as Shortcut[]) || [];
+  shortcuts = (JSON.parse(localStorage.getItem('shortcuts') || '[]') as Shortcut[]) || [];
 } catch (e) {
   shortcuts = [];
 }
 
-export let allowedRows = parseInt(
-  localStorage.getItem('shortcutsRows') || '2',
-  10,
-);
-export let shortcutsVisible =
-  localStorage.getItem('shortcutsVisible') !== 'false';
+export let allowedRows = parseInt(localStorage.getItem('shortcutsRows') || '2', 10);
+export let shortcutsVisible = localStorage.getItem('shortcutsVisible') !== 'false';
 export let currentFolderId: string | null = null;
 export let foldersEnabled = true;
-export let hideShortcutNames =
-  localStorage.getItem('hideShortcutNames') === 'true';
+export let hideShortcutNames = localStorage.getItem('hideShortcutNames') === 'true';
 export let shortcutRadius = localStorage.getItem('shortcutRadius') || '0';
 
 if (shortcutRadius !== '0') {
@@ -86,35 +73,24 @@ if (shortcutRadius !== '0') {
   }
 
   document.documentElement.style.setProperty('--shortcut-radius', radiusValue);
-  document.documentElement.style.setProperty(
-    '--shortcut-icon-radius',
-    iconRadiusValue,
-  );
+  document.documentElement.style.setProperty('--shortcut-icon-radius', iconRadiusValue);
 }
 
-export const savedTheme = (localStorage.getItem('theme') ||
-  'auto') as ThemeMode;
+export const savedTheme = (localStorage.getItem('theme') || 'auto') as ThemeMode;
 export const savedEngine = localStorage.getItem('searchEngine') || 'bing';
-export let searchBarVisible =
-  localStorage.getItem('searchBarVisible') !== 'false';
-export let suggestionsActive =
-  localStorage.getItem('suggestionsEnabled') === 'true';
-export let clearSearchEnabled =
-  localStorage.getItem('clearSearchEnabled') === 'true';
-export let compactBarEnabled =
-  localStorage.getItem('compactBarEnabled') === 'true';
-export let voiceSearchEnabled =
-  localStorage.getItem('voiceSearchEnabled') === 'true';
+export let searchBarVisible = localStorage.getItem('searchBarVisible') !== 'false';
+export let suggestionsActive = localStorage.getItem('suggestionsEnabled') === 'true';
+export let clearSearchEnabled = localStorage.getItem('clearSearchEnabled') === 'true';
+export let compactBarEnabled = localStorage.getItem('compactBarEnabled') === 'true';
+export let voiceSearchEnabled = localStorage.getItem('voiceSearchEnabled') === 'true';
 
 export const CACHE_KEY = 'fluent_weather_cache';
 export const CITY_KEY = 'fluent_city_data';
 export const CACHE_DURATION = 3600000;
 
 export let weatherEnabled = localStorage.getItem('weatherEnabled') === 'true';
-export let weatherAlertsEnabled =
-  localStorage.getItem('weatherAlertsEnabled') === 'true';
-export let weatherUnit = (localStorage.getItem('weatherUnit') ||
-  'c') as WeatherUnit;
+export let weatherAlertsEnabled = localStorage.getItem('weatherAlertsEnabled') === 'true';
+export let weatherUnit = (localStorage.getItem('weatherUnit') || 'c') as WeatherUnit;
 export let currentCityData: CityData = {
   name: 'New York',
   lat: 40.71,
@@ -129,15 +105,11 @@ try {
 }
 
 export let launcherEnabled = localStorage.getItem('launcherEnabled') === 'true';
-export let currentProvider =
-  localStorage.getItem('launcherProvider') || 'microsoft';
+export let currentProvider = localStorage.getItem('launcherProvider') || 'microsoft';
 
-export let wallpaperEnabled =
-  localStorage.getItem('wallpaperEnabled') === 'true';
-export let currentWallpaperSource = (localStorage.getItem('wallpaperSource') ||
-  'local') as WallpaperSource;
-export let currentWallpaperType = (localStorage.getItem('wallpaperType') ||
-  'upload') as WallpaperType;
+export let wallpaperEnabled = localStorage.getItem('wallpaperEnabled') === 'true';
+export let currentWallpaperSource = (localStorage.getItem('wallpaperSource') || 'local') as WallpaperSource;
+export let currentWallpaperType = (localStorage.getItem('wallpaperType') || 'upload') as WallpaperType;
 let savedOverlay = localStorage.getItem('wallpaperOverlay') || '10';
 if (parseFloat(savedOverlay) < 1 && parseFloat(savedOverlay) > 0) {
   savedOverlay = String(Math.round(parseFloat(savedOverlay) * 100));
@@ -146,10 +118,7 @@ if (parseFloat(savedOverlay) < 1 && parseFloat(savedOverlay) > 0) {
 export let wallpaperOverlay = savedOverlay;
 export let wallpaperBlur = localStorage.getItem('wallpaperBlur') || '0';
 if (parseFloat(wallpaperBlur) > 0) {
-  document.documentElement.style.setProperty(
-    '--wallpaper-blur',
-    `blur(${parseFloat(wallpaperBlur)}px)`,
-  );
+  document.documentElement.style.setProperty('--wallpaper-blur', `blur(${parseFloat(wallpaperBlur)}px)`);
   document.documentElement.setAttribute('data-wallpaper-blur', 'true');
   if (document.body) {
     document.body.setAttribute('data-wallpaper-blur', 'true');
@@ -157,17 +126,13 @@ if (parseFloat(wallpaperBlur) > 0) {
 }
 
 export let accentColorEnabled = true;
-export let accentColorValue =
-  localStorage.getItem('accentColorValue') || '#0078d4';
+export let accentColorValue = localStorage.getItem('accentColorValue') || '#0078d4';
 
 export let askAiEnabled = localStorage.getItem('askAiEnabled') !== 'false';
 
 export let mainUiScale = parseFloat(localStorage.getItem('mainUiScale') || '1');
 if (mainUiScale !== 1) {
-  document.documentElement.style.setProperty(
-    '--main-ui-scale',
-    `${mainUiScale}`,
-  );
+  document.documentElement.style.setProperty('--main-ui-scale', `${mainUiScale}`);
 }
 
 const currentDisplayType = localStorage.getItem('displayType') || 'greeting';
@@ -176,15 +141,9 @@ const savedDisplayScale = savedTypeScale || localStorage.getItem('displayScale')
 export let displayScale = parseInt(savedDisplayScale || '85', 10);
 
 if (!savedDisplayScale) {
-  document.documentElement.style.setProperty(
-    '--display-scale',
-    `${(displayScale / 100) * mainUiScale}`,
-  );
+  document.documentElement.style.setProperty('--display-scale', `${(displayScale / 100) * mainUiScale}`);
 } else {
-  document.documentElement.style.setProperty(
-    '--display-scale',
-    `${displayScale / 100}`,
-  );
+  document.documentElement.style.setProperty('--display-scale', `${displayScale / 100}`);
 }
 
 export function setEditingIndex(val: any) {
@@ -264,4 +223,3 @@ export function setFeedEnabled(val: boolean) {
 export function setFeedMode(val: string) {
   feedMode = val;
 }
-

@@ -47,7 +47,6 @@ html[data-theme='dark'] {
 }
 
 body[data-wallpaper-active='true'] {
-
   .greeting-text,
   .time-date-text,
   .time-date-sub,
@@ -74,7 +73,6 @@ body[data-wallpaper-active='true'] {
   }
 
   html:not([data-theme='dark']) & {
-
     .settings-wrapper:hover,
     .header-controls:has(.settings-popup.active) .settings-wrapper {
       .settings-label {

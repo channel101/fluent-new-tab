@@ -6,10 +6,7 @@
  * If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {
-  getLocalizedWarningText,
-  mountTemplate,
-} from '@/core/shared/dom-utils';
+import { getLocalizedWarningText, mountTemplate } from '@/core/shared/dom-utils';
 import { shortcutsGrid } from '@/core/shared/dom-refs';
 import { activeShortcutDropdowns } from '@/core/shared/state';
 
@@ -42,18 +39,10 @@ export class WarningModalManager {
     if (!this.overlay) {
       mountTemplate('tpl-warning-modal');
       this.overlay = document.getElementById('warningModal') as HTMLElement;
-      this.titleEl = document.getElementById(
-        'warning-modal-title',
-      ) as HTMLElement;
-      this.messageEl = document.getElementById(
-        'warning-modal-message',
-      ) as HTMLElement;
-      this.btnConfirm = document.getElementById(
-        'warning-btn-confirm',
-      ) as HTMLButtonElement;
-      this.btnCancel = document.getElementById(
-        'warning-btn-cancel',
-      ) as HTMLButtonElement;
+      this.titleEl = document.getElementById('warning-modal-title') as HTMLElement;
+      this.messageEl = document.getElementById('warning-modal-message') as HTMLElement;
+      this.btnConfirm = document.getElementById('warning-btn-confirm') as HTMLButtonElement;
+      this.btnCancel = document.getElementById('warning-btn-cancel') as HTMLButtonElement;
     }
   }
 
@@ -66,15 +55,11 @@ export class WarningModalManager {
     this.messageEl.textContent = options.message;
 
     if (options.showPrivacyPolicy) {
-      const privacyUrl =
-        'https://snw-mint.github.io/fluent-new-tab/privacy.html';
+      const privacyUrl = 'https://snw-mint.github.io/fluent-new-tab/privacy.html';
       const link = document.createElement('a');
       link.href = privacyUrl;
       link.target = '_blank';
-      link.textContent = getLocalizedWarningText(
-        'privacyPolicyLabel',
-        'Read privacy policy',
-      );
+      link.textContent = getLocalizedWarningText('privacyPolicyLabel', 'Read privacy policy');
       link.style.display = 'inline-block';
       link.style.marginTop = '8px';
       link.style.color = 'var(--text-color)';
@@ -87,11 +72,7 @@ export class WarningModalManager {
       link.target = '_blank';
       link.rel = 'noopener noreferrer';
       link.textContent =
-        options.learnMoreText ||
-        getLocalizedWarningText(
-          'readRecommendations',
-          'Read recommendations',
-        );
+        options.learnMoreText || getLocalizedWarningText('readRecommendations', 'Read recommendations');
       link.style.display = 'inline-block';
       link.style.marginTop = '8px';
       link.style.color = 'var(--text-color)';
@@ -152,11 +133,7 @@ export function hideToast(): void {
   }
 }
 
-export function showToast(
-  message: string | Node | (string | Node)[],
-  iconPath: string,
-  duration = 3500,
-): void {
+export function showToast(message: string | Node | (string | Node)[], iconPath: string, duration = 3500): void {
   if (activeToastInstance) {
     activeToastInstance.remove();
   }
@@ -194,11 +171,7 @@ export function showToast(
   }
 }
 
-export function applyMagneticSnap(
-  sliderId: string,
-  defaultValue: number,
-  snapThreshold = 5,
-): void {
+export function applyMagneticSnap(sliderId: string, defaultValue: number, snapThreshold = 5): void {
   const slider = document.getElementById(sliderId) as HTMLInputElement | null;
   if (!slider) return;
 
@@ -251,11 +224,7 @@ export function prepareCollapsible(element: HTMLElement | null): void {
   element.dataset.collapsibleReady = 'true';
 }
 
-export function setCollapsible(
-  element: HTMLElement | null,
-  shouldExpand: boolean,
-  animate = true,
-): void {
+export function setCollapsible(element: HTMLElement | null, shouldExpand: boolean, animate = true): void {
   if (!element) return;
   if (document.body.classList.contains('animations-disabled')) {
     animate = false;
@@ -407,8 +376,7 @@ export function setCollapsible(
 
 export function syncShortcutDropdownState(): void {
   const hasActiveDropdown = activeShortcutDropdowns.size > 0;
-  if (shortcutsGrid)
-    shortcutsGrid.classList.toggle('dropdown-open', hasActiveDropdown);
+  if (shortcutsGrid) shortcutsGrid.classList.toggle('dropdown-open', hasActiveDropdown);
 
   document.querySelectorAll('.menu-wrapper').forEach((w) => {
     const d = w.querySelector('.shortcut-dropdown') as HTMLElement | null;
@@ -429,8 +397,7 @@ export async function requestFeaturePermissionUI(
   onGranted: () => void,
   onDenied: () => void,
 ): Promise<void> {
-  const { HOST_PERMISSIONS, checkPermission, requestPermission } =
-    await import('@/core/shared/permissions');
+  const { HOST_PERMISSIONS, checkPermission, requestPermission } = await import('@/core/shared/permissions');
 
   const origins = HOST_PERMISSIONS[feature as keyof typeof HOST_PERMISSIONS];
   if (!origins) {
@@ -445,19 +412,13 @@ export async function requestFeaturePermissionUI(
   }
 
   warningModal.show({
-    title: getLocalizedWarningText(
-      'permissionRequiredTitle',
-      'Permission Required',
-    ),
+    title: getLocalizedWarningText('permissionRequiredTitle', 'Permission Required'),
     message: getLocalizedWarningText(
       'permissionRequiredMessage',
       'To use this feature, Fluent New Tab needs permission to access "$API_NAME$". This ensures your privacy and security.',
       { API_NAME: apiName },
     ),
-    confirmText: getLocalizedWarningText(
-      'grantPermissionLabel',
-      'Grant Permission',
-    ),
+    confirmText: getLocalizedWarningText('grantPermissionLabel', 'Grant Permission'),
     cancelText: getLocalizedWarningText('btnCancel', 'Cancel'),
     confirmVariant: 'accent',
     showPrivacyPolicy: true,

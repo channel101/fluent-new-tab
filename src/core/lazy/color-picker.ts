@@ -97,23 +97,13 @@ export function initCustomColorPicker(
   const currentColor = localStorage.getItem('accentColorValue') || '#0078D4';
   let { h, s, v } = hexToHsv(currentColor);
 
-  const pickerContainer = document.getElementById(
-    'customColorPickerContainer',
-  ) as HTMLDivElement;
-  const canvasWrapper = document.getElementById(
-    'matrixWrapper',
-  ) as HTMLDivElement;
-  const canvas = document.getElementById(
-    'colorMatrixCanvas',
-  ) as HTMLCanvasElement;
+  const pickerContainer = document.getElementById('customColorPickerContainer') as HTMLDivElement;
+  const canvasWrapper = document.getElementById('matrixWrapper') as HTMLDivElement;
+  const canvas = document.getElementById('colorMatrixCanvas') as HTMLCanvasElement;
   const ctx = canvas.getContext('2d');
   const cursor = document.getElementById('matrixCursor') as HTMLDivElement;
-  const hueSlider = document.getElementById(
-    'colorHueSlider',
-  ) as HTMLInputElement;
-  const hexInput = document.getElementById(
-    'customColorHex',
-  ) as HTMLInputElement;
+  const hueSlider = document.getElementById('colorHueSlider') as HTMLInputElement;
+  const hexInput = document.getElementById('customColorHex') as HTMLInputElement;
   const rInput = document.getElementById('customColorR') as HTMLInputElement;
   const gInput = document.getElementById('customColorG') as HTMLInputElement;
   const bInput = document.getElementById('customColorB') as HTMLInputElement;
@@ -162,10 +152,7 @@ export function initCustomColorPicker(
       confirmBtn.style.setProperty('--live-save-color', hex);
       const rgb = hexToRgb(hex);
       const yiq = (rgb.r * 299 + rgb.g * 587 + rgb.b * 114) / 1000;
-      confirmBtn.style.setProperty(
-        '--live-save-contrast',
-        yiq >= 128 ? '#202020' : '#FFFFFF',
-      );
+      confirmBtn.style.setProperty('--live-save-contrast', yiq >= 128 ? '#202020' : '#FFFFFF');
     }
   };
 
@@ -184,10 +171,8 @@ export function initCustomColorPicker(
 
   const handleCanvasInteraction = (e: MouseEvent | TouchEvent) => {
     const rect = canvas.getBoundingClientRect();
-    const clientX =
-      'touches' in e ? e.touches[0].clientX : (e as MouseEvent).clientX;
-    const clientY =
-      'touches' in e ? e.touches[0].clientY : (e as MouseEvent).clientY;
+    const clientX = 'touches' in e ? e.touches[0].clientX : (e as MouseEvent).clientX;
+    const clientY = 'touches' in e ? e.touches[0].clientY : (e as MouseEvent).clientY;
     let x = Math.max(0, Math.min(clientX - rect.left, rect.width));
     let y = Math.max(0, Math.min(clientY - rect.top, rect.height));
     s = Math.round((x / rect.width) * 100);
@@ -262,9 +247,7 @@ export function initCustomColorPicker(
       applyAccentColor(finalColor);
       localStorage.setItem('accentColorValue', finalColor);
       localStorage.setItem('accentColorMode', 'manual');
-      const toggleAuto = document.getElementById(
-        'toggleAccentWallpaper',
-      ) as HTMLInputElement;
+      const toggleAuto = document.getElementById('toggleAccentWallpaper') as HTMLInputElement;
       if (toggleAuto) toggleAuto.checked = false;
     },
     onCancel: () => {

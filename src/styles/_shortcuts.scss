@@ -66,8 +66,7 @@
       width: 2.8125rem;
       height: 2.8125rem;
       background: var(--shortcut-bg);
-      border-radius: var(--shortcut-custom-radius,
-          var(--shortcut-radius, var(--radius-xl)));
+      border-radius: var(--shortcut-custom-radius, var(--shortcut-radius, var(--radius-xl)));
       @include flex-center;
       box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 4px;
       transition:
@@ -142,9 +141,10 @@
         box-shadow: none;
         opacity: 0;
         visibility: hidden;
-        transition: opacity 0.2s ease,
-        visibility 0s linear 0.2s,
-        color 0.15s ease;
+        transition:
+          opacity 0.2s ease,
+          visibility 0s linear 0.2s,
+          color 0.15s ease;
         position: relative;
 
         svg {
@@ -220,9 +220,7 @@
           }
 
           &.remove-option:hover {
-            background-color: color-mix(in srgb,
-                var(--color-danger) 10%,
-                transparent);
+            background-color: color-mix(in srgb, var(--color-danger) 10%, transparent);
             color: var(--color-danger);
           }
 
@@ -238,8 +236,7 @@
   .shortcut-item[data-type='folder'].folder-drag-hover {
     .shortcut-card {
       transform: scale(1.1) !important;
-      border-radius: var(--shortcut-custom-radius,
-          var(--shortcut-radius, var(--radius-xl))) !important;
+      border-radius: var(--shortcut-custom-radius, var(--shortcut-radius, var(--radius-xl))) !important;
       box-shadow:
         0 0 0 2px var(--accent-color),
         0 0.45rem 0.9rem rgba(0, 0, 0, 0.15) !important;
@@ -255,7 +252,7 @@
 
   .shortcut-item:hover .menu-btn,
   .menu-wrapper .menu-btn:focus,
-  .menu-wrapper .shortcut-dropdown.active~.menu-btn {
+  .menu-wrapper .shortcut-dropdown.active ~ .menu-btn {
     opacity: 1;
     visibility: visible;
     transition:
@@ -269,7 +266,7 @@
   width: 100%;
   position: relative;
 
-  &:has(#shortcutsGrid[style*="display: none"]),
+  &:has(#shortcutsGrid[style*='display: none']),
   body[data-shortcuts-active='false'] & {
     display: none !important;
   }
@@ -408,9 +405,7 @@
       }
 
       &:active {
-        background-color: color-mix(in srgb,
-            var(--hover-overlay) 80%,
-            transparent);
+        background-color: color-mix(in srgb, var(--hover-overlay) 80%, transparent);
       }
 
       svg {

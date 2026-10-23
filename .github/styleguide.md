@@ -19,7 +19,6 @@ When reviewing code and generating comments, strictly assign severity based on t
 - Typo fixes, comment updates, and dead code removal.
 - Usage of `innerHTML`/`outerHTML` strictly to inject completely static, hardcoded SVG strings (which has no XSS risk but still deserves attention to ensure no external input is interpolated).
 
-
 ### MEDIUM
 
 - Design changes, SCSS styling adjustments, and Fluent Design conformance fixes.
@@ -36,7 +35,6 @@ When reviewing code and generating comments, strictly assign severity based on t
 - Changes involving extension permissions, host permissions, or early boot scripts (`public/scripts/`).
 - Introduction of completely new files that bypass the lazy loading architecture or introduce global variables.
 - Direct assignment to `innerHTML` or `outerHTML` with dynamic or unsanitized content (any usage of `innerHTML` must be treated as CRITICAL unless it is a completely static, hardcoded SVG).
-
 
 ## 3. Feedback Tone
 
@@ -83,8 +81,7 @@ document.getElementById('btn').addEventListener('click', async () => {
 
 ```typescript
 const updateWeatherUI = (data: any) => {
-  document.getElementById('weather').innerHTML =
-    `<div class="temp">${data.temp}</div>`;
+  document.getElementById('weather').innerHTML = `<div class="temp">${data.temp}</div>`;
 };
 ```
 
@@ -110,4 +107,3 @@ const updateWeatherUI = (data: WeatherApiResponse): void => {
 - **Placeholder Preservation:** Chrome i18n placeholders (e.g., `$NAME$`, `$WEEK$`, `$VALUE$`, `$POLLEN$`, or `$1`, `$2`) defined in `_locales/*/messages.json` MUST be preserved exactly as named. Do NOT modify, omit, or replace placeholders during translation (e.g., replacing them with generic `$`, `True`, or missing parameters).
 - **Key Consistency:** Ensure key parity across all supported locales (e.g., `en_US`, `ru_RU`). Do not accidentally remove existing translation keys when adding or updating translations.
 - **HTML Localizable Content:** User-facing static strings in HTML files must use `data-i18n="keyName"` attributes rather than relying exclusively on hardcoded text.
-

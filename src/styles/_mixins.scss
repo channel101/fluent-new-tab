@@ -13,8 +13,6 @@
   gap: $gap;
 }
 
-
-
 @mixin card-radius($radius: var(--radius-md)) {
   border-radius: $radius;
 }

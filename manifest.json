@@ -22,16 +22,8 @@
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'; img-src 'self' data: blob: https: http:;"
   },
-  "permissions": [
-    "storage",
-    "unlimitedStorage",
-    "search",
-    "alarms",
-    "favicon"
-  ],
-  "optional_permissions": [
-    "bookmarks"
-  ],
+  "permissions": ["storage", "unlimitedStorage", "search", "alarms", "favicon"],
+  "optional_permissions": ["bookmarks"],
   "optional_host_permissions": [
     "https://duckduckgo.com/*",
     "https://peapix.com/*",

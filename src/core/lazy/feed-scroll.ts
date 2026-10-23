@@ -52,7 +52,7 @@ export function initFeedScroll(): void {
     return Boolean(
       document.querySelector('.modal-overlay.active') ||
       document.querySelector('.settings-popup.active') ||
-      document.querySelector('.launcher-popup.active')
+      document.querySelector('.launcher-popup.active'),
     );
   };
 
@@ -86,7 +86,7 @@ export function initFeedScroll(): void {
         }
       }
     },
-    { passive: false }
+    { passive: false },
   );
 
   header?.addEventListener('click', (e) => {

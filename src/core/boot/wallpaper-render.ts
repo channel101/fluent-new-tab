@@ -23,12 +23,10 @@ export function openWallpaperDB(): Promise<IDBDatabase> {
       }
     };
 
-    request.onsuccess = (event) =>
-      resolve((event.target as IDBOpenDBRequest).result);
+    request.onsuccess = (event) => resolve((event.target as IDBOpenDBRequest).result);
 
     request.onerror = (event) => {
-      const errorMsg =
-        (event.target as IDBOpenDBRequest).error?.name || 'UnknownError';
+      const errorMsg = (event.target as IDBOpenDBRequest).error?.name || 'UnknownError';
       reject('Error opening database: ' + errorMsg);
     };
   });
@@ -42,15 +40,12 @@ export function convertBlobToBase64(blob: Blob): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onloadend = () => resolve(reader.result as string);
-    reader.onerror = () =>
-      reject(new Error('Failed to convert Blob to Base64'));
+    reader.onerror = () => reject(new Error('Failed to convert Blob to Base64'));
     reader.readAsDataURL(blob);
   });
 }
 
-export async function getWallpaperFromDB(
-  keyName = 'custom_wallpaper',
-): Promise<Blob | null> {
+export async function getWallpaperFromDB(keyName = 'custom_wallpaper'): Promise<Blob | null> {
   try {
     const db = await openWallpaperDB();
 
@@ -59,8 +54,7 @@ export async function getWallpaperFromDB(
       const store = transaction.objectStore(WALLPAPER_STORE_NAME);
       const request = store.get(keyName);
 
-      request.onsuccess = (event) =>
-        resolve((event.target as IDBRequest<Blob | undefined>).result ?? null);
+      request.onsuccess = (event) => resolve((event.target as IDBRequest<Blob | undefined>).result ?? null);
       request.onerror = () => reject(new Error('Error reading from DB'));
     });
   } catch {
@@ -73,19 +67,13 @@ export function updateOverlay(sliderValue: number, isEnabled: boolean): void {
   if (isNaN(val)) val = 10;
   if (val > 0 && val <= 1) val = val * 100;
   const overlayOpacity = isEnabled ? (val / 100) * 0.9 : 0;
-  document.documentElement.style.setProperty(
-    '--wallpaper-overlay',
-    String(overlayOpacity),
-  );
+  document.documentElement.style.setProperty('--wallpaper-overlay', String(overlayOpacity));
 }
 
 export function updateBlur(val: number): void {
   const v = Math.max(0, Number(val) || 0);
   if (v > 0) {
-    document.documentElement.style.setProperty(
-      '--wallpaper-blur',
-      `blur(${v}px)`,
-    );
+    document.documentElement.style.setProperty('--wallpaper-blur', `blur(${v}px)`);
     document.documentElement.setAttribute('data-wallpaper-blur', 'true');
     if (document.body) {
       document.body.setAttribute('data-wallpaper-blur', 'true');
@@ -106,10 +94,7 @@ export function hideCreditsBoot(): void {
   }
 }
 
-function safeRenderCreditHtml(
-  container: HTMLElement,
-  htmlString: string,
-): void {
+function safeRenderCreditHtml(container: HTMLElement, htmlString: string): void {
   container.textContent = '';
   try {
     const parser = new DOMParser();
@@ -120,10 +105,7 @@ function safeRenderCreditHtml(
       const node = nodes[i];
       if (node.nodeType === Node.TEXT_NODE) {
         container.appendChild(document.createTextNode(node.textContent || ''));
-      } else if (
-        node.nodeType === Node.ELEMENT_NODE &&
-        node.nodeName.toLowerCase() === 'a'
-      ) {
+      } else if (node.nodeType === Node.ELEMENT_NODE && node.nodeName.toLowerCase() === 'a') {
         const anchorNode = node as HTMLAnchorElement;
         const href = anchorNode.getAttribute('href') || '';
 
@@ -132,14 +114,11 @@ function safeRenderCreditHtml(
           a.href = href;
           a.target = '_blank';
           a.className = 'wallpaper-credit-link';
-          a.style.cssText =
-            'color: inherit; text-decoration: none; pointer-events: auto;';
+          a.style.cssText = 'color: inherit; text-decoration: none; pointer-events: auto;';
           a.textContent = anchorNode.textContent || '';
           container.appendChild(a);
         } else {
-          container.appendChild(
-            document.createTextNode(anchorNode.textContent || ''),
-          );
+          container.appendChild(document.createTextNode(anchorNode.textContent || ''));
         }
       }
     }
@@ -169,8 +148,7 @@ export function showCreditsBoot(sourceType: string): void {
           a.href = url;
           a.target = '_blank';
           a.className = 'wallpaper-credit-link';
-          a.style.cssText =
-            'color: inherit; text-decoration: none; pointer-events: auto;';
+          a.style.cssText = 'color: inherit; text-decoration: none; pointer-events: auto;';
           a.textContent = text;
           creditTextSpan.appendChild(a);
         } else {
@@ -191,12 +169,7 @@ export function isWallpaperCacheValid(type: string): boolean {
   const today = new Date().toISOString().slice(0, 10);
   try {
     const cached = getWallpaperCache(cacheKey);
-    return !!(
-      cached &&
-      cached.url &&
-      cached.date === today &&
-      'creditUrl' in cached
-    );
+    return !!(cached && cached.url && cached.date === today && 'creditUrl' in cached);
   } catch {
     return false;
   }
@@ -207,7 +180,7 @@ export function clearWallpaper(): void {
   document.body.removeAttribute('data-wallpaper-active');
   try {
     localStorage.removeItem('wallpaper_local_cache');
-  } catch { }
+  } catch {}
   const earlyBg = document.getElementById('early-bg-black');
   if (earlyBg) earlyBg.remove();
   const earlyFade = document.getElementById('wallpaper-fade-overlay');
@@ -220,12 +193,7 @@ export function clearWallpaper(): void {
   hideCreditsBoot();
 }
 
-export async function bootWallpaper(
-  enabled: boolean,
-  source: string,
-  type: string,
-  overlay: number,
-): Promise<void> {
+export async function bootWallpaper(enabled: boolean, source: string, type: string, overlay: number): Promise<void> {
   if (!enabled) {
     clearWallpaper();
     return;
@@ -243,10 +211,10 @@ export async function bootWallpaper(
             try {
               const base64 = await convertBlobToBase64(blob);
               localStorage.setItem('wallpaper_local_cache', base64);
-            } catch { }
+            } catch {}
           }
         }
-      } catch { }
+      } catch {}
     }
   } else if (source === 'api') {
     const cacheKey = `wallpaper_cache_${type}`;
@@ -256,7 +224,7 @@ export async function bootWallpaper(
       if (cached && cached.url && cached.date === today) {
         url = cached.url;
       }
-    } catch { }
+    } catch {}
   }
 
   if (url) {
@@ -265,13 +233,10 @@ export async function bootWallpaper(
     if (!document.documentElement.hasAttribute('data-early-wallpaper')) {
       const img = new Image();
       img.src = url;
-      await img.decode().catch(() => { });
+      await img.decode().catch(() => {});
     }
 
-    document.documentElement.style.setProperty(
-      '--wallpaper-image',
-      `url('${url}')`,
-    );
+    document.documentElement.style.setProperty('--wallpaper-image', `url('${url}')`);
     document.body.setAttribute('data-wallpaper-active', 'true');
 
     if (source === 'api') {
@@ -281,11 +246,9 @@ export async function bootWallpaper(
     }
 
     if ((localStorage.getItem('accentColorMode') || 'auto') === 'auto') {
-      import('@/core/lazy/color-extractor').then(
-        ({ extractAndApplyAutoColor }) => {
-          extractAndApplyAutoColor(url, url);
-        },
-      );
+      import('@/core/lazy/color-extractor').then(({ extractAndApplyAutoColor }) => {
+        extractAndApplyAutoColor(url, url);
+      });
     }
   } else if (source !== 'api') {
     clearWallpaper();

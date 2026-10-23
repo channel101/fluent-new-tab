@@ -47,11 +47,7 @@ export function sanitizeUrl(url: string | null | undefined): string {
   }
 }
 
-export function getLocalizedWarningText(
-  key: string,
-  fallback: string,
-  replacements?: Record<string, string>,
-): string {
+export function getLocalizedWarningText(key: string, fallback: string, replacements?: Record<string, string>): string {
   const windowObj = window as any;
   if (typeof windowObj.getTranslation === 'function') {
     let text = windowObj.getTranslation(key) || fallback;

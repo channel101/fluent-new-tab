@@ -7,21 +7,12 @@
  */
 export const HOST_PERMISSIONS: Record<string, string[]> = {
   bing: ['https://peapix.com/*', 'https://img.peapix.com/*'],
-  wikimedia: [
-    'https://commons.wikimedia.org/*',
-    'https://upload.wikimedia.org/',
-  ],
+  wikimedia: ['https://commons.wikimedia.org/*', 'https://upload.wikimedia.org/'],
   unsplash: ['https://unsplash.snw-mint.workers.dev/*'],
   pexels: ['https://pexels.snw-mint.workers.dev/*'],
   suggestions: ['https://duckduckgo.com/*'],
-  weather: [
-    'https://geocoding-api.open-meteo.com/*',
-    'https://api.open-meteo.com/*',
-  ],
-  weatherAlerts: [
-    'https://api.open-meteo.com/*',
-    'https://air-quality-api.open-meteo.com/*',
-  ],
+  weather: ['https://geocoding-api.open-meteo.com/*', 'https://api.open-meteo.com/*'],
+  weatherAlerts: ['https://api.open-meteo.com/*', 'https://air-quality-api.open-meteo.com/*'],
 };
 
 function executePermissionAction(

@@ -60,7 +60,7 @@ function sanitizeHttpsUrl(urlStr: string): string | undefined {
   try {
     const u = new URL(urlStr.trim());
     if (u.protocol === 'https:') return u.href;
-  } catch { }
+  } catch {}
   return undefined;
 }
 
@@ -133,7 +133,8 @@ function parseFeedXml(xmlStr: string, feedUrl: string): FeedData {
 
     nodes.forEach((n) => {
       const itTitle = sanitizeText(n.querySelector('title')?.textContent || '');
-      const lnkNode = n.querySelector('link[rel="alternate"]') || n.querySelector('link:not([rel])') || n.querySelector('link');
+      const lnkNode =
+        n.querySelector('link[rel="alternate"]') || n.querySelector('link:not([rel])') || n.querySelector('link');
       const rawLnk = lnkNode?.getAttribute('href') || lnkNode?.textContent || '';
       const lnk = sanitizeHttpsUrl(rawLnk);
       const pubDate = n.querySelector('updated, published, pubDate, date')?.textContent || '';
@@ -318,7 +319,7 @@ function createFeedRow(initialVal = '', isValidated = false): HTMLElement {
       const feedData = await fetchAndValidateFeed(rawVal);
       try {
         localStorage.setItem(`feedCache_${rawVal}`, JSON.stringify(feedData));
-      } catch { }
+      } catch {}
 
       inp.setAttribute('data-validated', 'true');
       inp.classList.remove('is-invalid');
@@ -342,7 +343,7 @@ function createFeedRow(initialVal = '', isValidated = false): HTMLElement {
         message: err?.message || t('feedErrorDesc', 'Failed to fetch or parse the RSS feed. Please check the URL.'),
         confirmText: 'OK',
         confirmVariant: 'accent',
-        onConfirm: () => { },
+        onConfirm: () => {},
       });
     } finally {
       if (!inp.hasAttribute('data-validated')) {
@@ -432,11 +433,9 @@ export function openFeedModal(): void {
           });
         }
 
-        import('@/core/lazy/providers/weather-api').then(
-          ({ renderWeatherAlertWidget }) => {
-            renderWeatherAlertWidget();
-          },
-        );
+        import('@/core/lazy/providers/weather-api').then(({ renderWeatherAlertWidget }) => {
+          renderWeatherAlertWidget();
+        });
       });
     }
   }

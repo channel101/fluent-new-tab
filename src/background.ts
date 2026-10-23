@@ -38,9 +38,7 @@ const DEFAULT_INSTALL_PREFERENCES = {
 };
 
 chrome.runtime.onInstalled.addListener((details) => {
-  chrome.runtime.setUninstallURL(
-    'https://snw-mint.github.io/fluent-new-tab/uninstall.html',
-  );
+  chrome.runtime.setUninstallURL('https://snw-mint.github.io/fluent-new-tab/uninstall.html');
 
   if (details.reason === 'install') {
     chrome.storage.local.set({
@@ -119,23 +117,19 @@ async function fetchAndEvaluateAlerts(lat, lon) {
     if (!activeAlert) {
       const uvIndexes = climateRes.hourly.uv_index;
       const maxUv = Math.max(...uvIndexes);
-      if (maxUv >= 6)
-        activeAlert = { type: 'uv_high', value: Math.round(maxUv) };
+      if (maxUv >= 6) activeAlert = { type: 'uv_high', value: Math.round(maxUv) };
     }
 
     if (!activeAlert) {
       const codes = climateRes.hourly.weathercode;
-      const hasStorm = codes.some((code) =>
-        [65, 75, 95, 96, 99].includes(code),
-      );
+      const hasStorm = codes.some((code) => [65, 75, 95, 96, 99].includes(code));
       if (hasStorm) activeAlert = { type: 'storm', value: null };
     }
 
     if (!activeAlert) {
       const gusts = climateRes.hourly.windgusts_10m;
       const maxGust = Math.max(...gusts);
-      if (maxGust >= 45)
-        activeAlert = { type: 'wind_high', value: Math.round(maxGust) };
+      if (maxGust >= 45) activeAlert = { type: 'wind_high', value: Math.round(maxGust) };
     }
 
     if (!activeAlert && airRes.hourly) {
@@ -161,9 +155,9 @@ async function fetchAndEvaluateAlerts(lat, lon) {
     chrome.storage.local.set({
       currentWeatherAlert: activeAlert
         ? {
-          ...activeAlert,
-          timestamp: Date.now(),
-        }
+            ...activeAlert,
+            timestamp: Date.now(),
+          }
         : null,
     });
   } catch (e) {

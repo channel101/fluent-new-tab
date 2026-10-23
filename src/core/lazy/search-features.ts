@@ -30,11 +30,7 @@ export function clearSuggestionsUI(
   suggestionsContainer.classList.remove('active');
 }
 
-export function renderSuggestionsUI(
-  suggestions: string[],
-  refs: SearchSuggestionRefs,
-  onClear: () => void,
-): void {
+export function renderSuggestionsUI(suggestions: string[], refs: SearchSuggestionRefs, onClear: () => void): void {
   const { suggestionsContainer, searchInput, searchWrapper } = refs;
   if (!suggestionsContainer) return;
 
@@ -93,16 +89,10 @@ export function handleAskAiRedirect(query: string): void {
   const rawProvider = localStorage.getItem('askAiProvider') || 'google-ai';
   const provider = aiEngines[rawProvider] ? rawProvider : 'google-ai';
   const config = aiEngines[provider] || aiEngines['google-ai'];
-  window.location.href = config.url.replace(
-    '%s',
-    encodeURIComponent(trimmedQuery),
-  );
+  window.location.href = config.url.replace('%s', encodeURIComponent(trimmedQuery));
 }
 
-export function renderAiEnginesDropdown(
-  dropdown: HTMLElement | null,
-  currentIcon: HTMLImageElement | null,
-): void {
+export function renderAiEnginesDropdown(dropdown: HTMLElement | null, currentIcon: HTMLImageElement | null): void {
   if (!dropdown) return;
   const rawProvider = localStorage.getItem('askAiProvider') || 'google-ai';
   const currentProvider = aiEngines[rawProvider] ? rawProvider : 'google-ai';
@@ -245,9 +235,7 @@ export function updateAskAiUiState(
       searchEngineTip.classList.add('is-hidden');
     }
 
-    const translatedSearch = (window as any).getTranslation?.(
-      'searchPlaceholder',
-    );
+    const translatedSearch = (window as any).getTranslation?.('searchPlaceholder');
     if (translatedSearch && translatedSearch !== 'searchPlaceholder') {
       searchInput.placeholder = translatedSearch;
     } else {
@@ -265,9 +253,7 @@ export function registerVoiceSearchEngine(options: {
   const { voiceSearchBtn, searchInput, searchForm, getVoiceEnabled } = options;
   if (!voiceSearchBtn || !searchInput) return;
 
-  const SpeechRecognition =
-    (window as any).SpeechRecognition ||
-    (window as any).webkitSpeechRecognition;
+  const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
   if (!SpeechRecognition) return;
 
   voiceSearchBtn.addEventListener('click', () => {
@@ -298,9 +284,7 @@ export function registerVoiceSearchEngine(options: {
           if (activeIcon) activeIcon.style.display = 'block';
 
           try {
-            const audio = new Audio(
-              (chrome.runtime as any).getURL('assets/sfx/mic-ready.webm'),
-            );
+            const audio = new Audio((chrome.runtime as any).getURL('assets/sfx/mic-ready.webm'));
             audio.volume = 0.4;
             audio.play().catch((err) => console.log('SFX play blocked:', err));
           } catch (e) {
@@ -348,14 +332,12 @@ export function registerVoiceSearchEngine(options: {
     if (voiceRecognitionInstance) {
       try {
         voiceRecognitionInstance.abort();
-      } catch { }
+      } catch {}
     }
   }
 }
 
-export async function fetchSuggestionsFromService(
-  query: string,
-): Promise<string[]> {
+export async function fetchSuggestionsFromService(query: string): Promise<string[]> {
   const hasPerm = await checkPermission(HOST_PERMISSIONS.suggestions);
   if (!hasPerm) return [];
 

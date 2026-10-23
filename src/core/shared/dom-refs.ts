@@ -21,9 +21,7 @@ export const themeBtns = document.querySelectorAll<HTMLElement>('.theme-btn');
 
 export const toggleSurfaceTint = getById<HTMLInputElement>('toggleSurfaceTint');
 export const accentMoreBtn = getById<HTMLDivElement>('accent-more-btn');
-export const accentMoreContainer = getById<HTMLDivElement>(
-  'accent-more-container',
-);
+export const accentMoreContainer = getById<HTMLDivElement>('accent-more-container');
 export const accentColorOptions = getById<HTMLDivElement>('accentColorOptions');
 
 export const accentPresetsRow = getById<HTMLDivElement>('accentPresetsRow');
@@ -38,24 +36,14 @@ export let closeModalBtn = getById<HTMLButtonElement>('closeModalBtn');
 export let toggleCustomIcon = getById<HTMLButtonElement>('toggleCustomIcon');
 export let customIconGroup = getById<HTMLDivElement>('customIconGroup');
 export const shortcutsMoreBtn = getById<HTMLDivElement>('shortcuts-more-btn');
-export const shortcutsMoreContainer = getById<HTMLDivElement>(
-  'shortcuts-more-container',
-);
+export const shortcutsMoreContainer = getById<HTMLDivElement>('shortcuts-more-container');
 export const rowsSelect = getById<HTMLSelectElement>('rowsSelect');
-export let toggleFolderCustomIcon = getById<HTMLButtonElement>(
-  'toggleFolderCustomIcon',
-);
-export let folderCustomIconGroup = getById<HTMLDivElement>(
-  'folderCustomIconGroup',
-);
+export let toggleFolderCustomIcon = getById<HTMLButtonElement>('toggleFolderCustomIcon');
+export let folderCustomIconGroup = getById<HTMLDivElement>('folderCustomIconGroup');
 export let inputFolderIcon = getById<HTMLInputElement>('inputFolderIcon');
 export const shortcutRadiusRow = getById<HTMLDivElement>('shortcutRadiusRow');
-export const shortcutRadiusSlider = getById<HTMLInputElement>(
-  'shortcutRadiusSlider',
-);
-export const toggleHideShortcutNames = getById<HTMLInputElement>(
-  'toggleHideShortcutNames',
-);
+export const shortcutRadiusSlider = getById<HTMLInputElement>('shortcutRadiusSlider');
+export const toggleHideShortcutNames = getById<HTMLInputElement>('toggleHideShortcutNames');
 export const importBookmarksBtn = getById<HTMLButtonElement>('importBookmarksBtn');
 export let chooseTypeModal = getById<HTMLDivElement>('chooseTypeModal');
 export let addFolderModal = getById<HTMLDivElement>('addFolderModal');
@@ -77,31 +65,20 @@ export function refreshShortcutModalRefs(): void {
   inputFolderName = getById<HTMLInputElement>('inputFolderName');
 }
 
-export const displayWrapper =
-  document.querySelector<HTMLElement>('.display-wrapper');
+export const displayWrapper = document.querySelector<HTMLElement>('.display-wrapper');
 export const greetingWrapper = displayWrapper;
-export const displayTypeSelect =
-  getById<HTMLSelectElement>('displayTypeSelect');
-export const displayAdvancedSetting = getById<HTMLDivElement>(
-  'displayAdvancedSetting',
-);
+export const displayTypeSelect = getById<HTMLSelectElement>('displayTypeSelect');
+export const displayAdvancedSetting = getById<HTMLDivElement>('displayAdvancedSetting');
 export const displayToggleBtn = getById<HTMLDivElement>('display-toggle-btn');
-export const displaySliderContainer = getById<HTMLDivElement>(
-  'display-slider-container',
-);
-export const displayScaleSlider =
-  getById<HTMLInputElement>('displayScaleSlider');
+export const displaySliderContainer = getById<HTMLDivElement>('display-slider-container');
+export const displayScaleSlider = getById<HTMLInputElement>('displayScaleSlider');
 export const subGreeting = getById<HTMLDivElement>('subGreeting');
 export const subTime = getById<HTMLDivElement>('subTime');
 export const subDate = getById<HTMLDivElement>('subDate');
 export const dateFormatSelect = getById<HTMLSelectElement>('dateFormatSelect');
 export const timeFormatSelect = getById<HTMLSelectElement>('timeFormatSelect');
-export const customTimeFormatGroup = getById<HTMLDivElement>(
-  'customTimeFormatGroup',
-);
-export const customTimeFormatInput = getById<HTMLInputElement>(
-  'customTimeFormatInput',
-);
+export const customTimeFormatGroup = getById<HTMLDivElement>('customTimeFormatGroup');
+export const customTimeFormatInput = getById<HTMLInputElement>('customTimeFormatInput');
 export const timezoneInput = getById<HTMLInputElement>('timezoneInput');
 export const greetingNameInput = getById<HTMLInputElement>('greetingNameInput');
 export const toggleHighlightName = getById<HTMLInputElement>('toggleHighlightName');
@@ -114,19 +91,13 @@ export const searchWrapper = (document.querySelector('.search-wrapper') ||
   document.querySelector('.search-bar') ||
   getById<HTMLFormElement>('searchForm')) as HTMLElement | null;
 export const toggleSearchBar = getById<HTMLInputElement>('toggleSearchBar');
-export const searchBarStyleSelect = getById<HTMLSelectElement>(
-  'searchBarStyleSelect',
-);
+export const searchBarStyleSelect = getById<HTMLSelectElement>('searchBarStyleSelect');
 export const searchMoreBtn = getById<HTMLDivElement>('search-more-btn');
-export const searchMoreContainer = getById<HTMLDivElement>(
-  'search-more-container',
-);
+export const searchMoreContainer = getById<HTMLDivElement>('search-more-container');
 export const toggleSuggestions = getById<HTMLInputElement>('toggleSuggestions');
 export const toggleClearSearch = getById<HTMLInputElement>('toggleClearSearch');
 export const toggleVoiceSearch = getById<HTMLInputElement>('toggleVoiceSearch');
-export const suggestionsContainer = getById<HTMLDivElement>(
-  'suggestionsContainer',
-);
+export const suggestionsContainer = getById<HTMLDivElement>('suggestionsContainer');
 export const searchInput = getById<HTMLInputElement>('searchInput');
 export const voiceSearchBtn = getById<HTMLButtonElement>('voiceSearchBtn');
 
@@ -142,63 +113,37 @@ export const weatherIcon = getById<HTMLDivElement>('weatherIcon');
 export const weatherTemp = getById<HTMLSpanElement>('weatherTemp');
 
 export const toggleFahrenheit = getById<HTMLInputElement>('toggleFahrenheit');
-export const toggleWeatherAlerts = getById<HTMLInputElement>(
-  'toggleWeatherAlerts',
-);
-export const weatherMoreContainer = getById<HTMLDivElement>(
-  'weather-more-container',
-);
+export const toggleWeatherAlerts = getById<HTMLInputElement>('toggleWeatherAlerts');
+export const weatherMoreContainer = getById<HTMLDivElement>('weather-more-container');
 
 export const appLauncherWrapper = getById<HTMLDivElement>('appLauncherWrapper');
 export const appLauncherBtn = getById<HTMLButtonElement>('appLauncherBtn');
 export const launcherPopup = getById<HTMLDivElement>('launcherPopup');
 export const launcherGrid = getById<HTMLDivElement>('launcherGrid');
-export const launcherAllAppsLink = getById<HTMLAnchorElement>(
-  'launcherAllAppsLink',
-);
+export const launcherAllAppsLink = getById<HTMLAnchorElement>('launcherAllAppsLink');
 export const launcherProvider = getById<HTMLSelectElement>('launcherProvider');
-export const launcherSelectGroup = getById<HTMLDivElement>(
-  'launcherSelectGroup',
-);
+export const launcherSelectGroup = getById<HTMLDivElement>('launcherSelectGroup');
 
 export const toggleWallpaper = getById<HTMLInputElement>('toggleWallpaper');
-export const wallpaperSourceSelect =
-  getById<HTMLSelectElement>('wallpaperSource');
-export const wallpaperSourceContainer = getById<HTMLDivElement>(
-  'wallpaperSourceContainer',
-);
-export const uploadWallpaperBtn =
-  getById<HTMLButtonElement>('uploadWallpaperBtn');
+export const wallpaperSourceSelect = getById<HTMLSelectElement>('wallpaperSource');
+export const wallpaperSourceContainer = getById<HTMLDivElement>('wallpaperSourceContainer');
+export const uploadWallpaperBtn = getById<HTMLButtonElement>('uploadWallpaperBtn');
 export const uploadInput = getById<HTMLInputElement>('wallpaperUploadInput');
-export const wallpaperOverlaySetting = getById<HTMLDivElement>(
-  'wallpaperOverlaySetting',
-);
+export const wallpaperOverlaySetting = getById<HTMLDivElement>('wallpaperOverlaySetting');
 export const overlayToggleBtn = getById<HTMLDivElement>('overlay-toggle-btn');
-export const overlaySliderContainer = getById<HTMLDivElement>(
-  'overlay-slider-container',
-);
-export const overlaySlider = getById<HTMLInputElement>(
-  'wallpaper-overlay-slider',
-);
-export const wallpaperBlurSlider = getById<HTMLInputElement>(
-  'wallpaperBlurSlider',
-);
+export const overlaySliderContainer = getById<HTMLDivElement>('overlay-slider-container');
+export const overlaySlider = getById<HTMLInputElement>('wallpaper-overlay-slider');
+export const wallpaperBlurSlider = getById<HTMLInputElement>('wallpaperBlurSlider');
 
 export const askAiBtn = getById<HTMLButtonElement>('askAiBtn');
 export const toggleAskAi = getById<HTMLInputElement>('toggleAskAi');
 
 export const tabNameInput = getById<HTMLInputElement>('tabNameInput');
 export const tabFaviconInput = getById<HTMLInputElement>('tabFaviconInput');
-export const tabFaviconUploadBtn = getById<HTMLButtonElement>(
-  'tabFaviconUploadBtn',
-);
-export const tabFaviconFileInput = getById<HTMLInputElement>(
-  'tabFaviconFileInput',
-);
+export const tabFaviconUploadBtn = getById<HTMLButtonElement>('tabFaviconUploadBtn');
+export const tabFaviconFileInput = getById<HTMLInputElement>('tabFaviconFileInput');
 
 export const feedOptionsGroup = getById<HTMLDivElement>('feedOptionsGroup');
 export const feedModeSelect = getById<HTMLSelectElement>('feedModeSelect');
 export const editFeedRssBtn = getById<HTMLButtonElement>('editFeedRssBtn');
 export const feedDrawer = getById<HTMLDivElement>('feedDrawer');
-
-

@@ -50,4 +50,3 @@ When adding a new string:
 2. Add the same key to all other locale files (use the English string as a temporary fallback).
 
 The i18n system falls back to `en_US` at runtime if a key is missing.
-

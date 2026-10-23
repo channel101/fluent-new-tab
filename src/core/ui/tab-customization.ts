@@ -41,8 +41,7 @@ export function initTabCustomization(): void {
     }
   }
 
-  const savedTabIcon =
-    localStorage.getItem('tabFavicon') || localStorage.getItem('tabIcon');
+  const savedTabIcon = localStorage.getItem('tabFavicon') || localStorage.getItem('tabIcon');
   if (savedTabIcon) {
     updateFavicon(savedTabIcon);
     if (refs.tabFaviconInput) {
@@ -60,8 +59,7 @@ export function initTabCustomization(): void {
       } else {
         localStorage.setItem('tabName', target.value);
       }
-      const defaultTitle =
-        (window as any).getTranslation?.('newTabTitle') || 'New Tab';
+      const defaultTitle = (window as any).getTranslation?.('newTabTitle') || 'New Tab';
       document.title = val === '' ? defaultTitle : target.value;
     });
   }

@@ -46,7 +46,10 @@ const flattenArc = (x1, y1, rx, ry, phi, fa, fs, x2, y2) => {
   const pts = [];
   for (let i = 1; i <= steps; i++) {
     const t = t1 + (dt * i) / steps;
-    pts.push([cos * rx * Math.cos(t) - sin * ry * Math.sin(t) + cx, sin * rx * Math.cos(t) + cos * ry * Math.sin(t) + cy]);
+    pts.push([
+      cos * rx * Math.cos(t) - sin * ry * Math.sin(t) + cx,
+      sin * rx * Math.cos(t) + cos * ry * Math.sin(t) + cy,
+    ]);
   }
   return pts;
 };
@@ -100,11 +103,22 @@ const flatten = (d) => {
         for (const [px, py] of flattenArc(x, y, a[0], a[1], a[2], a[3], a[4], a[5] + ox, a[6] + oy)) lineTo(px, py);
       } else {
         let pts;
-        if (up === 'C') pts = [[x, y], [a[0] + ox, a[1] + oy], [a[2] + ox, a[3] + oy], [a[4] + ox, a[5] + oy]];
+        if (up === 'C')
+          pts = [
+            [x, y],
+            [a[0] + ox, a[1] + oy],
+            [a[2] + ox, a[3] + oy],
+            [a[4] + ox, a[5] + oy],
+          ];
         else if (up === 'S') {
           const c1 = lastCtrl ? [2 * x - lastCtrl[0], 2 * y - lastCtrl[1]] : [x, y];
           pts = [[x, y], c1, [a[0] + ox, a[1] + oy], [a[2] + ox, a[3] + oy]];
-        } else if (up === 'Q') pts = [[x, y], [a[0] + ox, a[1] + oy], [a[2] + ox, a[3] + oy]];
+        } else if (up === 'Q')
+          pts = [
+            [x, y],
+            [a[0] + ox, a[1] + oy],
+            [a[2] + ox, a[3] + oy],
+          ];
         else {
           const c1 = lastCtrl ? [2 * x - lastCtrl[0], 2 * y - lastCtrl[1]] : [x, y];
           pts = [[x, y], c1, [a[0] + ox, a[1] + oy]];
@@ -219,7 +233,7 @@ const walk = (dir, exts, acc = []) => {
 };
 
 const sources = [join(root, 'index.html'), ...walk(join(root, 'src'), ['.html', '.ts'])].filter(
-  (f) => existsSync(f) && resolve(f) !== outFile
+  (f) => existsSync(f) && resolve(f) !== outFile,
 );
 const used = new Map();
 for (const file of sources) {

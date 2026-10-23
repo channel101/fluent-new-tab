@@ -25,12 +25,8 @@ interface TriggerCache {
 
 export function initCustomSelectSystem(): void {
   const popup = document.getElementById('fluent-select-popup');
-  const listContainer = popup?.querySelector<HTMLUListElement>(
-    '.fluent-select-options-list',
-  );
-  const triggers = document.querySelectorAll<HTMLButtonElement>(
-    '.fluent-select-trigger',
-  );
+  const listContainer = popup?.querySelector<HTMLUListElement>('.fluent-select-options-list');
+  const triggers = document.querySelectorAll<HTMLButtonElement>('.fluent-select-trigger');
 
   if (!popup || !listContainer) return;
 
@@ -39,12 +35,8 @@ export function initCustomSelectSystem(): void {
   // Cache DOM references for triggers, native select elements, and trigger value elements
   const triggerCaches: TriggerCache[] = Array.from(triggers).map((trigger) => {
     const targetId = trigger.getAttribute('data-target');
-    const select = targetId
-      ? (document.getElementById(targetId) as HTMLSelectElement | null)
-      : null;
-    const triggerValue = trigger.querySelector<HTMLElement>(
-      '.fluent-select-value',
-    );
+    const select = targetId ? (document.getElementById(targetId) as HTMLSelectElement | null) : null;
+    const triggerValue = trigger.querySelector<HTMLElement>('.fluent-select-value');
     return {
       trigger,
       select,
@@ -120,12 +112,9 @@ export function initCustomSelectSystem(): void {
     popup!.classList.add('active');
     positionPopup(trigger);
 
-    const currentSelected = listContainer!.querySelector<HTMLElement>(
-      '.fluent-select-option.selected',
-    );
+    const currentSelected = listContainer!.querySelector<HTMLElement>('.fluent-select-option.selected');
     if (currentSelected) {
-      listContainer!.scrollTop =
-        currentSelected.offsetTop - listContainer!.offsetTop;
+      listContainer!.scrollTop = currentSelected.offsetTop - listContainer!.offsetTop;
     }
   }
 
@@ -156,8 +145,7 @@ export function initCustomSelectSystem(): void {
       if (select) {
         let selectedOption = select.options[select.selectedIndex];
         if (!selectedOption) {
-          selectedOption =
-            select.querySelector('option[selected]') || select.options[0];
+          selectedOption = select.querySelector('option[selected]') || select.options[0];
         }
 
         if (triggerValue && selectedOption) {
@@ -179,10 +167,7 @@ export function initCustomSelectSystem(): void {
     if (select) {
       select.addEventListener('change', () => {
         syncAllTriggersText();
-        if (
-          activeSelectTrigger === trigger &&
-          popup.classList.contains('active')
-        ) {
+        if (activeSelectTrigger === trigger && popup.classList.contains('active')) {
           const currentTrigger = activeSelectTrigger;
           activeSelectTrigger = null;
           openPopup(currentTrigger);

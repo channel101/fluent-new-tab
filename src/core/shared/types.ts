@@ -94,4 +94,3 @@ export interface FeedData {
   items: FeedItem[];
   updatedAt: number;
 }
-

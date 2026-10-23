@@ -35,10 +35,7 @@ const WEATHER_PATHS: Record<string, string> = {
   zh_TW: 'zh-tw/weather/forecast',
 };
 
-function getFluentIconFilename(
-  code: number,
-  isDay: number | boolean,
-): string {
+function getFluentIconFilename(code: number, isDay: number | boolean): string {
   switch (code) {
     case 0:
     case 1:
@@ -97,13 +94,7 @@ export function renderWeatherWidget(
   },
 ): void {
   if (!data?.current_weather) return;
-  if (
-    !refs.weatherCity ||
-    !refs.weatherTemp ||
-    !refs.weatherIcon ||
-    !refs.weatherWidget
-  )
-    return;
+  if (!refs.weatherCity || !refs.weatherTemp || !refs.weatherIcon || !refs.weatherWidget) return;
 
   const { temperature, weathercode, is_day } = data.current_weather;
   const isCelsius = weatherUnit.toLowerCase() === 'c';
@@ -125,12 +116,8 @@ export function renderWeatherWidget(
   updateWeatherHref(refs.weatherWidget, weatherUnit);
 }
 
-function updateWeatherHref(
-  el?: HTMLAnchorElement | null,
-  unit?: WeatherUnit,
-): void {
-  const w =
-    el || (document.getElementById('weatherWidget') as HTMLAnchorElement | null);
+function updateWeatherHref(el?: HTMLAnchorElement | null, unit?: WeatherUnit): void {
+  const w = el || (document.getElementById('weatherWidget') as HTMLAnchorElement | null);
   if (!w) return;
   const u = unit || (localStorage.getItem('weatherUnit') as WeatherUnit) || 'c';
   const deg = u.toLowerCase() === 'c' ? 'C' : 'F';
@@ -144,9 +131,6 @@ document.addEventListener('i18nReady', () => {
 });
 
 document.addEventListener('pointerdown', (e) => {
-  const target = (e.target as HTMLElement | null)?.closest(
-    '#weatherWidget',
-  ) as HTMLAnchorElement | null;
+  const target = (e.target as HTMLElement | null)?.closest('#weatherWidget') as HTMLAnchorElement | null;
   if (target) updateWeatherHref(target);
 });
-

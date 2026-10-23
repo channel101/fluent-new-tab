@@ -49,11 +49,8 @@ export class WallpaperEngine {
         if (blob) targetUrl = URL.createObjectURL(blob);
       } else if (config.source === 'api') {
         if (!isWallpaperCacheValid(config.type)) {
-          const sourceName =
-            config.type.charAt(0).toUpperCase() + config.type.slice(1);
-          let msg = (window as any).getTranslation?.(
-            'fetchingImagePlaceholder',
-          );
+          const sourceName = config.type.charAt(0).toUpperCase() + config.type.slice(1);
+          let msg = (window as any).getTranslation?.('fetchingImagePlaceholder');
           if (!msg || msg === 'fetchingImagePlaceholder') {
             msg = `Fetching ${sourceName} image...`;
           } else {
@@ -76,83 +73,72 @@ export class WallpaperEngine {
     }
   }
 
-  private static applyCinematicTransition(
-    url: string,
-    config: WallpaperConfig,
-  ): void {
+  private static applyCinematicTransition(url: string, config: WallpaperConfig): void {
     const img = new Image();
     img.src = url;
 
-    img.decode().catch(() => { }).finally(() => {
-      document.documentElement.removeAttribute('data-early-wallpaper');
+    img
+      .decode()
+      .catch(() => {})
+      .finally(() => {
+        document.documentElement.removeAttribute('data-early-wallpaper');
 
-      document
-        .querySelectorAll('.wallpaper-crossfade-layer')
-        .forEach((el) => el.remove());
+        document.querySelectorAll('.wallpaper-crossfade-layer').forEach((el) => el.remove());
 
-      const updateConfigOnly = () => {
-        document.body.setAttribute('data-wallpaper-active', 'true');
+        const updateConfigOnly = () => {
+          document.body.setAttribute('data-wallpaper-active', 'true');
 
-        const currentOverlay = parseFloat(
-          localStorage.getItem('wallpaperOverlay') || String(config.overlay),
-        );
-        updateOverlay(currentOverlay, config.enabled);
+          const currentOverlay = parseFloat(localStorage.getItem('wallpaperOverlay') || String(config.overlay));
+          updateOverlay(currentOverlay, config.enabled);
 
-        const currentBlur = parseFloat(
-          localStorage.getItem('wallpaperBlur') || '0',
-        );
-        updateBlur(currentBlur);
+          const currentBlur = parseFloat(localStorage.getItem('wallpaperBlur') || '0');
+          updateBlur(currentBlur);
 
-        hideToast();
+          hideToast();
 
-        if (config.source === 'api') {
-          showCreditsBoot(config.type);
-        } else {
-          hideCreditsBoot();
-        }
+          if (config.source === 'api') {
+            showCreditsBoot(config.type);
+          } else {
+            hideCreditsBoot();
+          }
 
-        if ((localStorage.getItem('accentColorMode') || 'auto') === 'auto') {
-          import('@/core/lazy/color-extractor').then(
-            ({ extractAndApplyAutoColor }) => {
+          if ((localStorage.getItem('accentColorMode') || 'auto') === 'auto') {
+            import('@/core/lazy/color-extractor').then(({ extractAndApplyAutoColor }) => {
               extractAndApplyAutoColor(url, url);
-            },
-          );
-        }
-      };
+            });
+          }
+        };
 
-      updateConfigOnly();
+        updateConfigOnly();
 
-      const crossfade = document.createElement('div');
-      crossfade.className = 'wallpaper-crossfade-layer';
-      crossfade.style.backgroundImage = `url('${url}')`;
-      document.body.appendChild(crossfade);
+        const crossfade = document.createElement('div');
+        crossfade.className = 'wallpaper-crossfade-layer';
+        crossfade.style.backgroundImage = `url('${url}')`;
+        document.body.appendChild(crossfade);
 
-      void crossfade.offsetWidth;
+        void crossfade.offsetWidth;
 
-      requestAnimationFrame(() => {
         requestAnimationFrame(() => {
-          crossfade.classList.add('visible');
+          requestAnimationFrame(() => {
+            crossfade.classList.add('visible');
+          });
         });
-      });
 
-      let cleanedUp = false;
-      const cleanup = () => {
-        if (cleanedUp) return;
-        cleanedUp = true;
-        document.documentElement.style.setProperty(
-          '--wallpaper-image',
-          `url('${url}')`,
-        );
-        crossfade.remove();
-      };
+        let cleanedUp = false;
+        const cleanup = () => {
+          if (cleanedUp) return;
+          cleanedUp = true;
+          document.documentElement.style.setProperty('--wallpaper-image', `url('${url}')`);
+          crossfade.remove();
+        };
 
-      crossfade.addEventListener('transitionend', (e) => {
-        if (e.target === crossfade && e.propertyName === 'opacity') {
-          cleanup();
-        }
+        crossfade.addEventListener('transitionend', (e) => {
+          if (e.target === crossfade && e.propertyName === 'opacity') {
+            cleanup();
+          }
+        });
+        setTimeout(cleanup, 500);
       });
-      setTimeout(cleanup, 500);
-    });
 
     img.onerror = () => {
       hideToast();

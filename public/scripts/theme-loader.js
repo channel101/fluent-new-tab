@@ -8,16 +8,11 @@
 
 (function () {
   const savedTheme = localStorage.getItem('theme') || 'auto';
-  if (
-    savedTheme === 'dark' ||
-    (savedTheme === 'auto' &&
-      window.matchMedia('(prefers-color-scheme: dark)').matches)
-  ) {
+  if (savedTheme === 'dark' || (savedTheme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
     document.documentElement.setAttribute('data-theme', 'dark');
   }
 
-  const surfaceTintEnabled =
-    localStorage.getItem('fluent_surface_tint') === 'true';
+  const surfaceTintEnabled = localStorage.getItem('fluent_surface_tint') === 'true';
   if (surfaceTintEnabled) {
     document.documentElement.setAttribute('data-surface-tint', 'true');
   }
@@ -52,18 +47,12 @@
   if (overlayVal > 0 && overlayVal <= 1) overlayVal = overlayVal * 100;
   const overlayOpacity = (overlayVal / 100) * 0.9;
 
-  document.documentElement.style.setProperty(
-    '--wallpaper-overlay',
-    String(overlayOpacity),
-  );
+  document.documentElement.style.setProperty('--wallpaper-overlay', String(overlayOpacity));
 
   const rawBlur = localStorage.getItem('wallpaperBlur') || '0';
   const blurVal = parseFloat(rawBlur) || 0;
   if (blurVal > 0) {
-    document.documentElement.style.setProperty(
-      '--wallpaper-blur',
-      `blur(${blurVal}px)`,
-    );
+    document.documentElement.style.setProperty('--wallpaper-blur', `blur(${blurVal}px)`);
     document.documentElement.setAttribute('data-wallpaper-blur', 'true');
   }
 

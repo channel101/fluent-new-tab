@@ -32,8 +32,7 @@ const htmlPartials = () => ({
   handleHotUpdate({ file, server }: any) {
     if (
       file.endsWith('.html') &&
-      (file.includes(path.normalize('src/html')) ||
-        file.includes(path.normalize('src/icons')))
+      (file.includes(path.normalize('src/html')) || file.includes(path.normalize('src/icons')))
     ) {
       server.ws.send({ type: 'full-reload' });
     }
@@ -142,10 +141,7 @@ const minifyPostBuild = () => ({
       }
     }
 
-    const htmlFiles = [
-      path.join(outDir, 'index.html'),
-      path.join(outDir, 'setup/setup.html'),
-    ];
+    const htmlFiles = [path.join(outDir, 'index.html'), path.join(outDir, 'setup/setup.html')];
     for (const fullPath of htmlFiles) {
       if (fs.existsSync(fullPath)) {
         try {
@@ -162,10 +158,7 @@ const minifyPostBuild = () => ({
                 loader: 'css',
                 minify: true,
               });
-              content = content.replace(
-                fullMatch,
-                `${openTag}${minifiedStyle.code.trim()}${closeTag}`,
-              );
+              content = content.replace(fullMatch, `${openTag}${minifiedStyle.code.trim()}${closeTag}`);
             }
           }
 
@@ -179,10 +172,7 @@ const minifyPostBuild = () => ({
                 loader: 'js',
                 minify: true,
               });
-              content = content.replace(
-                fullMatch,
-                `${openTag}${minifiedScript.code.trim()}${closeTag}`,
-              );
+              content = content.replace(fullMatch, `${openTag}${minifiedScript.code.trim()}${closeTag}`);
             }
           }
 
@@ -210,12 +200,7 @@ const minifyPostBuild = () => ({
 });
 
 export default defineConfig({
-  plugins: [
-    htmlPartials(),
-    crx({ manifest }),
-    forceScriptToBottom(),
-    minifyPostBuild(),
-  ],
+  plugins: [htmlPartials(), crx({ manifest }), forceScriptToBottom(), minifyPostBuild()],
   resolve: {
     alias: {
       '@': resolve(__dirname, './src'),

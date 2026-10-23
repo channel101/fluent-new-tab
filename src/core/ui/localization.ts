@@ -12,9 +12,7 @@ export function initLocalization(): void {
   if (refs.languageSelect) {
     const savedLang = localStorage.getItem('userLanguage');
     if (savedLang) refs.languageSelect.value = savedLang;
-    else
-      refs.languageSelect.value =
-        refs.languageSelect.options[0]?.value || 'en_US';
+    else refs.languageSelect.value = refs.languageSelect.options[0]?.value || 'en_US';
 
     refs.languageSelect.dispatchEvent(new Event('change'));
 
@@ -27,8 +25,7 @@ export function initLocalization(): void {
 
       const win = window as any;
       if (typeof win.loadTranslations === 'function') win.loadTranslations();
-      else if (typeof win.applyTranslations === 'function')
-        win.applyTranslations();
+      else if (typeof win.applyTranslations === 'function') win.applyTranslations();
       else document.dispatchEvent(new Event('i18nReady'));
     });
   }

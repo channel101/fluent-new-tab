@@ -274,7 +274,7 @@ export async function loadAndRenderFeeds(): Promise<void> {
           return;
         }
       }
-    } catch { }
+    } catch {}
     urlsToFetch.push(u);
   });
 
@@ -291,9 +291,9 @@ export async function loadAndRenderFeeds(): Promise<void> {
       const fresh = await fetchAndValidateFeed(u);
       try {
         localStorage.setItem(`feedCache_${u}`, JSON.stringify(fresh));
-      } catch { }
+      } catch {}
       return fresh;
-    })
+    }),
   );
 
   const freshMap = new Map<string, FeedData>();

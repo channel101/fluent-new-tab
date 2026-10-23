@@ -24,26 +24,17 @@ export function updateLauncherVisibilityUI(
   enabled: boolean,
   animate: boolean,
   visibilityRefs: LauncherVisibilityRefs,
-  setCollapsibleFn: (
-    element: HTMLElement | null,
-    shouldExpand: boolean,
-    animate?: boolean,
-  ) => void,
+  setCollapsibleFn: (element: HTMLElement | null, shouldExpand: boolean, animate?: boolean) => void,
 ): void {
   if (visibilityRefs.appLauncherWrapper) {
-    visibilityRefs.appLauncherWrapper.style.display = enabled
-      ? 'block'
-      : 'none';
+    visibilityRefs.appLauncherWrapper.style.display = enabled ? 'block' : 'none';
   }
   if (visibilityRefs.launcherSelectGroup) {
     setCollapsibleFn(visibilityRefs.launcherSelectGroup, enabled, animate);
   }
 }
 
-export function renderLauncherApps(
-  data: LauncherProviderData | undefined,
-  renderRefs: LauncherRenderRefs,
-): void {
+export function renderLauncherApps(data: LauncherProviderData | undefined, renderRefs: LauncherRenderRefs): void {
   if (!data || !renderRefs.launcherGrid) return;
 
   const orderString = localStorage.getItem('launcherOrder');
@@ -63,7 +54,7 @@ export function renderLauncherApps(
         }
         orderedApps = [...ordered, ...remaining];
       }
-    } catch { }
+    } catch {}
   }
 
   renderRefs.launcherGrid.textContent = '';

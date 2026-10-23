@@ -7,12 +7,7 @@
  */
 
 import { HOST_PERMISSIONS, checkPermission } from '@/core/shared/permissions';
-import {
-  CityData,
-  GeocodingResponse,
-  GeocodingResult,
-  WeatherApiResponse,
-} from '@/core/shared/types';
+import { CityData, GeocodingResponse, GeocodingResult, WeatherApiResponse } from '@/core/shared/types';
 
 export async function fetchCityOptions(query: string): Promise<CityData[]> {
   const hasPerm = await checkPermission(HOST_PERMISSIONS.weather);
@@ -20,8 +15,7 @@ export async function fetchCityOptions(query: string): Promise<CityData[]> {
 
   const parts = query.split(',');
   const cityName = parts[0].trim();
-  const filterText =
-    parts.length > 1 ? parts.slice(1).join(',').trim().toLowerCase() : '';
+  const filterText = parts.length > 1 ? parts.slice(1).join(',').trim().toLowerCase() : '';
 
   const language = 'en_US';
   const url = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(cityName)}&count=20&language=${encodeURIComponent(language)}&format=json`;
@@ -35,13 +29,8 @@ export async function fetchCityOptions(query: string): Promise<CityData[]> {
 
       if (filterText) {
         results = results.filter((r) => {
-          const searchSpace = [r.admin1, r.country, r.country_code]
-            .filter(Boolean)
-            .join(' ')
-            .toLowerCase();
-          return filterText
-            .split(' ')
-            .every((token) => searchSpace.includes(token));
+          const searchSpace = [r.admin1, r.country, r.country_code].filter(Boolean).join(' ').toLowerCase();
+          return filterText.split(' ').every((token) => searchSpace.includes(token));
         });
       }
 
@@ -87,9 +76,7 @@ export async function fetchCityData(query: string): Promise<CityData | null> {
     const admin1 = normalizeText(result.admin1 || '');
     const admin2 = normalizeText(result.admin2 || '');
     const admin3 = normalizeText(result.admin3 || '');
-    const context = [country, countryCode, admin1, admin2, admin3].filter(
-      Boolean,
-    );
+    const context = [country, countryCode, admin1, admin2, admin3].filter(Boolean);
 
     let score = 0;
     if (name === primaryTerm) score += 200;
@@ -105,9 +92,7 @@ export async function fetchCityData(query: string): Promise<CityData | null> {
     });
 
     if (qualifiers.length > 0 && score > 0) {
-      const matchesAllQualifiers = qualifiers.every((qualifier) =>
-        context.some((part) => part.includes(qualifier)),
-      );
+      const matchesAllQualifiers = qualifiers.every((qualifier) => context.some((part) => part.includes(qualifier)));
       if (matchesAllQualifiers) score += 40;
     }
 
@@ -147,9 +132,7 @@ export async function fetchCityData(query: string): Promise<CityData | null> {
   return null;
 }
 
-export async function fetchWeatherData(
-  cityData: CityData,
-): Promise<WeatherApiResponse | null> {
+export async function fetchWeatherData(cityData: CityData): Promise<WeatherApiResponse | null> {
   const hasPerm = await checkPermission(HOST_PERMISSIONS.weather);
   if (!hasPerm) return null;
 
@@ -175,8 +158,7 @@ export function renderWeatherAlertWidget(): void {
   }
 
   const isAlertsEnabled =
-    localStorage.getItem('weatherAlertsEnabled') === 'true' &&
-    localStorage.getItem('weatherEnabled') === 'true';
+    localStorage.getItem('weatherAlertsEnabled') === 'true' && localStorage.getItem('weatherEnabled') === 'true';
   if (!isAlertsEnabled) {
     const w = document.getElementById(containerId);
     if (w) w.remove();
@@ -195,11 +177,8 @@ export function renderWeatherAlertWidget(): void {
       return;
     }
 
-    const isFeedActive =
-      document.documentElement.getAttribute('data-feed-active') === 'true';
-    const feedActions = isFeedActive
-      ? document.getElementById('feedHeaderActions')
-      : null;
+    const isFeedActive = document.documentElement.getAttribute('data-feed-active') === 'true';
+    const feedActions = isFeedActive ? document.getElementById('feedHeaderActions') : null;
     const targetParent = feedActions || document.body;
 
     if (!widget) {

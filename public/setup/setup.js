@@ -60,19 +60,64 @@ const APP_KEYS = [
 ];
 
 const SUPPORTED_LOCALES = [
-  'cs_CZ', 'da_DK', 'de_DE', 'el_GR', 'en_US', 'es_ES',
-  'fil_PH', 'fi_FI', 'fr_FR', 'hu_HU', 'id_ID', 'it_IT',
-  'ja_JP', 'ko_KR', 'nl_NL', 'pl_PL', 'pt_BR', 'ro_RO',
-  'ru_RU', 'sv_SE', 'tr_TR', 'uk_UA', 'vi_VN', 'zh_CN', 'zh_TW',
+  'cs_CZ',
+  'da_DK',
+  'de_DE',
+  'el_GR',
+  'en_US',
+  'es_ES',
+  'fil_PH',
+  'fi_FI',
+  'fr_FR',
+  'hu_HU',
+  'id_ID',
+  'it_IT',
+  'ja_JP',
+  'ko_KR',
+  'nl_NL',
+  'pl_PL',
+  'pt_BR',
+  'ro_RO',
+  'ru_RU',
+  'sv_SE',
+  'tr_TR',
+  'uk_UA',
+  'vi_VN',
+  'zh_CN',
+  'zh_TW',
 ];
 
 const STEPS_ORDER = ['welcome', 'appearance', 'widgets', 'final'];
 
 const WIDGET_PAIRS = [
-  { toggle: 'toggle-display', select: 'select-display', storage: 'displayEnabled', defaultVal: 'displayType', fallback: 'greeting' },
-  { toggle: 'toggle-search', select: 'select-search', storage: 'searchBarVisible', defaultVal: 'searchEngine', fallback: 'system' },
-  { toggle: 'toggle-shortcuts', select: 'select-shortcuts', storage: 'shortcutsVisible', defaultVal: 'shortcutsRows', fallback: '2' },
-  { toggle: 'toggle-launcher', select: 'select-launcher', storage: 'launcherEnabled', defaultVal: 'launcherProvider', fallback: 'microsoft' },
+  {
+    toggle: 'toggle-display',
+    select: 'select-display',
+    storage: 'displayEnabled',
+    defaultVal: 'displayType',
+    fallback: 'greeting',
+  },
+  {
+    toggle: 'toggle-search',
+    select: 'select-search',
+    storage: 'searchBarVisible',
+    defaultVal: 'searchEngine',
+    fallback: 'system',
+  },
+  {
+    toggle: 'toggle-shortcuts',
+    select: 'select-shortcuts',
+    storage: 'shortcutsVisible',
+    defaultVal: 'shortcutsRows',
+    fallback: '2',
+  },
+  {
+    toggle: 'toggle-launcher',
+    select: 'select-launcher',
+    storage: 'launcherEnabled',
+    defaultVal: 'launcherProvider',
+    fallback: 'microsoft',
+  },
 ];
 
 function detectUserLanguage() {
@@ -84,7 +129,7 @@ function detectUserLanguage() {
     if (typeof chrome !== 'undefined' && chrome.i18n && typeof chrome.i18n.getUILanguage === 'function') {
       browserLang = chrome.i18n.getUILanguage();
     }
-  } catch { }
+  } catch {}
 
   if (!browserLang && typeof navigator !== 'undefined') {
     browserLang = navigator.language || (navigator.languages && navigator.languages[0]) || '';
@@ -143,13 +188,13 @@ async function loadTranslations() {
   let defMsg = {};
   try {
     defMsg = await fetchLocale('en_US');
-  } catch { }
+  } catch {}
 
   let langMsg = {};
   if (lang !== 'en_US') {
     try {
       langMsg = await fetchLocale(lang);
-    } catch { }
+    } catch {}
   }
 
   translations = Object.assign({}, defMsg, langMsg);

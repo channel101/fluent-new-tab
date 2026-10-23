@@ -47,25 +47,14 @@ export function getDisplayScaleBounds(displayType: string): {
 
 export function getDisplayScaleForType(displayType: string): number {
   const bounds = getDisplayScaleBounds(displayType);
-  const saved =
-    localStorage.getItem(`displayScale_${displayType}`) ||
-    localStorage.getItem('displayScale');
+  const saved = localStorage.getItem(`displayScale_${displayType}`) || localStorage.getItem('displayScale');
   const parsed = saved ? parseInt(saved, 10) : 85;
   return Math.min(bounds.max, Math.max(bounds.min, parsed));
 }
 
-export function applyDisplayScale(
-  displayType: string,
-  customScale?: number,
-): number {
-  const scale =
-    customScale !== undefined
-      ? customScale
-      : getDisplayScaleForType(displayType);
-  document.documentElement.style.setProperty(
-    '--display-scale',
-    `${scale / 100}`,
-  );
+export function applyDisplayScale(displayType: string, customScale?: number): number {
+  const scale = customScale !== undefined ? customScale : getDisplayScaleForType(displayType);
+  document.documentElement.style.setProperty('--display-scale', `${scale / 100}`);
   return scale;
 }
 
@@ -118,8 +107,7 @@ export function getValidTimezone(tz?: string | null): string | undefined {
     const match = trimmed.match(/^(?:UTC|GMT)?\s*([+-]\d{1,2})(?::?(\d{2}))?$/i);
     if (match) {
       const hours = parseInt(match[1], 10);
-      const invertedSign =
-        hours <= 0 ? `+${Math.abs(hours)}` : `-${Math.abs(hours)}`;
+      const invertedSign = hours <= 0 ? `+${Math.abs(hours)}` : `-${Math.abs(hours)}`;
       const etcTz = `Etc/GMT${invertedSign}`;
       try {
         Intl.DateTimeFormat(undefined, { timeZone: etcTz });
@@ -130,11 +118,7 @@ export function getValidTimezone(tz?: string | null): string | undefined {
   }
 }
 
-export function formatCustomDateTime(
-  now: Date,
-  pattern: string,
-  timeZone?: string,
-): string {
+export function formatCustomDateTime(now: Date, pattern: string, timeZone?: string): string {
   const validTz = getValidTimezone(timeZone);
   const parts = new Intl.DateTimeFormat('en-US', {
     timeZone: validTz,
@@ -185,10 +169,7 @@ export function formatCustomDateTime(
     '%a': h24 >= 12 ? 'pm' : 'am',
   };
 
-  return pattern.replace(
-    /%(YYYY|YY|MM|M|DD|D|HH|H|hh|h|mm|m|ss|s|A|a)/g,
-    (match) => tokens[match] ?? match,
-  );
+  return pattern.replace(/%(YYYY|YY|MM|M|DD|D|HH|H|hh|h|mm|m|ss|s|A|a)/g, (match) => tokens[match] ?? match);
 }
 
 function getZonedDateInfo(
@@ -240,14 +221,7 @@ export function getTimeFormat(): string {
   const legacy12 = localStorage.getItem('use12Hour') === 'true';
   const legacySec = localStorage.getItem('showSeconds') === 'true';
 
-  const migrated =
-    legacy12 && legacySec
-      ? '12h-seconds'
-      : legacy12
-        ? '12h'
-        : legacySec
-          ? '24h-seconds'
-          : '24h';
+  const migrated = legacy12 && legacySec ? '12h-seconds' : legacy12 ? '12h' : legacySec ? '24h-seconds' : '24h';
 
   localStorage.setItem('timeFormat', migrated);
   return migrated;
@@ -269,13 +243,11 @@ function renderTimeDate(wrapper: HTMLElement, type: string): void {
 
   if (type === 'time' || type === 'timedate') {
     if (timeFormat === 'custom') {
-      const pattern =
-        (localStorage.getItem('customTimeFormat') || '').trim() || '%HH:%mm';
+      const pattern = (localStorage.getItem('customTimeFormat') || '').trim() || '%HH:%mm';
       const formatted = formatCustomDateTime(now, pattern, timezone);
       timeNodes.push(document.createTextNode(formatted));
     } else {
-      const showSeconds =
-        timeFormat === '24h-seconds' || timeFormat === '12h-seconds';
+      const showSeconds = timeFormat === '24h-seconds' || timeFormat === '12h-seconds';
       const use12Hour = timeFormat === '12h' || timeFormat === '12h-seconds';
 
       const parts = new Intl.DateTimeFormat(locale, {
@@ -292,10 +264,7 @@ function renderTimeDate(wrapper: HTMLElement, type: string): void {
           span.className = 'time-seconds';
           span.textContent = part.value;
           timeNodes.push(span);
-        } else if (
-          part.type === 'literal' &&
-          parts[index + 1]?.type === 'second'
-        ) {
+        } else if (part.type === 'literal' && parts[index + 1]?.type === 'second') {
           const span = document.createElement('span');
           span.className = 'time-seconds';
           span.textContent = part.value;
@@ -311,8 +280,7 @@ function renderTimeDate(wrapper: HTMLElement, type: string): void {
           timeNodes.push(span);
         } else if (
           part.type === 'literal' &&
-          (parts[index + 1]?.type === 'dayPeriod' ||
-            parts[index - 1]?.type === 'dayPeriod')
+          (parts[index + 1]?.type === 'dayPeriod' || parts[index - 1]?.type === 'dayPeriod')
         ) {
           const trimmed = part.value.trim();
           if (trimmed.length > 0) {
@@ -339,17 +307,12 @@ function renderTimeDate(wrapper: HTMLElement, type: string): void {
       ...dateOptions,
       timeZone: timezone,
     }).format(now);
-    if (
-      dateString &&
-      (type === 'weekday' || dateFormat === 'weekday' || dateFormat === 'text')
-    ) {
+    if (dateString && (type === 'weekday' || dateFormat === 'weekday' || dateFormat === 'text')) {
       dateString = dateString.charAt(0).toUpperCase() + dateString.slice(1);
     }
   }
 
-  let textElement = wrapper.querySelector(
-    '.dynamic-display-anchor',
-  ) as HTMLElement;
+  let textElement = wrapper.querySelector('.dynamic-display-anchor') as HTMLElement;
   if (!textElement) {
     textElement = document.createElement('h1');
     textElement.style.textAlign = 'center';
@@ -420,15 +383,7 @@ function renderGreeting(wrapper: HTMLElement): void {
     try {
       currentDayName = chrome.i18n.getMessage(dayOfWeekKey);
     } catch (error) {
-      const weekdays = [
-        'Sunday',
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday',
-        'Saturday',
-      ];
+      const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
       currentDayName = weekdays[dayOfWeek];
     }
   }
@@ -442,10 +397,7 @@ function renderGreeting(wrapper: HTMLElement): void {
     usingFallback = true;
     try {
       if (translationKey.startsWith('greetWeek')) {
-        rawGreeting = chrome.i18n.getMessage(translationKey, [
-          currentDayName,
-          userName,
-        ]);
+        rawGreeting = chrome.i18n.getMessage(translationKey, [currentDayName, userName]);
       } else {
         rawGreeting = chrome.i18n.getMessage(translationKey, [userName]);
       }
@@ -461,9 +413,7 @@ function renderGreeting(wrapper: HTMLElement): void {
     if (rawGreeting.includes(currentDayName)) {
       rawGreeting = rawGreeting.replace(/\$[A-Z0-9_]+\$/gi, userName);
     } else {
-      rawGreeting = rawGreeting
-        .replace(/\$[A-Z0-9_]+\$/i, currentDayName)
-        .replace(/\$[A-Z0-9_]+\$/gi, userName);
+      rawGreeting = rawGreeting.replace(/\$[A-Z0-9_]+\$/i, currentDayName).replace(/\$[A-Z0-9_]+\$/gi, userName);
     }
   } else {
     rawGreeting = rawGreeting

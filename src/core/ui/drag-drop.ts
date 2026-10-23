@@ -60,18 +60,13 @@ export function handleDragStart(event: DragEvent): void {
   const itemClass = activeDragOptions?.itemClass || 'shortcut-item';
   const item = target.closest(`.${itemClass}`) as HTMLElement | null;
 
-  if (
-    !item ||
-    item.dataset.action === 'go-back' ||
-    item.dataset.action === 'add-shortcut'
-  ) {
+  if (!item || item.dataset.action === 'go-back' || item.dataset.action === 'add-shortcut') {
     event.preventDefault();
     return;
   }
 
   draggedElement = item;
-  if (activeDragOptions)
-    activeDragOptions.gridContainer.classList.add('sorting');
+  if (activeDragOptions) activeDragOptions.gridContainer.classList.add('sorting');
 
   const rect = item.getBoundingClientRect();
   dragStartRect = rect;
@@ -136,10 +131,8 @@ export function createGhostNode(sourceItem: HTMLElement, rect: DOMRect): void {
     if (!ghostNode || !dragStartRect || !activeDragOptions) return;
 
     const gridRect = activeDragOptions.gridContainer.getBoundingClientRect();
-    const isSingleRow =
-      activeDragOptions.gridContainer.classList.contains('single-row');
-    const isInsideFolder =
-      !!document.getElementById('folderBackWrapper')?.classList.contains('visible');
+    const isSingleRow = activeDragOptions.gridContainer.classList.contains('single-row');
+    const isInsideFolder = !!document.getElementById('folderBackWrapper')?.classList.contains('visible');
 
     const isOutside =
       isInsideFolder &&
@@ -152,17 +145,11 @@ export function createGhostNode(sourceItem: HTMLElement, rect: DOMRect): void {
     let screenTargetY = mouseY - offsetY;
 
     if (!isOutside) {
-      screenTargetX = Math.max(
-        gridRect.left,
-        Math.min(screenTargetX, gridRect.right - dragStartRect.width),
-      );
+      screenTargetX = Math.max(gridRect.left, Math.min(screenTargetX, gridRect.right - dragStartRect.width));
       if (isSingleRow) {
         screenTargetY = dragStartRect.top;
       } else {
-        screenTargetY = Math.max(
-          gridRect.top,
-          Math.min(screenTargetY, gridRect.bottom - dragStartRect.height),
-        );
+        screenTargetY = Math.max(gridRect.top, Math.min(screenTargetY, gridRect.bottom - dragStartRect.height));
       }
     }
 
@@ -195,10 +182,8 @@ export function handleGlobalDragOver(event: DragEvent): void {
   if (!activeDragOptions || !dragStartRect) return;
 
   const gridRect = activeDragOptions.gridContainer.getBoundingClientRect();
-  const isSingleRow =
-    activeDragOptions.gridContainer.classList.contains('single-row');
-  const isInsideFolder =
-    !!document.getElementById('folderBackWrapper')?.classList.contains('visible');
+  const isSingleRow = activeDragOptions.gridContainer.classList.contains('single-row');
+  const isInsideFolder = !!document.getElementById('folderBackWrapper')?.classList.contains('visible');
 
   const isOutside =
     isInsideFolder &&
@@ -211,17 +196,11 @@ export function handleGlobalDragOver(event: DragEvent): void {
   let targetY = mouseY - offsetY;
 
   if (!isOutside) {
-    targetX = Math.max(
-      gridRect.left,
-      Math.min(targetX, gridRect.right - dragStartRect.width),
-    );
+    targetX = Math.max(gridRect.left, Math.min(targetX, gridRect.right - dragStartRect.width));
     if (isSingleRow) {
       targetY = dragStartRect.top;
     } else {
-      targetY = Math.max(
-        gridRect.top,
-        Math.min(targetY, gridRect.bottom - dragStartRect.height),
-      );
+      targetY = Math.max(gridRect.top, Math.min(targetY, gridRect.bottom - dragStartRect.height));
     }
   }
 
@@ -234,9 +213,7 @@ export function handleGlobalDragOver(event: DragEvent): void {
     if (draggedElement) {
       draggedElement.style.display = 'none';
     }
-    document
-      .querySelectorAll('.folder-drag-hover')
-      .forEach((el) => el.classList.remove('folder-drag-hover'));
+    document.querySelectorAll('.folder-drag-hover').forEach((el) => el.classList.remove('folder-drag-hover'));
     return;
   }
 
@@ -283,12 +260,7 @@ export function handleGlobalDragOver(event: DragEvent): void {
   if (isFolder) {
     const xPercentage = relX / rect.width;
     const yPercentage = relY / rect.height;
-    if (
-      xPercentage > 0.15 &&
-      xPercentage < 0.85 &&
-      yPercentage > 0.15 &&
-      yPercentage < 0.85
-    ) {
+    if (xPercentage > 0.15 && xPercentage < 0.85 && yPercentage > 0.15 && yPercentage < 0.85) {
       dropAction = 'folder';
       currentDropTarget = item;
       item.classList.add('folder-drag-hover');
@@ -303,9 +275,7 @@ export function handleGlobalDragOver(event: DragEvent): void {
     } else {
       dropAction = 'reorder';
       currentDropTarget = item;
-      document
-        .querySelectorAll('.folder-drag-hover')
-        .forEach((el) => el.classList.remove('folder-drag-hover'));
+      document.querySelectorAll('.folder-drag-hover').forEach((el) => el.classList.remove('folder-drag-hover'));
 
       if (currentEdgeItem !== item) {
         if (folderEdgeTimer) clearTimeout(folderEdgeTimer);
@@ -331,19 +301,14 @@ export function handleGlobalDragOver(event: DragEvent): void {
     currentEdgeItem = null;
     edgeDelayPassed = false;
 
-    document
-      .querySelectorAll('.folder-drag-hover')
-      .forEach((el) => el.classList.remove('folder-drag-hover'));
+    document.querySelectorAll('.folder-drag-hover').forEach((el) => el.classList.remove('folder-drag-hover'));
   }
 
   const parent = item.parentNode;
   if (!parent) return;
 
   const allSortable = Array.from(parent.children).filter(
-    (el) =>
-      el.classList.contains(itemClass) &&
-      !el.classList.contains('add-card-wrapper') &&
-      el !== ghostNode,
+    (el) => el.classList.contains(itemClass) && !el.classList.contains('add-card-wrapper') && el !== ghostNode,
   );
 
   const draggedIdx = allSortable.indexOf(draggedElement as HTMLElement);
@@ -358,20 +323,13 @@ export function handleGlobalDragOver(event: DragEvent): void {
 
   const referenceNode = isAfter ? item.nextSibling : item;
 
-  if (
-    draggedElement &&
-    draggedElement.nextSibling !== referenceNode &&
-    draggedElement !== referenceNode
-  ) {
+  if (draggedElement && draggedElement.nextSibling !== referenceNode && draggedElement !== referenceNode) {
     moveElementWithAnimation(parent, referenceNode);
     lastSwapTime = now;
   }
 }
 
-export function moveElementWithAnimation(
-  parent: Node,
-  referenceNode: Node | null,
-): void {
+export function moveElementWithAnimation(parent: Node, referenceNode: Node | null): void {
   if (!activeDragOptions || !draggedElement) return;
   const grid = activeDragOptions.gridContainer;
   const siblings = Array.from(grid.children) as HTMLElement[];
@@ -383,12 +341,7 @@ export function moveElementWithAnimation(
 
   siblings.forEach((el) => {
     const oldRect = rects.get(el);
-    if (
-      !oldRect ||
-      el === ghostNode ||
-      el === draggedElement
-    )
-      return;
+    if (!oldRect || el === ghostNode || el === draggedElement) return;
 
     const newRect = el.getBoundingClientRect();
     const dx = oldRect.left - newRect.left;
@@ -430,22 +383,14 @@ export function handleGlobalDrop(event: DragEvent): void {
       const folderId = currentDropTarget.dataset.id;
       if (folderId && oldIndex > -1) {
         dragSuccessful = true;
-        if (activeDragOptions.onMoveToFolder)
-          activeDragOptions.onMoveToFolder(oldIndex, folderId);
+        if (activeDragOptions.onMoveToFolder) activeDragOptions.onMoveToFolder(oldIndex, folderId);
       }
-    } else if (
-      dropAction === 'reorder' &&
-      draggedElement &&
-      draggedElement.parentNode
-    ) {
+    } else if (dropAction === 'reorder' && draggedElement && draggedElement.parentNode) {
       const grid = activeDragOptions.gridContainer;
 
       const itemClass = activeDragOptions.itemClass || 'shortcut-item';
       const allItems = Array.from(grid.children).filter(
-        (el) =>
-          el.classList.contains(itemClass) &&
-          !el.classList.contains('add-card-wrapper') &&
-          el !== ghostNode,
+        (el) => el.classList.contains(itemClass) && !el.classList.contains('add-card-wrapper') && el !== ghostNode,
       );
 
       const newIndex = allItems.indexOf(draggedElement);
@@ -467,8 +412,7 @@ export function handleGlobalDragEnd(event: DragEvent): void {
 }
 
 export function cleanupDrag(): void {
-  if (activeDragOptions)
-    activeDragOptions.gridContainer.classList.remove('sorting');
+  if (activeDragOptions) activeDragOptions.gridContainer.classList.remove('sorting');
   if (rAF_ID) cancelAnimationFrame(rAF_ID);
 
   document.removeEventListener('dragover', handleGlobalDragOver);
@@ -487,9 +431,7 @@ export function cleanupDrag(): void {
     }
   }
 
-  document
-    .querySelectorAll('.folder-drag-hover')
-    .forEach((el) => el.classList.remove('folder-drag-hover'));
+  document.querySelectorAll('.folder-drag-hover').forEach((el) => el.classList.remove('folder-drag-hover'));
 
   if (folderEdgeTimer) {
     clearTimeout(folderEdgeTimer);

@@ -6,17 +6,12 @@
  * If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {
-  savedTheme,
-  accentColorEnabled,
-  accentColorValue,
-} from '@/core/shared/state';
+import { savedTheme, accentColorEnabled, accentColorValue } from '@/core/shared/state';
 
 const DEFAULT_ACCENT_COLOR = '#0078D4';
 
 export function updateTabFavicon(accentColor?: string): void {
-  const hasCustomFavicon =
-    localStorage.getItem('tabFavicon') || localStorage.getItem('tabIcon');
+  const hasCustomFavicon = localStorage.getItem('tabFavicon') || localStorage.getItem('tabIcon');
   if (hasCustomFavicon) {
     return;
   }
@@ -45,21 +40,14 @@ export function applyAccentColor(color: string): void {
   const g = parseInt(hex.substring(2, 4), 16);
   const b = parseInt(hex.substring(4, 6), 16);
   const yiq = (r * 299 + g * 587 + b * 114) / 1000;
-  document.documentElement.style.setProperty(
-    '--accent-contrast-color',
-    yiq >= 128 ? '#202020' : '#FFFFFF',
-  );
+  document.documentElement.style.setProperty('--accent-contrast-color', yiq >= 128 ? '#202020' : '#FFFFFF');
   updateTabFavicon(color);
 }
-
 
 export function applyTheme(theme: string): void {
   document.documentElement.removeAttribute('data-theme');
   if (theme === 'auto') {
-    if (
-      window.matchMedia &&
-      window.matchMedia('(prefers-color-scheme: dark)').matches
-    ) {
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
       document.documentElement.setAttribute('data-theme', 'dark');
     }
   } else {
@@ -80,8 +68,6 @@ export function applyInitialAccentColorState(): void {
       return;
     }
   }
-  const colorToApply = accentColorEnabled
-    ? accentColorValue
-    : DEFAULT_ACCENT_COLOR;
+  const colorToApply = accentColorEnabled ? accentColorValue : DEFAULT_ACCENT_COLOR;
   applyAccentColor(colorToApply);
 }

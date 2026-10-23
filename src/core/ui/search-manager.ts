@@ -19,8 +19,7 @@ import {
 export function bindSearchFeature(options: any): void {
   const localSuggestionsCache = new Map<string, string[]>();
   if (refs.toggleSearchBar) {
-    refs.toggleSearchBar.checked =
-      localStorage.getItem('searchBarVisible') !== 'false';
+    refs.toggleSearchBar.checked = localStorage.getItem('searchBarVisible') !== 'false';
     refs.toggleSearchBar.addEventListener('change', (event) => {
       const target = event.target as HTMLInputElement | null;
       if (!target) return;
@@ -32,12 +31,9 @@ export function bindSearchFeature(options: any): void {
 
   if (refs.searchMoreBtn && refs.searchMoreContainer) {
     refs.searchMoreBtn.addEventListener('click', () => {
-      const isCollapsed =
-        refs.searchMoreContainer.classList.contains('collapsed');
+      const isCollapsed = refs.searchMoreContainer.classList.contains('collapsed');
       if (isCollapsed) {
-        import('@/core/ui/settings').then((m) =>
-          m.resetSettingsAccordions(refs.searchMoreContainer),
-        );
+        import('@/core/ui/settings').then((m) => m.resetSettingsAccordions(refs.searchMoreContainer));
         refs.searchMoreContainer.classList.remove('collapsed');
         refs.searchMoreBtn.classList.add('expanded');
         refs.searchMoreContainer.style.maxHeight = '500px';
@@ -50,29 +46,23 @@ export function bindSearchFeature(options: any): void {
   }
 
   if (refs.searchBarStyleSelect) {
-    refs.searchBarStyleSelect.value = options.getCompactBarEnabled()
-      ? 'compact'
-      : 'full';
+    refs.searchBarStyleSelect.value = options.getCompactBarEnabled() ? 'compact' : 'full';
     // Dispatch change so fluent-select updates its UI
-    refs.searchBarStyleSelect.dispatchEvent(
-      new Event('change', { bubbles: true }),
-    );
+    refs.searchBarStyleSelect.dispatchEvent(new Event('change', { bubbles: true }));
     refs.searchBarStyleSelect.addEventListener('change', (event) => {
       const target = event.target as HTMLSelectElement | null;
       if (!target) return;
       const isCompact = target.value === 'compact';
       options.setCompactBarEnabled(isCompact);
       localStorage.setItem('compactBarEnabled', String(isCompact));
-      if (isCompact)
-        document.documentElement.setAttribute('data-compact-bar', 'true');
+      if (isCompact) document.documentElement.setAttribute('data-compact-bar', 'true');
       else document.documentElement.removeAttribute('data-compact-bar');
       options.updateCompactBarStyle();
     });
   }
 
   if (refs.toggleVoiceSearch) {
-    refs.toggleVoiceSearch.checked =
-      localStorage.getItem('voiceSearchEnabled') === 'true';
+    refs.toggleVoiceSearch.checked = localStorage.getItem('voiceSearchEnabled') === 'true';
     refs.toggleVoiceSearch.addEventListener('change', (event) => {
       const target = event.target as HTMLInputElement | null;
       if (!target) return;
@@ -83,8 +73,7 @@ export function bindSearchFeature(options: any): void {
   }
 
   if (refs.toggleClearSearch) {
-    refs.toggleClearSearch.checked =
-      localStorage.getItem('clearSearchEnabled') === 'true';
+    refs.toggleClearSearch.checked = localStorage.getItem('clearSearchEnabled') === 'true';
     refs.toggleClearSearch.addEventListener('change', (event) => {
       const target = event.target as HTMLInputElement | null;
       if (!target) return;
@@ -129,10 +118,7 @@ export function bindSearchFeature(options: any): void {
       const targetNode = event.target as Node | null;
       if (!targetNode) return;
       if (refs.dropdown?.classList.contains('active')) {
-        if (
-          !refs.dropdown.contains(targetNode) &&
-          !refs.engineBtn?.contains(targetNode)
-        ) {
+        if (!refs.dropdown.contains(targetNode) && !refs.engineBtn?.contains(targetNode)) {
           refs.dropdown.classList.remove('active');
         }
       }
@@ -162,23 +148,17 @@ export function bindSearchFeature(options: any): void {
     refs.searchInput.addEventListener('focus', handleInput);
     refs.searchInput.addEventListener('keydown', (event) => {
       if (!options.getSuggestionsActive()) return;
-      const suggestionItems = Array.from(
-        document.querySelectorAll('.suggestion-item'),
-      ) as HTMLElement[];
+      const suggestionItems = Array.from(document.querySelectorAll('.suggestion-item')) as HTMLElement[];
       if (!suggestionItems.length) return;
-      let currentIndex = suggestionItems.findIndex((item) =>
-        item.classList.contains('selected'),
-      );
+      let currentIndex = suggestionItems.findIndex((item) => item.classList.contains('selected'));
 
       if (event.key === 'ArrowDown') {
         event.preventDefault();
-        currentIndex =
-          currentIndex < suggestionItems.length - 1 ? currentIndex + 1 : 0;
+        currentIndex = currentIndex < suggestionItems.length - 1 ? currentIndex + 1 : 0;
         options.updateSelection(suggestionItems, currentIndex);
       } else if (event.key === 'ArrowUp') {
         event.preventDefault();
-        currentIndex =
-          currentIndex > 0 ? currentIndex - 1 : suggestionItems.length - 1;
+        currentIndex = currentIndex > 0 ? currentIndex - 1 : suggestionItems.length - 1;
         options.updateSelection(suggestionItems, currentIndex);
       }
     });
@@ -189,18 +169,14 @@ export function bindSearchFeature(options: any): void {
     if (!targetNode || !refs.searchInput) return;
     const container = document.getElementById('suggestionsContainer');
     if (container && container.classList.contains('active')) {
-      if (
-        !container.contains(targetNode) &&
-        !refs.searchInput.contains(targetNode)
-      ) {
+      if (!container.contains(targetNode) && !refs.searchInput.contains(targetNode)) {
         options.clearSuggestions();
       }
     }
   });
 
   if (refs.toggleSuggestions) {
-    refs.toggleSuggestions.checked =
-      localStorage.getItem('suggestionsEnabled') === 'true';
+    refs.toggleSuggestions.checked = localStorage.getItem('suggestionsEnabled') === 'true';
     refs.toggleSuggestions.addEventListener('change', (event) => {
       const target = event.target as HTMLInputElement | null;
       if (!target) return;
@@ -267,8 +243,7 @@ export function bindSearchFeature(options: any): void {
       voiceSearchBtn: refs.voiceSearchBtn,
       searchInput: refs.searchInput,
       searchForm: refs.searchForm,
-      getVoiceEnabled: () =>
-        localStorage.getItem('voiceSearchEnabled') === 'true',
+      getVoiceEnabled: () => localStorage.getItem('voiceSearchEnabled') === 'true',
     });
   }
 
@@ -279,8 +254,7 @@ export function bindSearchFeature(options: any): void {
       const target = event.target as HTMLInputElement | null;
       if (!target) return;
       localStorage.setItem('askAiEnabled', String(target.checked));
-      if (refs.askAiBtn)
-        refs.askAiBtn.style.display = target.checked ? 'flex' : 'none';
+      if (refs.askAiBtn) refs.askAiBtn.style.display = target.checked ? 'flex' : 'none';
     });
   }
 }

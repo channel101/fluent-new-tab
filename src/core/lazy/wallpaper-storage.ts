@@ -6,18 +6,11 @@
  * If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {
-  WALLPAPER_STORE_NAME,
-  openWallpaperDB,
-  convertBlobToBase64,
-} from '@/core/boot/wallpaper-render';
+import { WALLPAPER_STORE_NAME, openWallpaperDB, convertBlobToBase64 } from '@/core/boot/wallpaper-render';
 
 export const MAX_LOCALSTORAGE_CACHE_BYTES = 2.5 * 1024 * 1024;
 
-export async function saveWallpaperToDB(
-  fileOrBlob: Blob | File,
-  keyName = 'custom_wallpaper',
-): Promise<boolean> {
+export async function saveWallpaperToDB(fileOrBlob: Blob | File, keyName = 'custom_wallpaper'): Promise<boolean> {
   const db = await openWallpaperDB();
 
   await new Promise<void>((resolve, reject) => {
@@ -35,10 +28,8 @@ export async function saveWallpaperToDB(
 
     request.onsuccess = done;
     transaction.oncomplete = done;
-    transaction.onerror = () =>
-      reject(transaction.error || new Error('INDEXED_DB_WRITE_ERROR'));
-    request.onerror = () =>
-      reject(request.error || new Error('INDEXED_DB_WRITE_ERROR'));
+    transaction.onerror = () => reject(transaction.error || new Error('INDEXED_DB_WRITE_ERROR'));
+    request.onerror = () => reject(request.error || new Error('INDEXED_DB_WRITE_ERROR'));
   });
 
   if (fileOrBlob.size <= MAX_LOCALSTORAGE_CACHE_BYTES) {

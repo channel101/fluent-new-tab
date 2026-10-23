@@ -45,7 +45,7 @@ async function writeEntry(key: string, src: string): Promise<void> {
   cache[key] = { src, ts: Date.now() };
   try {
     await chrome.storage.local.set({ [CACHE_KEY]: cache });
-  } catch { }
+  } catch {}
 }
 
 function blobToDataUrl(blob: Blob): Promise<string> {
@@ -93,9 +93,7 @@ const chromeFaviconUrl = (page: string) =>
 
 async function sha256(blob: Blob): Promise<string> {
   const buf = await crypto.subtle.digest('SHA-256', await blob.arrayBuffer());
-  return [...new Uint8Array(buf)]
-    .map((x) => x.toString(16).padStart(2, '0'))
-    .join('');
+  return [...new Uint8Array(buf)].map((x) => x.toString(16).padStart(2, '0')).join('');
 }
 
 async function chromeIcon(pageUrl: string): Promise<string | null> {
@@ -132,10 +130,7 @@ async function candidates(u: URL): Promise<string[]> {
   return list;
 }
 
-export function resolveFavicon(
-  pageUrl: string | undefined,
-  force = false,
-): Promise<string | null> {
+export function resolveFavicon(pageUrl: string | undefined, force = false): Promise<string | null> {
   let url: URL;
   try {
     url = new URL(pageUrl || '');
@@ -174,9 +169,7 @@ export function resolveFavicon(
 }
 
 export function letterIcon(label: string): string {
-  const ch = (label.trim()[0] ?? '?')
-    .toUpperCase()
-    .replace(/[&<>"']/g, '?');
+  const ch = (label.trim()[0] ?? '?').toUpperCase().replace(/[&<>"']/g, '?');
   let hue = 0;
   for (const c of label) hue = (hue * 31 + c.charCodeAt(0)) % 360;
   const svg =

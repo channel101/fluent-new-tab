@@ -7,15 +7,10 @@
  */
 
 import { HOST_PERMISSIONS, checkPermission } from '@/core/shared/permissions';
-import {
-  WallpaperType,
-  WallpaperCacheEntry,
-} from '@/core/shared/types';
+import { WallpaperType, WallpaperCacheEntry } from '@/core/shared/types';
 import { getWallpaperCache, setWallpaperCache } from '@/core/shared/state';
 
-export async function fetchDailyWallpaper(
-  source: WallpaperType,
-): Promise<string | null> {
+export async function fetchDailyWallpaper(source: WallpaperType): Promise<string | null> {
   const origins = HOST_PERMISSIONS[source as keyof typeof HOST_PERMISSIONS];
   if (origins) {
     const hasPerm = await checkPermission(origins);
@@ -27,12 +22,7 @@ export async function fetchDailyWallpaper(
 
   try {
     const cached = getWallpaperCache(cacheKey);
-    if (
-      cached &&
-      cached.url &&
-      cached.date === today &&
-      'creditUrl' in cached
-    ) {
+    if (cached && cached.url && cached.date === today && 'creditUrl' in cached) {
       return cached.url;
     }
   } catch (e) {
@@ -67,9 +57,7 @@ export async function fetchDailyWallpaper(
       let pages = data.query?.pages;
 
       if (!pages) {
-        const yesterday = new Date(Date.now() - 86400000)
-          .toISOString()
-          .slice(0, 10);
+        const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
         data = await fetchWiki(yesterday);
         pages = data.query?.pages;
       }
@@ -86,16 +74,14 @@ export async function fetchDailyWallpaper(
 
             const maxCreditLength = 120;
             if (creditText.length > maxCreditLength) {
-              creditText =
-                creditText.substring(0, maxCreditLength).trim() + '...';
+              creditText = creditText.substring(0, maxCreditLength).trim() + '...';
             }
             break;
           }
         }
       }
     } else if (source === 'unsplash') {
-      const url =
-        'https://unsplash.snw-mint.workers.dev/photos/random?query=abstract+wallpaper&orientation=landscape';
+      const url = 'https://unsplash.snw-mint.workers.dev/photos/random?query=abstract+wallpaper&orientation=landscape';
       const res = await fetch(url);
       if (!res.ok) {
         throw new Error(`Unsplash Worker Error: ${res.status}`);
@@ -133,8 +119,7 @@ export async function fetchDailyWallpaper(
         let pexelsUrl = photo?.src?.original || photo?.src?.landscape || '';
 
         if (pexelsUrl && photo?.src?.original) {
-          let screenWidth =
-            window.screen.width * (window.devicePixelRatio || 1);
+          let screenWidth = window.screen.width * (window.devicePixelRatio || 1);
           screenWidth = Math.max(screenWidth, 1920);
           screenWidth = Math.min(screenWidth, 3840);
           screenWidth = Math.ceil(screenWidth / 240) * 240;

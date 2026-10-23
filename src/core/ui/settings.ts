@@ -9,19 +9,10 @@
 import * as refs from '@/core/shared/dom-refs';
 import { getInputTarget, getSelectTarget } from '@/core/shared/dom-utils';
 import { applyAccentColor } from '@/core/boot/theme';
-import {
-  getDisplayScaleBounds,
-  getDisplayScaleForType,
-  applyDisplayScale,
-  getTimeFormat,
-} from '@/core/boot/display';
+import { getDisplayScaleBounds, getDisplayScaleForType, applyDisplayScale, getTimeFormat } from '@/core/boot/display';
 
 import { currentCityData, activeShortcutDropdowns } from '@/core/shared/state';
-import {
-  WeatherUnit,
-  WallpaperType,
-  WallpaperSource,
-} from '@/core/shared/types';
+import { WeatherUnit, WallpaperType, WallpaperSource } from '@/core/shared/types';
 
 export function bindWeatherFeature(options: any): void {
   options.applyInitialWeatherState();
@@ -38,26 +29,24 @@ export function bindWeatherFeature(options: any): void {
       if (wantsEnable) {
         options.setWeatherEnabled(true);
         options.updateWeatherVisibility(true);
-        import('@/core/ui/ui-components').then(
-          ({ requestFeaturePermissionUI }) => {
-            requestFeaturePermissionUI(
-              'weather',
-              'Open-Meteo API',
-              () => {
-                localStorage.setItem('weatherEnabled', 'true');
-                setTimeout(() => {
-                  options.initWeather();
-                }, 250);
-              },
-              () => {
-                target.checked = false;
-                options.setWeatherEnabled(false);
-                options.updateWeatherVisibility(false);
-                document.getElementById('weather-alerts-widget')?.remove();
-              },
-            );
-          },
-        );
+        import('@/core/ui/ui-components').then(({ requestFeaturePermissionUI }) => {
+          requestFeaturePermissionUI(
+            'weather',
+            'Open-Meteo API',
+            () => {
+              localStorage.setItem('weatherEnabled', 'true');
+              setTimeout(() => {
+                options.initWeather();
+              }, 250);
+            },
+            () => {
+              target.checked = false;
+              options.setWeatherEnabled(false);
+              options.updateWeatherVisibility(false);
+              document.getElementById('weather-alerts-widget')?.remove();
+            },
+          );
+        });
       } else {
         options.setWeatherEnabled(false);
         localStorage.setItem('weatherEnabled', 'false');
@@ -81,21 +70,14 @@ export function bindWeatherFeature(options: any): void {
   const closeCityDropdown = () => {
     if (refs.citySuggestionsDropdown) {
       refs.citySuggestionsDropdown.classList.remove('active');
-      const parentGroup = refs.cityInputGroup?.closest(
-        '.setting-group',
-      ) as HTMLElement;
+      const parentGroup = refs.cityInputGroup?.closest('.setting-group') as HTMLElement;
       if (parentGroup) parentGroup.style.zIndex = '';
       if (refs.cityInputGroup) refs.cityInputGroup.style.zIndex = '';
     }
   };
 
   const handleCitySearch = async () => {
-    if (
-      !refs.cityInput ||
-      !refs.cityInput.value.trim() ||
-      !refs.citySuggestionsList ||
-      !refs.citySuggestionsDropdown
-    )
+    if (!refs.cityInput || !refs.cityInput.value.trim() || !refs.citySuggestionsList || !refs.citySuggestionsDropdown)
       return;
     const query = refs.cityInput.value.trim();
 
@@ -105,14 +87,11 @@ export function bindWeatherFeature(options: any): void {
     const loadingLi = document.createElement('li');
     loadingLi.className = 'fluent-select-option';
     loadingLi.style.opacity = '0.7';
-    loadingLi.textContent =
-      chrome.i18n?.getMessage('searchingCity') || 'Searching...';
+    loadingLi.textContent = chrome.i18n?.getMessage('searchingCity') || 'Searching...';
     optionsList.appendChild(loadingLi);
 
     refs.citySuggestionsDropdown.classList.add('active');
-    const parentGroup = refs.cityInputGroup?.closest(
-      '.setting-group',
-    ) as HTMLElement;
+    const parentGroup = refs.cityInputGroup?.closest('.setting-group') as HTMLElement;
     if (parentGroup) parentGroup.style.zIndex = '100';
     if (refs.cityInputGroup) refs.cityInputGroup.style.zIndex = '100';
 
@@ -123,8 +102,7 @@ export function bindWeatherFeature(options: any): void {
       const emptyLi = document.createElement('li');
       emptyLi.className = 'fluent-select-option';
       emptyLi.style.opacity = '0.7';
-      emptyLi.textContent =
-        chrome.i18n?.getMessage('noResultsFound') || 'No results found';
+      emptyLi.textContent = chrome.i18n?.getMessage('noResultsFound') || 'No results found';
       optionsList.appendChild(emptyLi);
       return;
     }
@@ -133,9 +111,7 @@ export function bindWeatherFeature(options: any): void {
       const li = document.createElement('li');
       li.className = 'fluent-select-option';
 
-      const formatLocation = [city.name, city.admin1]
-        .filter(Boolean)
-        .join(', ');
+      const formatLocation = [city.name, city.admin1].filter(Boolean).join(', ');
       li.textContent = formatLocation;
       li.style.marginBottom = '0.25rem';
       li.style.padding = '0.4rem 0.675rem';
@@ -167,10 +143,7 @@ export function bindWeatherFeature(options: any): void {
 
   document.addEventListener('click', (e: MouseEvent) => {
     const target = e.target as HTMLElement;
-    if (
-      refs.citySuggestionsDropdown &&
-      refs.citySuggestionsDropdown.classList.contains('active')
-    ) {
+    if (refs.citySuggestionsDropdown && refs.citySuggestionsDropdown.classList.contains('active')) {
       if (!refs.cityInputGroup?.contains(target)) {
         closeCityDropdown();
       }
@@ -179,8 +152,7 @@ export function bindWeatherFeature(options: any): void {
 
   if (refs.weatherMoreBtn && refs.weatherMoreContainer) {
     refs.weatherMoreBtn.addEventListener('click', () => {
-      const isCollapsed =
-        refs.weatherMoreContainer.classList.contains('collapsed');
+      const isCollapsed = refs.weatherMoreContainer.classList.contains('collapsed');
       if (isCollapsed) {
         resetSettingsAccordions(refs.weatherMoreContainer);
         refs.weatherMoreContainer.classList.remove('collapsed');
@@ -199,29 +171,27 @@ export function bindWeatherFeature(options: any): void {
     refs.toggleWeatherAlerts.addEventListener('change', (event) => {
       const target = event.target as HTMLInputElement;
       if (target.checked) {
-        import('@/core/ui/ui-components').then(
-          ({ requestFeaturePermissionUI }) => {
-            requestFeaturePermissionUI(
-              'weatherAlerts',
-              'Air Quality API',
-              () => {
-                options.setWeatherAlertsEnabled(true);
-                localStorage.setItem('weatherAlertsEnabled', 'true');
-                chrome.runtime.sendMessage({
-                  action: 'updateWeatherAlertsStatus',
-                  enabled: true,
-                  lat: currentCityData.lat,
-                  lon: currentCityData.lon,
-                });
-                options.initWeather();
-              },
-              () => {
-                target.checked = false;
-                options.setWeatherAlertsEnabled(false);
-              },
-            );
-          },
-        );
+        import('@/core/ui/ui-components').then(({ requestFeaturePermissionUI }) => {
+          requestFeaturePermissionUI(
+            'weatherAlerts',
+            'Air Quality API',
+            () => {
+              options.setWeatherAlertsEnabled(true);
+              localStorage.setItem('weatherAlertsEnabled', 'true');
+              chrome.runtime.sendMessage({
+                action: 'updateWeatherAlertsStatus',
+                enabled: true,
+                lat: currentCityData.lat,
+                lon: currentCityData.lon,
+              });
+              options.initWeather();
+            },
+            () => {
+              target.checked = false;
+              options.setWeatherAlertsEnabled(false);
+            },
+          );
+        });
       } else {
         options.setWeatherAlertsEnabled(false);
         localStorage.setItem('weatherAlertsEnabled', 'false');
@@ -241,42 +211,28 @@ export function bindAccentColorFeature(options: any): void {
   const savedColor = localStorage.getItem('accentColorValue') || '#0078D4';
 
   const clearPresetSelection = () => {
-    refs.accentPresetsRow
-      ?.querySelectorAll<HTMLElement>('.color-preset-btn')
-      .forEach((b) => {
-        b.classList.remove('selected');
-        if (
-          b.classList.contains('auto-preset') ||
-          b.classList.contains('custom-preset')
-        )
-          b.style.backgroundColor = '';
-      });
+    refs.accentPresetsRow?.querySelectorAll<HTMLElement>('.color-preset-btn').forEach((b) => {
+      b.classList.remove('selected');
+      if (b.classList.contains('auto-preset') || b.classList.contains('custom-preset')) b.style.backgroundColor = '';
+    });
   };
 
   if (refs.accentPresetsRow) {
     clearPresetSelection();
     if (savedMode === 'auto') {
-      refs.accentPresetsRow
-        .querySelector<HTMLElement>('[data-color="auto"]')
-        ?.classList.add('selected');
+      refs.accentPresetsRow.querySelector<HTMLElement>('[data-color="auto"]')?.classList.add('selected');
     } else {
-      const presetBtn = refs.accentPresetsRow.querySelector<HTMLElement>(
-        `[data-color="${savedColor}"]`,
-      );
+      const presetBtn = refs.accentPresetsRow.querySelector<HTMLElement>(`[data-color="${savedColor}"]`);
       if (presetBtn) {
         presetBtn.classList.add('selected');
       } else if (refs.accentCustomColor) {
-        refs.accentCustomColor
-          .closest('.custom-preset')
-          ?.classList.add('selected');
+        refs.accentCustomColor.closest('.custom-preset')?.classList.add('selected');
         refs.accentCustomColor.value = savedColor;
       }
     }
   }
 
-  const toggleAuto = document.getElementById(
-    'toggleAccentWallpaper',
-  ) as HTMLInputElement | null;
+  const toggleAuto = document.getElementById('toggleAccentWallpaper') as HTMLInputElement | null;
   if (toggleAuto) {
     toggleAuto.checked = savedMode === 'auto';
     toggleAuto.addEventListener('change', async (event) => {
@@ -284,65 +240,49 @@ export function bindAccentColorFeature(options: any): void {
       if (target.checked) {
         localStorage.setItem('accentColorMode', 'auto');
         clearPresetSelection();
-        refs.accentPresetsRow
-          ?.querySelector('[data-color="auto"]')
-          ?.classList.add('selected');
+        refs.accentPresetsRow?.querySelector('[data-color="auto"]')?.classList.add('selected');
         await options.applyWallpaperLogic();
       } else {
         localStorage.setItem('accentColorMode', 'manual');
-        const currentSavedColor =
-          localStorage.getItem('accentColorValue') || '#0078D4';
+        const currentSavedColor = localStorage.getItem('accentColorValue') || '#0078D4';
         applyAccentColor(currentSavedColor);
         clearPresetSelection();
-        const presetBtn = refs.accentPresetsRow?.querySelector(
-          `[data-color="${currentSavedColor}"]`,
-        );
+        const presetBtn = refs.accentPresetsRow?.querySelector(`[data-color="${currentSavedColor}"]`);
         if (presetBtn) presetBtn.classList.add('selected');
-        else
-          refs.accentCustomColor
-            ?.closest('.custom-preset')
-            ?.classList.add('selected');
+        else refs.accentCustomColor?.closest('.custom-preset')?.classList.add('selected');
       }
     });
   }
 
   if (refs.accentPresetsRow) {
-    refs.accentPresetsRow
-      .querySelectorAll<HTMLElement>('.color-preset-btn')
-      .forEach((btn) => {
-        btn.addEventListener('click', (e) => {
-          if ((e.target as HTMLElement).tagName === 'INPUT') return;
-          clearPresetSelection();
-          btn.classList.add('selected');
-          if (
-            !btn.classList.contains('custom-preset') &&
-            refs.accentCustomColor
-          )
-            refs.accentCustomColor.value = '#000000';
+    refs.accentPresetsRow.querySelectorAll<HTMLElement>('.color-preset-btn').forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        if ((e.target as HTMLElement).tagName === 'INPUT') return;
+        clearPresetSelection();
+        btn.classList.add('selected');
+        if (!btn.classList.contains('custom-preset') && refs.accentCustomColor)
+          refs.accentCustomColor.value = '#000000';
 
-          const color = btn.getAttribute('data-color');
-          if (color && color !== 'auto') {
-            localStorage.setItem('accentColorValue', color);
-            localStorage.setItem('accentColorMode', 'manual');
-            applyAccentColor(color);
-            if (toggleAuto) toggleAuto.checked = false;
-          } else if (color === 'auto') {
-            localStorage.setItem('accentColorMode', 'auto');
-            if (toggleAuto) toggleAuto.checked = true;
-            void options.applyWallpaperLogic();
-          }
-        });
+        const color = btn.getAttribute('data-color');
+        if (color && color !== 'auto') {
+          localStorage.setItem('accentColorValue', color);
+          localStorage.setItem('accentColorMode', 'manual');
+          applyAccentColor(color);
+          if (toggleAuto) toggleAuto.checked = false;
+        } else if (color === 'auto') {
+          localStorage.setItem('accentColorMode', 'auto');
+          if (toggleAuto) toggleAuto.checked = true;
+          void options.applyWallpaperLogic();
+        }
       });
+    });
   }
 
   if (refs.accentCustomColor) {
-    const customBtn = refs.accentCustomColor.closest(
-      '.custom-preset',
-    ) as HTMLElement;
+    const customBtn = refs.accentCustomColor.closest('.custom-preset') as HTMLElement;
     refs.accentCustomColor.addEventListener('click', async (event) => {
       event.preventDefault();
-      const { initCustomColorPicker } =
-        await import('@/core/lazy/color-picker');
+      const { initCustomColorPicker } = await import('@/core/lazy/color-picker');
       const { warningModal } = await import('@/core/ui/ui-components');
       initCustomColorPicker(customBtn, warningModal, clearPresetSelection);
     });
@@ -350,8 +290,7 @@ export function bindAccentColorFeature(options: any): void {
 
   if (refs.accentMoreBtn && refs.accentMoreContainer) {
     refs.accentMoreBtn.addEventListener('click', () => {
-      const isCollapsed =
-        refs.accentMoreContainer.classList.contains('collapsed');
+      const isCollapsed = refs.accentMoreContainer.classList.contains('collapsed');
       if (isCollapsed) {
         resetSettingsAccordions(refs.accentMoreContainer);
         refs.accentMoreContainer.classList.remove('collapsed');
@@ -390,9 +329,7 @@ export function bindSurfaceTintFeature(): void {
 }
 
 export function bindDisplayFeature(options: any): void {
-  const toggleDisplay = document.getElementById(
-    'toggleDisplay',
-  ) as HTMLInputElement | null;
+  const toggleDisplay = document.getElementById('toggleDisplay') as HTMLInputElement | null;
   if (toggleDisplay) {
     toggleDisplay.checked = options.getDisplayEnabled();
     import('@/core/ui/ui-components').then(({ setCollapsible }) => {
@@ -413,8 +350,7 @@ export function bindDisplayFeature(options: any): void {
 
   if (refs.displayToggleBtn && refs.displaySliderContainer) {
     refs.displayToggleBtn.addEventListener('click', () => {
-      const isCollapsed =
-        refs.displaySliderContainer.classList.contains('collapsed');
+      const isCollapsed = refs.displaySliderContainer.classList.contains('collapsed');
       if (isCollapsed) {
         resetSettingsAccordions(refs.displaySliderContainer);
         refs.displaySliderContainer.classList.remove('collapsed');
@@ -432,19 +368,12 @@ export function bindDisplayFeature(options: any): void {
     const min = parseInt(sliderInput.min, 10);
     const max = parseInt(sliderInput.max, 10);
     const val = parseInt(sliderInput.value, 10);
-    sliderInput.style.setProperty(
-      '--slider-progress',
-      `${(val - min) / (max - min)}`,
-    );
+    sliderInput.style.setProperty('--slider-progress', `${(val - min) / (max - min)}`);
   };
 
   const syncDisplayScaleSlider = (preset?: string) => {
     if (!refs.displayScaleSlider) return;
-    const currentType =
-      preset ||
-      refs.displayTypeSelect?.value ||
-      localStorage.getItem('displayType') ||
-      'greeting';
+    const currentType = preset || refs.displayTypeSelect?.value || localStorage.getItem('displayType') || 'greeting';
     const bounds = getDisplayScaleBounds(currentType);
     const currentScale = getDisplayScaleForType(currentType);
 
@@ -464,19 +393,13 @@ export function bindDisplayFeature(options: any): void {
       const target = event.target as HTMLInputElement;
       updateSliderProgress(target);
       const val = parseInt(target.value, 10);
-      document.documentElement.style.setProperty(
-        '--display-scale',
-        `${val / 100}`,
-      );
+      document.documentElement.style.setProperty('--display-scale', `${val / 100}`);
     });
 
     slider.addEventListener('change', (event) => {
       const target = event.target as HTMLInputElement;
       const value = parseInt(target.value, 10);
-      const currentType =
-        refs.displayTypeSelect?.value ||
-        localStorage.getItem('displayType') ||
-        'greeting';
+      const currentType = refs.displayTypeSelect?.value || localStorage.getItem('displayType') || 'greeting';
       options.setDisplayScale(value);
       localStorage.setItem(`displayScale_${currentType}`, String(value));
       localStorage.setItem('displayScale', String(value));
@@ -492,8 +415,7 @@ export function bindDisplayFeature(options: any): void {
   }
 
   if (refs.toggleHighlightName) {
-    refs.toggleHighlightName.checked =
-      localStorage.getItem('highlightName') === 'true';
+    refs.toggleHighlightName.checked = localStorage.getItem('highlightName') === 'true';
   }
 
   const updateHighlightNameState = () => {
@@ -512,14 +434,12 @@ export function bindDisplayFeature(options: any): void {
   updateHighlightNameState();
 
   if (refs.dateFormatSelect) {
-    refs.dateFormatSelect.value =
-      localStorage.getItem('dateFormat') || 'weekday';
+    refs.dateFormatSelect.value = localStorage.getItem('dateFormat') || 'weekday';
   }
 
   const updateCustomPatternVisibility = (val: string) => {
     if (refs.customTimeFormatGroup) {
-      refs.customTimeFormatGroup.style.display =
-        val === 'custom' ? 'flex' : 'none';
+      refs.customTimeFormatGroup.style.display = val === 'custom' ? 'flex' : 'none';
     }
   };
 
@@ -527,14 +447,8 @@ export function bindDisplayFeature(options: any): void {
     const savedTimeFormat = getTimeFormat();
     refs.timeFormatSelect.value = savedTimeFormat;
     updateCustomPatternVisibility(savedTimeFormat);
-    const trigger =
-      refs.timeFormatSelect.parentElement?.querySelector<HTMLElement>(
-        '.fluent-select-value',
-      );
-    const selectedOpt =
-      refs.timeFormatSelect.querySelector<HTMLOptionElement>(
-        `option[value="${savedTimeFormat}"]`,
-      );
+    const trigger = refs.timeFormatSelect.parentElement?.querySelector<HTMLElement>('.fluent-select-value');
+    const selectedOpt = refs.timeFormatSelect.querySelector<HTMLOptionElement>(`option[value="${savedTimeFormat}"]`);
     if (trigger && selectedOpt) {
       trigger.textContent = selectedOpt.textContent;
     }
@@ -556,8 +470,7 @@ export function bindDisplayFeature(options: any): void {
   }
 
   if (refs.customTimeFormatInput) {
-    refs.customTimeFormatInput.value =
-      localStorage.getItem('customTimeFormat') || '';
+    refs.customTimeFormatInput.value = localStorage.getItem('customTimeFormat') || '';
   }
 
   if (refs.displayTypeSelect) {
@@ -569,13 +482,9 @@ export function bindDisplayFeature(options: any): void {
       if (refs.subTime) refs.subTime.style.display = 'none';
       if (refs.subDate) refs.subDate.style.display = 'none';
 
-      const hasAdvanced = ['greeting', 'time', 'date', 'timedate'].includes(
-        preset,
-      );
+      const hasAdvanced = ['greeting', 'time', 'date', 'timedate'].includes(preset);
       if (refs.displayAdvancedSetting) {
-        refs.displayAdvancedSetting.style.display = hasAdvanced
-          ? 'flex'
-          : 'none';
+        refs.displayAdvancedSetting.style.display = hasAdvanced ? 'flex' : 'none';
       }
 
       if (hasAdvanced && refs.displaySliderContainer && refs.displayToggleBtn) {
@@ -586,12 +495,9 @@ export function bindDisplayFeature(options: any): void {
         }
       }
 
-      if (preset === 'greeting' && refs.subGreeting)
-        refs.subGreeting.style.display = 'flex';
-      if (preset === 'time' && refs.subTime)
-        refs.subTime.style.display = 'flex';
-      if (preset === 'date' && refs.subDate)
-        refs.subDate.style.display = 'flex';
+      if (preset === 'greeting' && refs.subGreeting) refs.subGreeting.style.display = 'flex';
+      if (preset === 'time' && refs.subTime) refs.subTime.style.display = 'flex';
+      if (preset === 'date' && refs.subDate) refs.subDate.style.display = 'flex';
       if (preset === 'timedate') {
         if (refs.subTime) refs.subTime.style.display = 'flex';
         if (refs.subDate) refs.subDate.style.display = 'flex';
@@ -607,21 +513,15 @@ export function bindDisplayFeature(options: any): void {
       const preset = target.value;
       localStorage.setItem('displayType', preset);
 
-      if (refs.dateFormatSelect)
-        refs.dateFormatSelect.value =
-          localStorage.getItem('dateFormat') || 'weekday';
+      if (refs.dateFormatSelect) refs.dateFormatSelect.value = localStorage.getItem('dateFormat') || 'weekday';
       if (refs.timeFormatSelect) {
         const savedTimeFormat = getTimeFormat();
         refs.timeFormatSelect.value = savedTimeFormat;
         updateCustomPatternVisibility(savedTimeFormat);
-        const trigger =
-          refs.timeFormatSelect.parentElement?.querySelector<HTMLElement>(
-            '.fluent-select-value',
-          );
-        const selectedOpt =
-          refs.timeFormatSelect.querySelector<HTMLOptionElement>(
-            `option[value="${savedTimeFormat}"]`,
-          );
+        const trigger = refs.timeFormatSelect.parentElement?.querySelector<HTMLElement>('.fluent-select-value');
+        const selectedOpt = refs.timeFormatSelect.querySelector<HTMLOptionElement>(
+          `option[value="${savedTimeFormat}"]`,
+        );
         if (trigger && selectedOpt) {
           trigger.textContent = selectedOpt.textContent;
         }
@@ -631,8 +531,7 @@ export function bindDisplayFeature(options: any): void {
         refs.timezoneInput.value = savedTz === 'auto' ? '' : savedTz;
       }
       if (refs.customTimeFormatInput) {
-        refs.customTimeFormatInput.value =
-          localStorage.getItem('customTimeFormat') || '';
+        refs.customTimeFormatInput.value = localStorage.getItem('customTimeFormat') || '';
       }
 
       updateAdvancedUI(preset);
@@ -724,9 +623,7 @@ export function bindDisplayFeature(options: any): void {
 }
 
 export function bindShortcutRadiusFeature(options: any): void {
-  const toggleShortcuts = document.getElementById(
-    'toggleShortcuts',
-  ) as HTMLInputElement | null;
+  const toggleShortcuts = document.getElementById('toggleShortcuts') as HTMLInputElement | null;
   const rowsInputGroup = document.getElementById('rowsInputGroup');
   const shortcutsMoreSetting = document.getElementById('shortcutsMoreSetting');
   const shortcutsGrid = document.getElementById('shortcutsGrid');
@@ -735,8 +632,7 @@ export function bindShortcutRadiusFeature(options: any): void {
     const isVisible = localStorage.getItem('shortcutsVisible') !== 'false';
     toggleShortcuts.checked = isVisible;
 
-    if (shortcutsGrid)
-      shortcutsGrid.style.display = isVisible ? 'grid' : 'none';
+    if (shortcutsGrid) shortcutsGrid.style.display = isVisible ? 'grid' : 'none';
     import('@/core/ui/ui-components').then(({ setCollapsible }) => {
       setCollapsible(rowsInputGroup, isVisible, false);
       setCollapsible(shortcutsMoreSetting, isVisible, false);
@@ -750,8 +646,7 @@ export function bindShortcutRadiusFeature(options: any): void {
       document.body.dataset.shortcutsActive = String(checked);
       window.dispatchEvent(new CustomEvent('fluent-layout-change'));
 
-      if (shortcutsGrid)
-        shortcutsGrid.style.display = checked ? 'grid' : 'none';
+      if (shortcutsGrid) shortcutsGrid.style.display = checked ? 'grid' : 'none';
       import('@/core/ui/ui-components').then(({ setCollapsible }) => {
         setCollapsible(rowsInputGroup, checked, true);
         setCollapsible(shortcutsMoreSetting, checked, true);
@@ -778,10 +673,7 @@ export function bindShortcutRadiusFeature(options: any): void {
       if (valNum >= -3 && valNum <= 3) valNum = 0;
       const min = parseInt(refs.shortcutRadiusSlider.min, 10);
       const max = parseInt(refs.shortcutRadiusSlider.max, 10);
-      refs.shortcutRadiusSlider.style.setProperty(
-        '--slider-progress',
-        `${(valNum - min) / (max - min)}`,
-      );
+      refs.shortcutRadiusSlider.style.setProperty('--slider-progress', `${(valNum - min) / (max - min)}`);
     };
 
     updateSliderUI(currentRadius);
@@ -799,14 +691,8 @@ export function bindShortcutRadiusFeature(options: any): void {
           : valNum > 0
             ? `calc(0.441rem + ((50% - 0.441rem) * (${valNum} / 100)))`
             : `calc(0.441rem - ((0.441rem - 0.1rem) * (${-valNum} / 100)))`;
-      document.documentElement.style.setProperty(
-        '--shortcut-radius',
-        radiusValue,
-      );
-      document.documentElement.style.setProperty(
-        '--shortcut-icon-radius',
-        iconRadiusValue,
-      );
+      document.documentElement.style.setProperty('--shortcut-radius', radiusValue);
+      document.documentElement.style.setProperty('--shortcut-icon-radius', iconRadiusValue);
     };
 
     refs.shortcutRadiusSlider.addEventListener('input', (event) => {
@@ -835,18 +721,13 @@ export function bindShortcutRadiusFeature(options: any): void {
       const isEnabled = target.checked;
       options.setHideShortcutNames(isEnabled);
       localStorage.setItem('hideShortcutNames', String(isEnabled));
-      document
-        .getElementById('shortcutsGrid')
-        ?.setAttribute('data-hide-names', String(isEnabled));
+      document.getElementById('shortcutsGrid')?.setAttribute('data-hide-names', String(isEnabled));
     });
   }
 
   if (refs.importBookmarksBtn) {
     const parentContainer = refs.importBookmarksBtn.parentElement;
-    if (
-      parentContainer &&
-      !parentContainer.classList.contains('bookmarks-actions-group')
-    ) {
+    if (parentContainer && !parentContainer.classList.contains('bookmarks-actions-group')) {
       const group = document.createElement('div');
       group.className = 'bookmarks-actions-group';
       parentContainer.insertBefore(group, refs.importBookmarksBtn);
@@ -854,16 +735,13 @@ export function bindShortcutRadiusFeature(options: any): void {
     }
 
     const actionsGroup = refs.importBookmarksBtn.parentElement;
-    let undoBookmarksBtn = document.getElementById(
-      'undoBookmarksBtn',
-    ) as HTMLButtonElement | null;
+    let undoBookmarksBtn = document.getElementById('undoBookmarksBtn') as HTMLButtonElement | null;
     if (!undoBookmarksBtn && actionsGroup) {
       undoBookmarksBtn = document.createElement('button');
       undoBookmarksBtn.type = 'button';
       undoBookmarksBtn.id = 'undoBookmarksBtn';
       undoBookmarksBtn.className = 'undo-bookmarks-btn';
-      undoBookmarksBtn.title =
-        (window as any).getTranslation?.('btnUndo') || 'Undo';
+      undoBookmarksBtn.title = (window as any).getTranslation?.('btnUndo') || 'Undo';
       undoBookmarksBtn.innerHTML = `<svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4.75 2a.75.75 0 0 1 .743.648l.007.102v5.69l4.574-4.56a6.41 6.41 0 0 1 8.879-.179l.186.18a6.41 6.41 0 0 1 0 9.063l-8.846 8.84a.75.75 0 0 1-1.06-1.062l8.845-8.838a4.91 4.91 0 0 0-6.766-7.112l-.178.17L6.562 9.5h5.688a.75.75 0 0 1 .743.648l.007.102a.75.75 0 0 1-.648.743L12.25 11h-7.5a.75.75 0 0 1-.743-.648L4 10.25v-7.5A.75.75 0 0 1 4.75 2" fill="currentColor"/></svg>`;
       actionsGroup.insertBefore(undoBookmarksBtn, refs.importBookmarksBtn);
     }
@@ -883,30 +761,26 @@ export function bindShortcutRadiusFeature(options: any): void {
           {
             name: 'Wikipedia',
             url: 'https://wikipedia.com',
-            customIcon:
-              'https://upload.wikimedia.org/wikipedia/en/8/80/Wikipedia-logo-v2.svg',
+            customIcon: 'https://upload.wikimedia.org/wikipedia/en/8/80/Wikipedia-logo-v2.svg',
           },
           { name: 'YouTube', url: 'https://youtube.com', customIcon: null },
           {
             name: 'Github',
             url: 'https://github.com/snw-mint/fluent-new-tab',
-            customIcon:
-              'https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg',
+            customIcon: 'https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg',
           },
           { name: 'BMC', url: 'https://buymeacoffee.com/snw.mint' },
           {
             name: 'Help',
             url: 'https://snw-mint.github.io/fluent-new-tab/help',
-            customIcon:
-              'https://github.com/snw-mint/fluent-new-tab/blob/leading/android-chrome-512x512.png?raw=true',
+            customIcon: 'https://github.com/snw-mint/fluent-new-tab/blob/leading/android-chrome-512x512.png?raw=true',
             type: 'link',
           },
           { name: 'Spotify', url: 'https://spotify.com', customIcon: null },
           {
             name: 'MD3: New Tab',
             url: 'https://snw-mint.github.io/md3-new-tab/',
-            customIcon:
-              'https://snw-mint.github.io/md3-new-tab/assets/md3-logo.svg',
+            customIcon: 'https://snw-mint.github.io/md3-new-tab/assets/md3-logo.svg',
           },
         ];
         localStorage.removeItem('bookmarksImported');
@@ -917,8 +791,7 @@ export function bindShortcutRadiusFeature(options: any): void {
     }
 
     refs.importBookmarksBtn.addEventListener('click', async () => {
-      const { requestApiPermission } =
-        await import('@/core/shared/permissions');
+      const { requestApiPermission } = await import('@/core/shared/permissions');
       const granted = await requestApiPermission(['bookmarks']);
       if (!granted) return;
 
@@ -935,12 +808,10 @@ export function bindShortcutRadiusFeature(options: any): void {
               });
             } else if (node.children) {
               if (depth <= 1) {
-                for (const child of node.children)
-                  processNode(child, currentList, depth + 1);
+                for (const child of node.children) processNode(child, currentList, depth + 1);
               } else {
                 if (depth > 2) {
-                  for (const child of node.children)
-                    processNode(child, currentList, depth + 1);
+                  for (const child of node.children) processNode(child, currentList, depth + 1);
                 } else {
                   const folder = {
                     id: 'folder_' + node.id + '_' + Date.now(),
@@ -948,10 +819,8 @@ export function bindShortcutRadiusFeature(options: any): void {
                     name: node.title ? node.title.substring(0, 40) : 'Folder',
                     children: [] as any[],
                   };
-                  for (const child of node.children)
-                    processNode(child, folder.children, depth + 1);
-                  if (folder.children.length > 40)
-                    folder.children = folder.children.slice(0, 40);
+                  for (const child of node.children) processNode(child, folder.children, depth + 1);
+                  if (folder.children.length > 40) folder.children = folder.children.slice(0, 40);
                   if (folder.children.length > 0) currentList.push(folder);
                 }
               }
@@ -973,12 +842,9 @@ export function bindShortcutRadiusFeature(options: any): void {
             for (const item of overflowItems) {
               if (item.type !== 'folder') othersFolder.children.push(item);
               else if (item.children)
-                othersFolder.children.push(
-                  ...item.children.filter((c: any) => c.type !== 'folder'),
-                );
+                othersFolder.children.push(...item.children.filter((c: any) => c.type !== 'folder'));
             }
-            if (othersFolder.children.length > 40)
-              othersFolder.children = othersFolder.children.slice(0, 40);
+            if (othersFolder.children.length > 40) othersFolder.children = othersFolder.children.slice(0, 40);
             if (othersFolder.children.length > 0) mainItems.push(othersFolder);
             finalResult = mainItems;
           }
@@ -1000,19 +866,15 @@ export function bindShortcutRadiusFeature(options: any): void {
       if (existing.length > 0) {
         import('@/core/ui/ui-components').then(({ warningModal }) => {
           warningModal.show({
-            title:
-              (window as any).getTranslation?.('importBookmarksWarningTitle') ||
-              'Import Bookmarks?',
+            title: (window as any).getTranslation?.('importBookmarksWarningTitle') || 'Import Bookmarks?',
             message:
               (window as any).getTranslation?.('importBookmarksWarningDesc') ||
               'Importing bookmarks will erase your current shortcuts. Do you want to continue?',
-            confirmText:
-              (window as any).getTranslation?.('importOption') || 'Import',
-            cancelText:
-              (window as any).getTranslation?.('btnCancel') || 'Cancel',
+            confirmText: (window as any).getTranslation?.('importOption') || 'Import',
+            cancelText: (window as any).getTranslation?.('btnCancel') || 'Cancel',
             confirmVariant: 'danger',
             onConfirm: () => runImport(),
-            onCancel: () => { },
+            onCancel: () => {},
           });
         });
       } else {
@@ -1023,8 +885,7 @@ export function bindShortcutRadiusFeature(options: any): void {
 
   if (refs.shortcutsMoreBtn && refs.shortcutsMoreContainer) {
     refs.shortcutsMoreBtn.addEventListener('click', () => {
-      const isCollapsed =
-        refs.shortcutsMoreContainer.classList.contains('collapsed');
+      const isCollapsed = refs.shortcutsMoreContainer.classList.contains('collapsed');
       if (isCollapsed) {
         resetSettingsAccordions(refs.shortcutsMoreContainer);
         refs.shortcutsMoreContainer.classList.remove('collapsed');
@@ -1054,9 +915,7 @@ export function bindShortcutRadiusFeature(options: any): void {
 }
 
 export function bindLauncherFeature(options: any): void {
-  const toggleLauncher = document.getElementById(
-    'toggleLauncher',
-  ) as HTMLInputElement | null;
+  const toggleLauncher = document.getElementById('toggleLauncher') as HTMLInputElement | null;
   const launcherSelectGroup = document.getElementById('launcherSelectGroup');
 
   if (toggleLauncher) {
@@ -1122,9 +981,7 @@ export function bindLauncherFeature(options: any): void {
 }
 
 export function bindFeedFeature(options: any): void {
-  const toggleFeed = document.getElementById(
-    'toggleFeed',
-  ) as HTMLInputElement | null;
+  const toggleFeed = document.getElementById('toggleFeed') as HTMLInputElement | null;
   const feedOptionsGroup = document.getElementById('feedOptionsGroup');
 
   if (toggleFeed) {
@@ -1173,13 +1030,9 @@ export function bindFeedFeature(options: any): void {
 }
 
 export function bindReduceEffectsFeature(): void {
-  const toggleReduceEffects = document.getElementById(
-    'toggleAccessibility',
-  ) as HTMLInputElement | null;
+  const toggleReduceEffects = document.getElementById('toggleAccessibility') as HTMLInputElement | null;
   const accessibilityOptions = document.getElementById('accessibilityOptions');
-  const toggleDisableAnimations = document.getElementById(
-    'toggleDisableAnimations',
-  ) as HTMLInputElement | null;
+  const toggleDisableAnimations = document.getElementById('toggleDisableAnimations') as HTMLInputElement | null;
 
   const applyAnimationsDisabled = (disabled: boolean) => {
     if (disabled) {
@@ -1193,16 +1046,14 @@ export function bindReduceEffectsFeature(): void {
     const isReduced = localStorage.getItem('reducedEffectsEnabled') === 'true';
     toggleReduceEffects.checked = isReduced;
 
-    if (isReduced)
-      document.documentElement.setAttribute('data-reduce-effects', 'true');
+    if (isReduced) document.documentElement.setAttribute('data-reduce-effects', 'true');
     else document.documentElement.removeAttribute('data-reduce-effects');
 
     import('@/core/ui/ui-components').then(({ setCollapsible }) => {
       setCollapsible(accessibilityOptions, isReduced, false);
     });
     if (toggleDisableAnimations) {
-      const animsDisabled =
-        localStorage.getItem('animationsDisabled') === 'true';
+      const animsDisabled = localStorage.getItem('animationsDisabled') === 'true';
       toggleDisableAnimations.checked = animsDisabled;
       toggleDisableAnimations.disabled = !isReduced;
       applyAnimationsDisabled(isReduced && animsDisabled);
@@ -1258,25 +1109,16 @@ export function bindMainUiScaleFeature(options: any): void {
       const min = parseFloat(sliderInput.min);
       const max = parseFloat(sliderInput.max);
       const val = parseFloat(sliderInput.value);
-      sliderInput.style.setProperty(
-        '--slider-progress',
-        `${(val - min) / (max - min)}`,
-      );
+      sliderInput.style.setProperty('--slider-progress', `${(val - min) / (max - min)}`);
     };
 
     updateSliderProgress(slider);
     slider.addEventListener('input', (event) => {
       const target = event.target as HTMLInputElement;
       updateSliderProgress(target);
-      document.documentElement.style.setProperty(
-        '--main-ui-scale',
-        target.value,
-      );
+      document.documentElement.style.setProperty('--main-ui-scale', target.value);
       if (!localStorage.getItem('displayScale')) {
-        document.documentElement.style.setProperty(
-          '--display-scale',
-          String(parseFloat(target.value) * 0.85),
-        );
+        document.documentElement.style.setProperty('--display-scale', String(parseFloat(target.value) * 0.85));
       }
     });
 
@@ -1289,18 +1131,12 @@ export function bindMainUiScaleFeature(options: any): void {
   }
 }
 
-export function bindWallpaperFeature(
-  options: any,
-  getWallpaperEngine: () => Promise<any>,
-): void {
-  const autoColorBtn = document.querySelector(
-    '.color-preset-btn.auto-preset',
-  ) as HTMLButtonElement | null;
+export function bindWallpaperFeature(options: any, getWallpaperEngine: () => Promise<any>): void {
+  const autoColorBtn = document.querySelector('.color-preset-btn.auto-preset') as HTMLButtonElement | null;
   if (autoColorBtn) autoColorBtn.disabled = !options.getWallpaperEnabled();
 
   if (refs.toggleWallpaper) {
-    const isWallpaperEnabled =
-      localStorage.getItem('wallpaperEnabled') === 'true';
+    const isWallpaperEnabled = localStorage.getItem('wallpaperEnabled') === 'true';
     refs.toggleWallpaper.checked = isWallpaperEnabled;
     options.updateWallpaperUIState(isWallpaperEnabled, false);
 
@@ -1315,11 +1151,7 @@ export function bindWallpaperFeature(
       if (autoColorBtn) {
         autoColorBtn.disabled = !isEnabled;
         if (!isEnabled && autoColorBtn.classList.contains('selected')) {
-          (
-            document.querySelector(
-              '.color-preset-btn[data-color="#0078d4"]',
-            ) as HTMLButtonElement | null
-          )?.click();
+          (document.querySelector('.color-preset-btn[data-color="#0078d4"]') as HTMLButtonElement | null)?.click();
         }
       }
       const engine = await getWallpaperEngine();
@@ -1336,12 +1168,8 @@ export function bindWallpaperFeature(
     const savedType = localStorage.getItem('wallpaperType') || 'upload';
     refs.wallpaperSourceSelect.value = savedType;
 
-    const triggerValue = refs.wallpaperSourceContainer?.querySelector(
-      '.fluent-select-value',
-    );
-    const selectedOption = refs.wallpaperSourceSelect.querySelector(
-      `option[value="${savedType}"]`,
-    );
+    const triggerValue = refs.wallpaperSourceContainer?.querySelector('.fluent-select-value');
+    const selectedOption = refs.wallpaperSourceSelect.querySelector(`option[value="${savedType}"]`);
     if (triggerValue && selectedOption) {
       triggerValue.textContent = selectedOption.textContent;
       const i18nKey = selectedOption.getAttribute('data-i18n');
@@ -1354,10 +1182,8 @@ export function bindWallpaperFeature(
 
     const uploadContainer = document.getElementById('uploadWallpaperContainer');
     if (uploadContainer) {
-      const wallpaperActive =
-        localStorage.getItem('wallpaperEnabled') === 'true';
-      uploadContainer.style.display =
-        wallpaperActive && savedType === 'upload' ? 'flex' : 'none';
+      const wallpaperActive = localStorage.getItem('wallpaperEnabled') === 'true';
+      uploadContainer.style.display = wallpaperActive && savedType === 'upload' ? 'flex' : 'none';
     }
 
     refs.wallpaperSourceSelect.addEventListener('change', async (event) => {
@@ -1372,11 +1198,8 @@ export function bindWallpaperFeature(
       localStorage.setItem('wallpaperSource', source);
       localStorage.setItem('wallpaperType', type);
 
-      if (uploadContainer)
-        uploadContainer.style.display = type === 'upload' ? 'flex' : 'none';
-      const overlay = parseFloat(
-        localStorage.getItem('wallpaperOverlay') || '0.2',
-      );
+      if (uploadContainer) uploadContainer.style.display = type === 'upload' ? 'flex' : 'none';
+      const overlay = parseFloat(localStorage.getItem('wallpaperOverlay') || '0.2');
 
       if (source === 'api') {
         const apiName =
@@ -1387,32 +1210,30 @@ export function bindWallpaperFeature(
               : type === 'pexels'
                 ? 'Pexels API'
                 : 'Wikimedia';
-        import('@/core/ui/ui-components').then(
-          ({ requestFeaturePermissionUI }) => {
-            requestFeaturePermissionUI(
-              type as any,
-              apiName,
-              async () => {
-                const engine = await getWallpaperEngine();
-                await engine.render({
-                  enabled: options.getWallpaperEnabled(),
-                  source,
-                  type,
-                  overlay,
-                });
-              },
-              () => {
-                target.value = 'upload';
-                options.setWallpaperSource('local');
-                options.setWallpaperType('upload');
-                options.saveWallpaperConfig();
-                localStorage.setItem('wallpaperSource', 'local');
-                localStorage.setItem('wallpaperType', 'upload');
-                if (uploadContainer) uploadContainer.style.display = 'flex';
-              },
-            );
-          },
-        );
+        import('@/core/ui/ui-components').then(({ requestFeaturePermissionUI }) => {
+          requestFeaturePermissionUI(
+            type as any,
+            apiName,
+            async () => {
+              const engine = await getWallpaperEngine();
+              await engine.render({
+                enabled: options.getWallpaperEnabled(),
+                source,
+                type,
+                overlay,
+              });
+            },
+            () => {
+              target.value = 'upload';
+              options.setWallpaperSource('local');
+              options.setWallpaperType('upload');
+              options.saveWallpaperConfig();
+              localStorage.setItem('wallpaperSource', 'local');
+              localStorage.setItem('wallpaperType', 'upload');
+              if (uploadContainer) uploadContainer.style.display = 'flex';
+            },
+          );
+        });
       } else {
         const engine = await getWallpaperEngine();
         await engine.render({
@@ -1432,26 +1253,20 @@ export function bindWallpaperFeature(
       if (!localStorage.getItem('hasSeenWallpaperUploadWarning')) {
         const { warningModal } = await import('@/core/ui/ui-components');
         warningModal.show({
-          title:
-            (window as any).getTranslation?.('wallpaperUploadWarningTitle') ||
-            'Note',
+          title: (window as any).getTranslation?.('wallpaperUploadWarningTitle') || 'Note',
           message:
             (window as any).getTranslation?.('wallpaperUploadWarningDesc') ||
             'Depending on the device, wallpapers with exceptionally high aspect ratios or very large file sizes may result in slower extension loading times.',
           learnMoreUrl:
             'https://github.com/snw-mint/fluent-new-tab/blob/main/.github/HELP.md#wallpaper-recommendations',
-          learnMoreText:
-            (window as any).getTranslation?.('readRecommendations') ||
-            'Read recommendations',
-          confirmText:
-            (window as any).getTranslation?.('warningUnderstood') ||
-            'Understood',
+          learnMoreText: (window as any).getTranslation?.('readRecommendations') || 'Read recommendations',
+          confirmText: (window as any).getTranslation?.('warningUnderstood') || 'Understood',
           cancelText: (window as any).getTranslation?.('btnCancel') || 'Cancel',
           onConfirm: () => {
             localStorage.setItem('hasSeenWallpaperUploadWarning', 'true');
             refs.uploadInput?.click();
           },
-          onCancel: () => { },
+          onCancel: () => {},
         });
       } else {
         refs.uploadInput.click();
@@ -1460,8 +1275,7 @@ export function bindWallpaperFeature(
 
     const saveAndRenderUploadedWallpaper = async (file: File) => {
       try {
-        const { saveWallpaperToDB } =
-          await import('@/core/lazy/wallpaper-storage');
+        const { saveWallpaperToDB } = await import('@/core/lazy/wallpaper-storage');
         await saveWallpaperToDB(file);
 
         options.setWallpaperEnabled(true);
@@ -1485,26 +1299,20 @@ export function bindWallpaperFeature(
           enabled: true,
           source: 'local',
           type: 'upload',
-          overlay: parseFloat(
-            localStorage.getItem('wallpaperOverlay') || '0.2',
-          ),
+          overlay: parseFloat(localStorage.getItem('wallpaperOverlay') || '0.2'),
           blur: parseFloat(localStorage.getItem('wallpaperBlur') || '0'),
         });
       } catch (error) {
         console.error('Failed to save image to IndexedDB:', error);
         const { warningModal } = await import('@/core/ui/ui-components');
         warningModal.show({
-          title:
-            (window as any).getTranslation?.('wallpaperDbErrorTitle') ||
-            'Storage Error',
+          title: (window as any).getTranslation?.('wallpaperDbErrorTitle') || 'Storage Error',
           message:
             (window as any).getTranslation?.('wallpaperDbErrorDesc') ||
             'Failed to save the wallpaper in IndexedDB. Your browser storage might be full or restricted.',
-          confirmText:
-            (window as any).getTranslation?.('warningUnderstood') ||
-            'Understood',
+          confirmText: (window as any).getTranslation?.('warningUnderstood') || 'Understood',
           confirmVariant: 'danger',
-          onConfirm: () => { },
+          onConfirm: () => {},
         });
       }
     };
@@ -1522,8 +1330,7 @@ export function bindWallpaperFeature(
 
   if (refs.overlayToggleBtn && refs.overlaySliderContainer) {
     refs.overlayToggleBtn.addEventListener('click', () => {
-      const isCollapsed =
-        refs.overlaySliderContainer.classList.contains('collapsed');
+      const isCollapsed = refs.overlaySliderContainer.classList.contains('collapsed');
       if (isCollapsed) {
         resetSettingsAccordions(refs.overlaySliderContainer);
         refs.overlaySliderContainer.classList.remove('collapsed');
@@ -1549,10 +1356,7 @@ export function bindWallpaperFeature(
       const min = parseFloat(slider.min) || 0;
       const max = parseFloat(slider.max) || 100;
       const val = parseFloat(slider.value) || 0;
-      slider.style.setProperty(
-        '--slider-progress',
-        String((val - min) / (max - min)),
-      );
+      slider.style.setProperty('--slider-progress', String((val - min) / (max - min)));
     };
 
     updateSliderProg(refs.overlaySlider);
@@ -1561,17 +1365,11 @@ export function bindWallpaperFeature(
       const target = event.target as HTMLInputElement | null;
       if (!target) return;
 
-      document.documentElement.style.setProperty(
-        '--wallpaper-fade-duration',
-        '0s',
-      );
+      document.documentElement.style.setProperty('--wallpaper-fade-duration', '0s');
 
       updateSliderProg(target);
       getWallpaperEngine().then((engine) => {
-        engine.updateOverlay(
-          parseFloat(target.value),
-          options.getWallpaperEnabled(),
-        );
+        engine.updateOverlay(parseFloat(target.value), options.getWallpaperEnabled());
       });
     });
 
@@ -1579,9 +1377,7 @@ export function bindWallpaperFeature(
       const target = event.target as HTMLInputElement | null;
       if (!target) return;
 
-      document.documentElement.style.removeProperty(
-        '--wallpaper-fade-duration',
-      );
+      document.documentElement.style.removeProperty('--wallpaper-fade-duration');
 
       const val = parseFloat(target.value);
       getWallpaperEngine().then((engine) => {
@@ -1599,10 +1395,7 @@ export function bindWallpaperFeature(
       const min = parseFloat(slider.min) || 0;
       const max = parseFloat(slider.max) || 40;
       const val = parseFloat(slider.value) || 0;
-      slider.style.setProperty(
-        '--slider-progress',
-        String((val - min) / (max - min)),
-      );
+      slider.style.setProperty('--slider-progress', String((val - min) / (max - min)));
     };
 
     updateSliderProg(refs.wallpaperBlurSlider);
@@ -1650,9 +1443,7 @@ export function bindWallpaperFeature(
   }
 }
 
-export function resetSettingsAccordions(
-  exceptContainer: Element | null = null,
-): void {
+export function resetSettingsAccordions(exceptContainer: Element | null = null): void {
   const accordions = [
     { container: refs.displaySliderContainer, btn: refs.displayToggleBtn },
     { container: refs.shortcutsMoreContainer, btn: refs.shortcutsMoreBtn },
@@ -1667,8 +1458,7 @@ export function resetSettingsAccordions(
       acc.container.classList.add('collapsed');
       acc.container.style.maxHeight = '';
     }
-    if (acc.btn && acc.container !== exceptContainer)
-      acc.btn.classList.remove('expanded');
+    if (acc.btn && acc.container !== exceptContainer) acc.btn.classList.remove('expanded');
   });
 }
 
@@ -1687,8 +1477,7 @@ export function closePopups(except: Element | null = null): void {
       activeShortcutDropdowns.delete(menu);
     }
   }
-  if (refs.dropdown && refs.dropdown !== except)
-    refs.dropdown.classList.remove('active');
+  if (refs.dropdown && refs.dropdown !== except) refs.dropdown.classList.remove('active');
 
   const activeSelectTrigger = (window as any).activeSelectTrigger;
   if (activeSelectTrigger && activeSelectTrigger !== except) {
@@ -1716,17 +1505,13 @@ export function initGlobalUiSystem(): void {
         });
       }
 
-      if (!refs.configPopup.classList.contains('active'))
-        resetSettingsAccordions();
+      if (!refs.configPopup.classList.contains('active')) resetSettingsAccordions();
     });
 
     document.addEventListener('click', (e) => {
       const targetNode = e.target as Node | null;
       if (targetNode && refs.configPopup.classList.contains('active')) {
-        if (
-          !refs.configPopup.contains(targetNode) &&
-          !refs.configBtn.contains(targetNode)
-        ) {
+        if (!refs.configPopup.contains(targetNode) && !refs.configBtn.contains(targetNode)) {
           refs.configPopup.classList.remove('active');
           resetSettingsAccordions();
         }
@@ -1752,10 +1537,7 @@ export function initGlobalUiSystem(): void {
     document.addEventListener('click', (e) => {
       const targetNode = e.target as Node | null;
       if (targetNode && refs.launcherPopup.classList.contains('active')) {
-        if (
-          !refs.launcherPopup.contains(targetNode) &&
-          !refs.appLauncherBtn.contains(targetNode)
-        ) {
+        if (!refs.launcherPopup.contains(targetNode) && !refs.appLauncherBtn.contains(targetNode)) {
           refs.launcherPopup.classList.remove('active');
           refs.appLauncherBtn.classList.remove('active');
         }
@@ -1763,10 +1545,7 @@ export function initGlobalUiSystem(): void {
     });
 
     document.addEventListener('keydown', (e) => {
-      if (
-        e.key === 'Escape' &&
-        refs.launcherPopup.classList.contains('active')
-      ) {
+      if (e.key === 'Escape' && refs.launcherPopup.classList.contains('active')) {
         refs.launcherPopup.classList.remove('active');
         refs.appLauncherBtn.classList.remove('active');
       }

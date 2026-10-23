@@ -37,7 +37,7 @@ body[data-feed-active='true']:has(.feed-drawer.expanded) .container {
 }
 
 body[data-search-active='false'][data-shortcuts-active='false'] .container,
-.container:not(:has(#searchForm:not([style*="display: none"]))):has(#shortcutsGrid[style*="display: none"]) {
+.container:not(:has(#searchForm:not([style*='display: none']))):has(#shortcutsGrid[style*='display: none']) {
   padding-bottom: 4.5vh;
 
   .display-wrapper {

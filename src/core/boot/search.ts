@@ -102,10 +102,8 @@ export function initBasicSearchUI(
   }
 
   if (voiceSearchBtn) {
-    const hasSpeechSupport =
-      'webkitSpeechRecognition' in window || 'SpeechRecognition' in window;
-    voiceSearchBtn.style.display =
-      voiceSearchEnabled && hasSpeechSupport ? 'flex' : 'none';
+    const hasSpeechSupport = 'webkitSpeechRecognition' in window || 'SpeechRecognition' in window;
+    voiceSearchBtn.style.display = voiceSearchEnabled && hasSpeechSupport ? 'flex' : 'none';
   }
 
   if (askAiBtn) {

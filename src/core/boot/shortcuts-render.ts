@@ -6,12 +6,7 @@
  * If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {
-  ICON_MENU_DOTS,
-  ICON_EDIT,
-  ICON_REMOVE,
-  ICON_ADD,
-} from '@/core/shared/icons';
+import { ICON_MENU_DOTS, ICON_EDIT, ICON_REMOVE, ICON_ADD } from '@/core/shared/icons';
 import { sanitizeUrl } from '@/core/shared/dom-utils';
 import { resolveFavicon, letterIcon } from '@/core/shared/favicon-resolver';
 import { Shortcut } from '@/core/shared/types';
@@ -126,23 +121,19 @@ export function renderShortcutsGrid(options: ShortcutsRenderOptions): void {
 
   activeShortcutDropdowns.clear();
 
-  const isHideNamesActive =
-    localStorage.getItem('hideShortcutNames') === 'true';
+  const isHideNamesActive = localStorage.getItem('hideShortcutNames') === 'true';
   shortcutsGrid.setAttribute('data-hide-names', String(isHideNamesActive));
 
   shortcutsGrid.textContent = '';
   const fragment = document.createDocumentFragment();
   const COLUMNS = 10;
-  const currentRows =
-    parseInt(localStorage.getItem('shortcutsRows') || '2', 10) || 2;
+  const currentRows = parseInt(localStorage.getItem('shortcutsRows') || '2', 10) || 2;
   const maxSlots = currentRows * COLUMNS;
   let activeArray: Shortcut[] = shortcuts;
   let isInsideFolder = false;
 
   if (currentFolderId) {
-    const currentFolder = shortcuts.find(
-      (s) => s.id === currentFolderId && s.type === 'folder',
-    );
+    const currentFolder = shortcuts.find((s) => s.id === currentFolderId && s.type === 'folder');
     if (currentFolder) {
       activeArray = currentFolder.children || [];
       isInsideFolder = true;
@@ -158,8 +149,7 @@ export function renderShortcutsGrid(options: ShortcutsRenderOptions): void {
       const labelEl = folderBackWrapper.querySelector('.folder-back-label');
       if (labelEl) {
         const backText = (window as any).getTranslation?.('backLabel');
-        labelEl.textContent =
-          backText && backText !== 'backLabel' ? backText : 'Back';
+        labelEl.textContent = backText && backText !== 'backLabel' ? backText : 'Back';
       }
     } else {
       folderBackWrapper.classList.remove('visible');
@@ -236,9 +226,7 @@ export function renderShortcutsGrid(options: ShortcutsRenderOptions): void {
       card.appendChild(img);
     }
 
-    const dropdown = menuWrapper.querySelector(
-      '.shortcut-dropdown',
-    ) as HTMLDivElement;
+    const dropdown = menuWrapper.querySelector('.shortcut-dropdown') as HTMLDivElement;
     if (dropdown) {
       const editOpt = dropdown.firstElementChild as HTMLDivElement;
       const removeOpt = dropdown.lastElementChild as HTMLDivElement;
@@ -246,14 +234,10 @@ export function renderShortcutsGrid(options: ShortcutsRenderOptions): void {
       if (removeOpt) removeOpt.dataset.index = index.toString();
     }
 
-    const titleLink = item.querySelector(
-      '.shortcut-title',
-    ) as HTMLAnchorElement;
+    const titleLink = item.querySelector('.shortcut-title') as HTMLAnchorElement;
     titleLink.href = isFolder ? '#' : sanitizeUrl(itemData.url);
     titleLink.textContent = itemData.name;
-    titleLink.dataset.action = isFolder
-      ? 'open-folder-title'
-      : 'open-shortcut-title';
+    titleLink.dataset.action = isFolder ? 'open-folder-title' : 'open-shortcut-title';
     titleLink.dataset.index = index.toString();
 
     fragment.appendChild(item);
@@ -335,17 +319,11 @@ export function renderShortcutsGrid(options: ShortcutsRenderOptions): void {
     shortcutsGrid.classList.remove('single-row');
   }
 
-  shortcutsGrid.style.setProperty(
-    '--shortcut-count',
-    String(totalRenderedItems),
-  );
+  shortcutsGrid.style.setProperty('--shortcut-count', String(totalRenderedItems));
   shortcutsGrid.setAttribute('data-rows', String(currentRows));
 
   if (folderBackWrapper && isInsideFolder) {
-    folderBackWrapper.style.setProperty(
-      '--shortcut-count',
-      String(totalRenderedItems),
-    );
+    folderBackWrapper.style.setProperty('--shortcut-count', String(totalRenderedItems));
     if (totalRenderedItems <= COLUMNS) {
       folderBackWrapper.classList.add('single-row');
     } else {
@@ -366,9 +344,7 @@ export function renderShortcutsGrid(options: ShortcutsRenderOptions): void {
       return;
     }
 
-    const addFolderOpt = target.closest(
-      '.add-folder-option',
-    ) as HTMLElement | null;
+    const addFolderOpt = target.closest('.add-folder-option') as HTMLElement | null;
     if (addFolderOpt) {
       event.preventDefault();
       event.stopPropagation();
@@ -418,9 +394,7 @@ export function renderShortcutsGrid(options: ShortcutsRenderOptions): void {
     if (menuBtn) {
       event.preventDefault();
       event.stopPropagation();
-      const dropNode = menuBtn
-        .closest('.menu-wrapper')
-        ?.querySelector('.shortcut-dropdown') as HTMLElement | null;
+      const dropNode = menuBtn.closest('.menu-wrapper')?.querySelector('.shortcut-dropdown') as HTMLElement | null;
       toggleDropNode(dropNode);
       return;
     }

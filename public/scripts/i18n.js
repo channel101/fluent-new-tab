@@ -95,4 +95,3 @@ window.loadTranslations = loadTranslations;
 window.applyToDOM = applyToDOM;
 
 document.addEventListener('DOMContentLoaded', loadTranslations);
-

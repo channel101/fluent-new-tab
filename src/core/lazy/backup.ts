@@ -126,17 +126,14 @@ export function initBackupSystem(): void {
       const reader = new FileReader();
       reader.onload = (event) => {
         try {
-          const parsedData = JSON.parse(
-            String((event.target as FileReader).result || '{}'),
-          );
+          const parsedData = JSON.parse(String((event.target as FileReader).result || '{}'));
           if (!isValidBackupPayload(parsedData)) {
             throw new Error('Invalid backup data format');
           }
           const data = parsedData;
           warningModal.show({
             title: 'Restore Backup?',
-            message:
-              'This will replace your current settings and shortcuts with the backup file data.',
+            message: 'This will replace your current settings and shortcuts with the backup file data.',
             confirmText: 'Restore',
             cancelText: 'Cancel',
             confirmVariant: 'danger',
@@ -159,12 +156,7 @@ export function initBackupSystem(): void {
                 const legacy12 = data['use12Hour'] === 'true';
                 const legacySec = data['showSeconds'] === 'true';
                 if (legacy12 || legacySec) {
-                  const migrated =
-                    legacy12 && legacySec
-                      ? '12h-seconds'
-                      : legacy12
-                        ? '12h'
-                        : '24h-seconds';
+                  const migrated = legacy12 && legacySec ? '12h-seconds' : legacy12 ? '12h' : '24h-seconds';
                   localStorage.setItem('timeFormat', migrated);
                 }
               }
@@ -176,10 +168,7 @@ export function initBackupSystem(): void {
             },
           });
         } catch (error) {
-          showToast(
-            'The selected file is not a valid backup.',
-            'assets/icons/dimiss.svg',
-          );
+          showToast('The selected file is not a valid backup.', 'assets/icons/dimiss.svg');
         }
         refs.importInput.value = '';
       };

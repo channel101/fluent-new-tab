@@ -16,10 +16,7 @@ function rgbToHex(r: number, g: number, b: number): string {
   return `#${toHex(r)}${toHex(g)}${toHex(b)}`.toUpperCase();
 }
 
-export async function extractAndApplyAutoColor(
-  imageUrl: string,
-  wallpaperId: string,
-): Promise<void> {
+export async function extractAndApplyAutoColor(imageUrl: string, wallpaperId: string): Promise<void> {
   const mode = localStorage.getItem('accentColorMode') || 'auto';
   if (mode !== 'auto' || !imageUrl || imageUrl === 'none') {
     return;
@@ -44,7 +41,7 @@ export async function extractAndApplyAutoColor(
         blobUrl = URL.createObjectURL(blob);
         srcToLoad = blobUrl;
       }
-    } catch (e) { }
+    } catch (e) {}
   }
 
   return new Promise((resolve) => {
