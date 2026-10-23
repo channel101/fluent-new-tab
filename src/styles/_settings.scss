@@ -112,6 +112,22 @@
   width: 100%;
 }
 
+.setting-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.225rem;
+  width: 100%;
+
+  label.setting-label-small {
+    margin-bottom: 0;
+  }
+}
+
+#display-slider-container,
+#subTime {
+  gap: 0.45rem;
+}
+
 .child-setting {
   margin: 0;
   padding: 0;
@@ -345,11 +361,12 @@
     }
   }
 
-  &:has(button) input {
+  &:has(button, .input-icon-link) input {
     padding-right: 2rem;
   }
 
-  button {
+  button,
+  .input-icon-link {
     position: absolute;
     right: 0.15rem;
     width: 1.5rem;
@@ -365,6 +382,7 @@
     color: var(--text-color);
     opacity: 0.6;
     transition: all 0.2s ease;
+    text-decoration: none;
 
     &:hover {
       background: var(--hover-overlay-active);

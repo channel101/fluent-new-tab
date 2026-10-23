@@ -13,6 +13,7 @@ import {
   getDisplayScaleBounds,
   getDisplayScaleForType,
   applyDisplayScale,
+  getTimeFormat,
 } from '@/core/boot/display';
 
 import { currentCityData, activeShortcutDropdowns } from '@/core/shared/state';
@@ -510,17 +511,53 @@ export function bindDisplayFeature(options: any): void {
 
   updateHighlightNameState();
 
-  if (refs.toggleSeconds) {
-    refs.toggleSeconds.checked = localStorage.getItem('showSeconds') === 'true';
-  }
-
-  if (refs.toggle12Hour) {
-    refs.toggle12Hour.checked = localStorage.getItem('use12Hour') === 'true';
-  }
-
   if (refs.dateFormatSelect) {
     refs.dateFormatSelect.value =
       localStorage.getItem('dateFormat') || 'weekday';
+  }
+
+  const updateCustomPatternVisibility = (val: string) => {
+    if (refs.customTimeFormatGroup) {
+      refs.customTimeFormatGroup.style.display =
+        val === 'custom' ? 'flex' : 'none';
+    }
+  };
+
+  if (refs.timeFormatSelect) {
+    const savedTimeFormat = getTimeFormat();
+    refs.timeFormatSelect.value = savedTimeFormat;
+    updateCustomPatternVisibility(savedTimeFormat);
+    const trigger =
+      refs.timeFormatSelect.parentElement?.querySelector<HTMLElement>(
+        '.fluent-select-value',
+      );
+    const selectedOpt =
+      refs.timeFormatSelect.querySelector<HTMLOptionElement>(
+        `option[value="${savedTimeFormat}"]`,
+      );
+    if (trigger && selectedOpt) {
+      trigger.textContent = selectedOpt.textContent;
+    }
+  }
+
+  if (refs.timezoneInput) {
+    try {
+      const offsetMinutes = -new Date().getTimezoneOffset();
+      const sign = offsetMinutes >= 0 ? '+' : '-';
+      const abs = Math.abs(offsetMinutes);
+      const hours = String(Math.floor(abs / 60)).padStart(2, '0');
+      const minutes = String(abs % 60).padStart(2, '0');
+      refs.timezoneInput.placeholder = `UTC${sign}${hours}:${minutes}`;
+    } catch {
+      refs.timezoneInput.placeholder = 'UTC+00:00';
+    }
+    const savedTz = localStorage.getItem('clockTimezone') || '';
+    refs.timezoneInput.value = savedTz === 'auto' ? '' : savedTz;
+  }
+
+  if (refs.customTimeFormatInput) {
+    refs.customTimeFormatInput.value =
+      localStorage.getItem('customTimeFormat') || '';
   }
 
   if (refs.displayTypeSelect) {
@@ -570,15 +607,33 @@ export function bindDisplayFeature(options: any): void {
       const preset = target.value;
       localStorage.setItem('displayType', preset);
 
-      if (refs.toggleSeconds)
-        refs.toggleSeconds.checked =
-          localStorage.getItem('showSeconds') === 'true';
-      if (refs.toggle12Hour)
-        refs.toggle12Hour.checked =
-          localStorage.getItem('use12Hour') === 'true';
       if (refs.dateFormatSelect)
         refs.dateFormatSelect.value =
           localStorage.getItem('dateFormat') || 'weekday';
+      if (refs.timeFormatSelect) {
+        const savedTimeFormat = getTimeFormat();
+        refs.timeFormatSelect.value = savedTimeFormat;
+        updateCustomPatternVisibility(savedTimeFormat);
+        const trigger =
+          refs.timeFormatSelect.parentElement?.querySelector<HTMLElement>(
+            '.fluent-select-value',
+          );
+        const selectedOpt =
+          refs.timeFormatSelect.querySelector<HTMLOptionElement>(
+            `option[value="${savedTimeFormat}"]`,
+          );
+        if (trigger && selectedOpt) {
+          trigger.textContent = selectedOpt.textContent;
+        }
+      }
+      if (refs.timezoneInput) {
+        const savedTz = localStorage.getItem('clockTimezone') || '';
+        refs.timezoneInput.value = savedTz === 'auto' ? '' : savedTz;
+      }
+      if (refs.customTimeFormatInput) {
+        refs.customTimeFormatInput.value =
+          localStorage.getItem('customTimeFormat') || '';
+      }
 
       updateAdvancedUI(preset);
       syncDisplayScaleSlider(preset);
@@ -590,20 +645,13 @@ export function bindDisplayFeature(options: any): void {
     });
   }
 
-  if (refs.toggleSeconds) {
-    refs.toggleSeconds.addEventListener('change', (e: Event) => {
-      const target = getInputTarget(e);
+  if (refs.timeFormatSelect) {
+    refs.timeFormatSelect.addEventListener('change', (e: Event) => {
+      const target = getSelectTarget(e);
       if (!target) return;
-      localStorage.setItem('showSeconds', String(target.checked));
-      if (refs.displayWrapper) options.initDisplayWidget(refs.displayWrapper);
-    });
-  }
-
-  if (refs.toggle12Hour) {
-    refs.toggle12Hour.addEventListener('change', (e: Event) => {
-      const target = getInputTarget(e);
-      if (!target) return;
-      localStorage.setItem('use12Hour', String(target.checked));
+      const format = target.value;
+      localStorage.setItem('timeFormat', format);
+      updateCustomPatternVisibility(format);
       if (refs.displayWrapper) options.initDisplayWidget(refs.displayWrapper);
     });
   }
@@ -614,6 +662,31 @@ export function bindDisplayFeature(options: any): void {
       if (!target) return;
       localStorage.setItem('dateFormat', target.value);
       if (refs.displayWrapper) options.initDisplayWidget(refs.displayWrapper);
+    });
+  }
+
+  if (refs.timezoneInput) {
+    refs.timezoneInput.addEventListener('input', (e: Event) => {
+      const target = getInputTarget(e);
+      if (!target) return;
+      const val = target.value.trim();
+      localStorage.setItem('clockTimezone', val || 'auto');
+      if (refs.displayWrapper) {
+        refs.displayWrapper.dataset.lastCache = '';
+        options.initDisplayWidget(refs.displayWrapper);
+      }
+    });
+  }
+
+  if (refs.customTimeFormatInput) {
+    refs.customTimeFormatInput.addEventListener('input', (e: Event) => {
+      const target = getInputTarget(e);
+      if (!target) return;
+      const val = target.value.trim();
+      localStorage.setItem('customTimeFormat', val);
+      if (refs.displayWrapper) {
+        options.initDisplayWidget(refs.displayWrapper);
+      }
     });
   }
 
