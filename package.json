@@ -6,10 +6,12 @@
   "scripts": {
     "clean": "rimraf dist",
     "dev": "vite",
-    "build": "npm run clean && vite build"
+    "build": "npm run clean && vite build",
+    "icons": "node scripts/generate-icons.mjs"
   },
   "devDependencies": {
     "@crxjs/vite-plugin": "^2.4.0",
+    "@fluentui/svg-icons": "^1.1.344",
     "@types/chrome": "^0.1.42",
     "@types/node": "^25.9.1",
     "adm-zip": "^0.6.0",
