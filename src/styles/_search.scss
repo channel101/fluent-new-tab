@@ -10,6 +10,7 @@
 
 .search-bar {
   width: 100%;
+  max-width: 90vw;
   height: 3.6rem;
   background: var(--searchbar-bg);
   border: 0.225rem solid var(--searchbar-border);
